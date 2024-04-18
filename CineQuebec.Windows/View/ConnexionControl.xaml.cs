@@ -21,6 +21,7 @@ namespace CineQuebec.Windows.View
     public partial class ConnexionControl : UserControl
     {
         AbonneService _abonneService = new AbonneService();
+
         public ConnexionControl()
         {
             InitializeComponent();
@@ -30,17 +31,32 @@ namespace CineQuebec.Windows.View
         {
             string formUsername = txt_username.Text;
             string formPassword = txt_password.Text;
-            
+
             Abonne abonneResponse = _abonneService.GetAbonneByUsername(formUsername);
-            
+
             if (!String.IsNullOrWhiteSpace(formUsername))
             {
                 if (abonneResponse == null)
+                {
                     MessageBox.Show("Nom d'utilisateur introuvable.");
+                }
+
                 else if (abonneResponse.Password == formPassword)
-                    ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+                {
+                    if (abonneResponse.Role == "Admin")
+                    {
+                        ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+                    }
+                    else
+                    {
+                        ((MainWindow)Application.Current.MainWindow).AbonneHomeControl();
+                    }
+                }
+
                 else
+                {
                     MessageBox.Show("Mot de passe incorrect");
+                }
             }
             else
             {

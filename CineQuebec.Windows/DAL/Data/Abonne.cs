@@ -13,7 +13,8 @@ namespace CineQuebec.Windows.DAL.Data
         private string _username;
         private DateTime _dateJoined;
         private string _password;
-
+        private string _role;
+        
         public ObjectId Id
         {
             get { return _id; }
@@ -47,6 +48,12 @@ namespace CineQuebec.Windows.DAL.Data
             }
         }
 
+        public string Role
+        {
+            get { return _role; }
+            set { _role = value; }
+        }
+        
         public DateTime DateJoined
         {
             get { return _dateJoined; }
