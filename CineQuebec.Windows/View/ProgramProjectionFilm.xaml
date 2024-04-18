@@ -1,0 +1,25 @@
+<Window x:Class="CineQuebec.Windows.View.ProgramProjectionFilm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:CineQuebec.Windows.View"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <StackPanel VerticalAlignment="Center">
+            <Label HorizontalAlignment="Center" FontSize="20" Name="lblTitrePage">TITRE</Label>
+            
+            <Label Name="lblHeure" >Heure de la projection:</Label>
+            <TextBox Name="txtHeure"  MinWidth="250"></TextBox>
+            
+            <Label Name="lblDate" >Date de la projection:</Label>
+            <TextBox Name="txtDate"  MinWidth="250"></TextBox>
+
+            <WrapPanel HorizontalAlignment="Right" Margin="0,15,0,0">
+                <Button IsDefault="True" Name="btnDialogOk" Click="BtnDialogOk_OnClick" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+                <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+            </WrapPanel>
+        </StackPanel>
+       
+    </Grid>
+</Window>
