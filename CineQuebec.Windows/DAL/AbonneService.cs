@@ -15,7 +15,7 @@ public class AbonneService : IDatabaseAbonnes
 {
     private readonly IMongoClient _mongoDBClient;
     private readonly IMongoDatabase _database;
-
+    
     public AbonneService()
     {
         _mongoDBClient = GetClient();
@@ -30,6 +30,14 @@ public class AbonneService : IDatabaseAbonnes
     public IMongoClient GetClient()
     {
         return new MongoClient("mongodb://localhost:27017/");
+    }
+    
+    public Abonne GetAbonneByUsername(string username)
+    {
+        var collection = _database.GetCollection<Abonne>("Abonnes");
+        var filter = Builders<Abonne>.Filter.Eq("Username", username);
+        Abonne abonne = collection.Find(filter).FirstOrDefault();
+        return abonne;
     }
 
     public List<Abonne> ReadAbonnes()

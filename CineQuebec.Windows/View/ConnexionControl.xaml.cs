@@ -13,19 +13,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CineQuebec.Windows.DAL;
+using CineQuebec.Windows.DAL.Data;
 
 namespace CineQuebec.Windows.View
 {
     public partial class ConnexionControl : UserControl
     {
+        AbonneService _abonneService = new AbonneService();
         public ConnexionControl()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonConnection_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+            string formUsername = txt_username.Text;
+            string formPassword = txt_password.Text;
+            
+            Abonne abonneResponse = _abonneService.GetAbonneByUsername(formUsername);
+            
+            if (!String.IsNullOrWhiteSpace(formUsername))
+            {
+                if (abonneResponse == null)
+                    MessageBox.Show("Nom d'utilisateur introuvable.");
+                else if (abonneResponse.Password == formPassword)
+                    ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+                else
+                    MessageBox.Show("Mot de passe incorrect");
+            }
+            else
+            {
+                MessageBox.Show("Veuillez entrer un nom d'utilisateur.");
+            }
         }
     }
 }

@@ -5,4 +5,5 @@ namespace CineQuebec.Windows.DAL.Interfaces;
 public interface IDatabaseAbonnes
 {
     List<Abonne> ReadAbonnes();
+    Abonne GetAbonneByUsername(string username);
 }
