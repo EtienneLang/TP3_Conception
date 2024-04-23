@@ -32,7 +32,7 @@ namespace CineQuebec.Windows.View
         private bool _isProjectionList = false;
         private Abonne abonneConnecte;
         Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
-        Dictionary<string, ObjectId> filmIds = new Dictionary<string, ObjectId>();
+
         public FilmListForUser(Abonne abonne)
         {
             _dbFilmService = new FilmService();
@@ -46,6 +46,7 @@ namespace CineQuebec.Windows.View
         {
             _films = _dbFilmService.ReadFilms();
         }
+
         private void GenerateFilmList()
         {
             GetFilms();
@@ -55,48 +56,17 @@ namespace CineQuebec.Windows.View
                 ListBoxItem itemFilm = new ListBoxItem();
                 itemFilm.Content = film;
                 lstProjections.Items.Add(itemFilm);
-                filmIds[film.Titre] = film.Id;
             }
         }
+
         private void ClearInterface()
-        {            
+        {
             lstProjections.SelectedIndex = -1;
             lstProjections.Items.Clear();
             _selectedIndex = lstProjections.SelectedIndex;
             btn_reserverPlace.IsEnabled = false;
         }
-        
-        private void GenerateProjectionList(Film film)
-        {
-            GetFilms();
-            lstProjections.Items.Clear();
-            List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
-            
-            for (int i = 0; i < projections.Count; i++) {
-                
-                string affichage = $"{film.Titre} - {projections[i].ToString()}";
-                ListBoxItem itemProjection = new ListBoxItem();
-                itemProjection.Content = affichage;
-                lstProjections.Items.Add(affichage);
-                projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
 
-            }
-            
-        }
-
-        private Projection GetSelectedProjection()
-        {
-            if (_selectedIndex == -1)
-                return null;
-            
-            string selectedItem = lstProjections.SelectedItem.ToString();
-            ObjectId id = projectionIds[selectedItem];
-            Projection projection = _dbProjectionService.GetProjectionById(id);
-            
-            return projection;
-
-        }
-        
         private void btn_retour_Click(object sender, RoutedEventArgs e)
         {
             if (_isProjectionList)
@@ -111,7 +81,7 @@ namespace CineQuebec.Windows.View
         }
 
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
-        {  
+        {
             Projection selectedProjection = GetSelectedProjection();
             _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
         }
@@ -124,17 +94,46 @@ namespace CineQuebec.Windows.View
             if (_isProjectionList)
             {
                 Projection selectedProjection = GetSelectedProjection();
-                MessageBoxResult resultat = MessageBox.Show($"Voulez vous réserver votre place pour le film {_films[_selectedIndex].Titre} ?",
+                MessageBoxResult resultat = MessageBox.Show(
+                    $"Voulez vous réserver votre place pour le film {_films[_selectedIndex].Titre} ?",
                     "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (resultat == MessageBoxResult.Yes)
                 {
                     _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
-                }           
+                }
             }
             else
             {
                 GenerateProjectionList(_films[_selectedIndex]);
                 _isProjectionList = !_isProjectionList;
+            }
+        }
+
+        private Projection GetSelectedProjection()
+        {
+            if (_selectedIndex == -1)
+                return null;
+
+            string selectedItem = lstProjections.SelectedItem.ToString();
+            ObjectId id = projectionIds[selectedItem];
+            Projection projection = _dbProjectionService.GetProjectionById(id);
+
+            return projection;
+        }
+
+        private void GenerateProjectionList(Film film)
+        {
+            GetFilms();
+            lstProjections.Items.Clear();
+            List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
+
+            for (int i = 0; i < projections.Count; i++)
+            {
+                string affichage = $"{film.Titre} - {projections[i].ToString()}";
+                ListBoxItem itemProjection = new ListBoxItem();
+                itemProjection.Content = affichage;
+                lstProjections.Items.Add(affichage);
+                projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
             }
         }
     }
