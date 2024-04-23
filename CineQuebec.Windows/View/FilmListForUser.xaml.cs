@@ -31,56 +31,64 @@ namespace CineQuebec.Windows.View
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
         private Abonne abonneConnecte;
-
+        Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
+        Dictionary<string, ObjectId> filmIds = new Dictionary<string, ObjectId>();
         public FilmListForUser(Abonne abonne)
         {
             _dbFilmService = new FilmService();
             _dbProjectionService = new ProjectionService();
             abonneConnecte = abonne;
             InitializeComponent();
-            GenerateProjectionList();
+            GenerateFilmList();
         }
 
         private void GetFilms()
         {
             _films = _dbFilmService.ReadFilms();
         }
-
-        private void ClearInterface()
+        private void GenerateFilmList()
         {
-            lstProjections.Items.Clear();
+            GetFilms();
+            ClearInterface();
+            foreach (Film film in _films)
+            {
+                ListBoxItem itemFilm = new ListBoxItem();
+                itemFilm.Content = film;
+                lstProjections.Items.Add(itemFilm);
+                filmIds[film.Titre] = film.Id;
+            }
+        }
+        private void ClearInterface()
+        {            
             lstProjections.SelectedIndex = -1;
+            lstProjections.Items.Clear();
             _selectedIndex = lstProjections.SelectedIndex;
             btn_reserverPlace.IsEnabled = false;
         }
         
-        Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
-        private void GenerateProjectionList()
+        private void GenerateProjectionList(Film film)
         {
             GetFilms();
-            ClearInterface();
-            //Meilleur essai pour afficher les projections
-            foreach (Film film in _films)
-            {
-                List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
-                for (int i = 0; i < projections.Count; i++) {
-                    
-                    string affichage = $"{film.Titre} - {projections[i].ToString()}";
-                    ListBoxItem itemProjection = new ListBoxItem();
-                    itemProjection.Content = affichage;
-                    lstProjections.Items.Add(affichage);
-                    projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
+            lstProjections.Items.Clear();
+            List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
+            
+            for (int i = 0; i < projections.Count; i++) {
+                
+                string affichage = $"{film.Titre} - {projections[i].ToString()}";
+                ListBoxItem itemProjection = new ListBoxItem();
+                itemProjection.Content = affichage;
+                lstProjections.Items.Add(affichage);
+                projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
 
-                }
             }
+            
         }
 
         private Projection GetSelectedProjection()
         {
             if (_selectedIndex == -1)
-            {
                 return null;
-            }
+            
             string selectedItem = lstProjections.SelectedItem.ToString();
             ObjectId id = projectionIds[selectedItem];
             Projection projection = _dbProjectionService.GetProjectionById(id);
@@ -91,7 +99,15 @@ namespace CineQuebec.Windows.View
         
         private void btn_retour_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+            if (_isProjectionList)
+            {
+                GenerateFilmList();
+                _isProjectionList = !_isProjectionList;
+            }
+            else
+            {
+                ((MainWindow)Application.Current.MainWindow).AbonneHomeControl(abonneConnecte);
+            }
         }
 
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
@@ -103,9 +119,22 @@ namespace CineQuebec.Windows.View
         private void lstProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _selectedIndex = lstProjections.SelectedIndex;
-            if (_selectedIndex != -1)
+            if (_selectedIndex == -1)
+                return;
+            if (_isProjectionList)
             {
-                btn_reserverPlace.IsEnabled = true;
+                Projection selectedProjection = GetSelectedProjection();
+                MessageBoxResult resultat = MessageBox.Show($"Voulez vous réserver votre place pour le film {_films[_selectedIndex].Titre} ?",
+                    "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (resultat == MessageBoxResult.Yes)
+                {
+                    _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
+                }           
+            }
+            else
+            {
+                GenerateProjectionList(_films[_selectedIndex]);
+                _isProjectionList = !_isProjectionList;
             }
         }
     }
