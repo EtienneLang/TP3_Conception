@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CineQuebec.Windows.DAL;
+using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
 
 namespace CineQuebec.Windows
@@ -40,14 +41,14 @@ namespace CineQuebec.Windows
             mainContentControl.Content = new FilmListControl();
         }
         
-        public void AbonneHomeControl()
+        public void AbonneHomeControl(Abonne abonne)
         {
-            mainContentControl.Content = new AbonneHomeControl();
+            mainContentControl.Content = new AbonneHomeControl(abonne);
         }
         
-        public void FilmListForUser()
+        public void FilmListForUser(Abonne abonne)
         {
-            mainContentControl.Content = new FilmListForUser();
+            mainContentControl.Content = new FilmListForUser(abonne);
         }
     }
 }

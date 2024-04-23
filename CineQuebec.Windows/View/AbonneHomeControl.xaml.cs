@@ -12,24 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CineQuebec.Windows.DAL.Data;
 
 namespace CineQuebec.Windows.View
 {
     public partial class AbonneHomeControl : UserControl
     {
-        public AbonneHomeControl()
+        Abonne abonneConnecte;
+        public AbonneHomeControl(Abonne abonne)
         {
+            abonneConnecte = abonne;
             InitializeComponent();
-        }
-
-        private void btn_users_Click(object sender, RoutedEventArgs e)
-        {
-            ((MainWindow)Application.Current.MainWindow).UserListControl();
         }
 
         private void btn_films_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).FilmListForUser();
+            ((MainWindow)Application.Current.MainWindow).FilmListForUser(abonneConnecte);
         }
     }
 }

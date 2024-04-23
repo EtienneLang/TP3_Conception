@@ -20,8 +20,9 @@ namespace CineQuebec.Windows.View
 {
     public partial class ConnexionControl : UserControl
     {
-        AbonneService _abonneService = new AbonneService();
-
+        AbonneService _abonneService = new AbonneService(); 
+        
+        
         public ConnexionControl()
         {
             InitializeComponent();
@@ -49,7 +50,7 @@ namespace CineQuebec.Windows.View
                     }
                     else
                     {
-                        ((MainWindow)Application.Current.MainWindow).AbonneHomeControl();
+                        ((MainWindow)Application.Current.MainWindow).AbonneHomeControl(abonneResponse);
                     }
                 }
 

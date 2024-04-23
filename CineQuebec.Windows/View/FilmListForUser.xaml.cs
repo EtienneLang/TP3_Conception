@@ -25,21 +25,25 @@ namespace CineQuebec.Windows.View
 {
     public partial class FilmListForUser : UserControl
     {
-        private FilmService _db;
+        private FilmService _dbFilmService;
+        private ProjectionService _dbProjectionService;
         private List<Film> _films;
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
+        private Abonne abonneConnecte;
 
-        public FilmListForUser()
+        public FilmListForUser(Abonne abonne)
         {
-            _db = new FilmService();
+            _dbFilmService = new FilmService();
+            _dbProjectionService = new ProjectionService();
+            abonneConnecte = abonne;
             InitializeComponent();
             GenerateProjectionList();
         }
 
         private void GetFilms()
         {
-            _films = _db.ReadFilms();
+            _films = _dbFilmService.ReadFilms();
         }
 
         private void ClearInterface()
@@ -58,7 +62,7 @@ namespace CineQuebec.Windows.View
             //Meilleur essai pour afficher les projections
             foreach (Film film in _films)
             {
-                List<Projection> projections = _db.GetProjectionsOfFilm(film);
+                List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
                 for (int i = 0; i < projections.Count; i++) {
                     
                     string affichage = $"{film.Titre} - {projections[i].ToString()}";
@@ -78,12 +82,10 @@ namespace CineQuebec.Windows.View
                 return null;
             }
             string selectedItem = lstProjections.SelectedItem.ToString();
-            ObjectId id = projectionIds[selectedItem.ToString()];
-            // Perform operations with the ID
+            ObjectId id = projectionIds[selectedItem];
+            Projection projection = _dbProjectionService.GetProjectionById(id);
             
-            Projection selectedProjection = lstProjections.SelectedItem as Projection;
-            
-            return selectedProjection;
+            return projection;
 
         }
         
@@ -94,13 +96,8 @@ namespace CineQuebec.Windows.View
 
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
         {  
-            Projection selectedFilm = GetSelectedProjection();
-            if (selectedFilm == null)
-            {
-                MessageBox.Show("Veuillez sélectionner un film.");
-                return;
-            }
-            
+            Projection selectedProjection = GetSelectedProjection();
+            _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
         }
 
         private void lstProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

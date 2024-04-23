@@ -36,9 +36,9 @@ namespace CineQuebec.Windows.DAL
         {
             try
             {
-                var collection = _database.GetCollection<Projection>("Projections");
-                var filter = Builders<Projection>.Filter.Eq("Id", projection.Id);
-                var update = Builders<Projection>.Update.Push("Abonnes", idAbonne);
+                var collection = _database.GetCollection<Projection>("Abonnes");
+                var filter = Builders<Projection>.Filter.Eq("Id", idAbonne);
+                var update = Builders<Projection>.Update.Push("Reservations", projection.Id);
                 collection.UpdateOne(filter, update);
             }
             catch (Exception ex)
@@ -46,7 +46,14 @@ namespace CineQuebec.Windows.DAL
                 throw new Exception(ex.Message);
             }
         }
-
+        
+        public Projection GetProjectionById(ObjectId id)
+        {
+            var collection = _database.GetCollection<Projection>("Projections");
+            var filter = Builders<Projection>.Filter.Eq("Id", id);
+            Projection projection = collection.Find(filter).FirstOrDefault();
+            return projection;
+        }
         
     }
 }
