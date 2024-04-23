@@ -26,8 +26,8 @@ public class Projection
         set { _dateProjection = value; }
     }
 
-    // public override string ToString()
-    // {
-    //     
-    // }
+    public override string ToString()
+    {
+        return $"{_dateProjection.Day}/{_dateProjection.Month}/{_dateProjection.Year} à {_dateProjection.Hour}h{_dateProjection.Minute:d2}";
+    }
 }

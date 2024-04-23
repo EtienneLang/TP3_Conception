@@ -102,7 +102,7 @@ namespace CineQuebec.Windows.DAL
             }
         }
 
-        virtual public List<Projection> GetAllProjections(Film film)
+        virtual public List<Projection> GetProjectionsOfFilm(Film film)
         {
             var projections = new List<Projection>();
             try

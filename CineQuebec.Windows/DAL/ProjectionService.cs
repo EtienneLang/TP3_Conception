@@ -32,26 +32,21 @@ namespace CineQuebec.Windows.DAL
             return new MongoClient("mongodb://localhost:27017/");
         }
 
-
-
-        virtual public List<List<string>> GetAllProjections()
+        public void ReserverPlace(Projection projection, ObjectId idAbonne)
         {
-            var projections = new List<List<string>>();
             try
             {
-                var collection = _database.GetCollection<Film>("Films");
-                var films = collection.Aggregate().ToList();
-                foreach (var film in films)
-                {
-                    projections.AddRange(film.Projections);
-                }
+                var collection = _database.GetCollection<Projection>("Projections");
+                var filter = Builders<Projection>.Filter.Eq("Id", projection.Id);
+                var update = Builders<Projection>.Update.Push("Abonnes", idAbonne);
+                collection.UpdateOne(filter, update);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
-            return projections;
         }
+
+        
     }
 }

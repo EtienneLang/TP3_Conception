@@ -73,10 +73,10 @@ namespace CineQuebec.Windows.View
             //Meilleur essai pour afficher les projections
             foreach (Film film in _films)
             {
-                List<Projection> projections = _db.GetAllProjections(film);
+                List<Projection> projections = _db.GetProjectionsOfFilm(film);
                 for (int i = 0; i < projections.Count; i++) {
                     ListBoxItem itemProjection = new ListBoxItem();
-                    string affichage = $"{film.Titre} - {projections[i].DateProjection}";
+                    string affichage = $"{film.Titre} - {projections[i]}";
                     itemProjection.Content = affichage;
                     lstFilms.Items.Add(affichage);
                 }

@@ -5,5 +5,5 @@ namespace CineQuebec.Windows.DAL.Interfaces;
 
 public interface IDatabaseProjection
 {
-
+    void ReserverPlace(Projection projection, ObjectId idAbonne);
 }

@@ -17,6 +17,7 @@ using Autofac.Core;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WpfTutorialSamples.Dialogs;
 
@@ -43,12 +44,13 @@ namespace CineQuebec.Windows.View
 
         private void ClearInterface()
         {
-            lstFilms.Items.Clear();
-            lstFilms.SelectedIndex = -1;
-            _selectedIndex = lstFilms.SelectedIndex;
+            lstProjections.Items.Clear();
+            lstProjections.SelectedIndex = -1;
+            _selectedIndex = lstProjections.SelectedIndex;
             btn_reserverPlace.IsEnabled = false;
         }
-
+        
+        Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
         private void GenerateProjectionList()
         {
             GetFilms();
@@ -56,32 +58,33 @@ namespace CineQuebec.Windows.View
             //Meilleur essai pour afficher les projections
             foreach (Film film in _films)
             {
-                List<Projection> projections = _db.GetAllProjections(film);
+                List<Projection> projections = _db.GetProjectionsOfFilm(film);
                 for (int i = 0; i < projections.Count; i++) {
+                    
+                    string affichage = $"{film.Titre} - {projections[i].ToString()}";
                     ListBoxItem itemProjection = new ListBoxItem();
-                    string affichage = $"{film.Titre} - {film.Projections[i][0]} à {film.Projections[i][1]}";
                     itemProjection.Content = affichage;
-                    lstFilms.Items.Add(affichage);
+                    lstProjections.Items.Add(affichage);
+                    projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
+
                 }
             }
         }
-        
-        private void LstFilms_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _selectedIndex = lstFilms.SelectedIndex;
-            if (_selectedIndex != -1)
-            {
-                btn_reserverPlace.IsEnabled = true;
-            }
-        }
 
-        private Film? GetSelectedFilm()
+        private Projection GetSelectedProjection()
         {
             if (_selectedIndex == -1)
+            {
                 return null;
-            ListBoxItem selectedItem = (ListBoxItem)lstFilms.SelectedItem;
-            Film selectedFilm = (Film)selectedItem.Content;
-            return selectedFilm;
+            }
+            string selectedItem = lstProjections.SelectedItem.ToString();
+            ObjectId id = projectionIds[selectedItem.ToString()];
+            // Perform operations with the ID
+            
+            Projection selectedProjection = lstProjections.SelectedItem as Projection;
+            
+            return selectedProjection;
+
         }
         
         private void btn_retour_Click(object sender, RoutedEventArgs e)
@@ -90,8 +93,23 @@ namespace CineQuebec.Windows.View
         }
 
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
+        {  
+            Projection selectedFilm = GetSelectedProjection();
+            if (selectedFilm == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un film.");
+                return;
+            }
+            
+        }
+
+        private void lstProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            _selectedIndex = lstProjections.SelectedIndex;
+            if (_selectedIndex != -1)
+            {
+                btn_reserverPlace.IsEnabled = true;
+            }
         }
     }
 }
