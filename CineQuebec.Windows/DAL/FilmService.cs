@@ -102,16 +102,18 @@ namespace CineQuebec.Windows.DAL
             }
         }
 
-        virtual public List<List<string>> GetAllProjections()
+        virtual public List<Projection> GetAllProjections(Film film)
         {
-            var projections = new List<List<string>>();
+            var projections = new List<Projection>();
             try
             {
-                var collection = _database.GetCollection<Film>("Films");
-                var films = collection.Aggregate().ToList();
-                foreach (var film in films)
+                var collectionProjections = _database.GetCollection<Projection>("Projections");
+                foreach (var projection in collectionProjections.Aggregate().ToList())
                 {
-                    projections.AddRange(film.Projections);
+                    if (projection.IdFilmProjection == film.Id)
+                    {
+                        projections.Add(projection);
+                    }
                 }
             }
             catch (Exception ex)
