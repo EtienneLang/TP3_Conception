@@ -17,6 +17,7 @@ using Autofac.Core;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using WpfTutorialSamples.Dialogs;
 
@@ -24,74 +25,116 @@ namespace CineQuebec.Windows.View
 {
     public partial class FilmListForUser : UserControl
     {
-        private FilmService _db;
+        private FilmService _dbFilmService;
+        private ProjectionService _dbProjectionService;
         private List<Film> _films;
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
+        private Abonne abonneConnecte;
+        Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
 
-        public FilmListForUser()
+        public FilmListForUser(Abonne abonne)
         {
-            _db = new FilmService();
+            _dbFilmService = new FilmService();
+            _dbProjectionService = new ProjectionService();
+            abonneConnecte = abonne;
             InitializeComponent();
-            GenerateProjectionList();
+            GenerateFilmList();
         }
 
         private void GetFilms()
         {
-            _films = _db.ReadFilms();
+            _films = _dbFilmService.ReadFilms();
+        }
+
+        private void GenerateFilmList()
+        {
+            GetFilms();
+            ClearInterface();
+            foreach (Film film in _films)
+            {
+                ListBoxItem itemFilm = new ListBoxItem();
+                itemFilm.Content = film;
+                lstProjections.Items.Add(itemFilm);
+            }
         }
 
         private void ClearInterface()
         {
-            lstFilms.Items.Clear();
-            lstFilms.SelectedIndex = -1;
-            _selectedIndex = lstFilms.SelectedIndex;
+            lstProjections.SelectedIndex = -1;
+            lstProjections.Items.Clear();
+            _selectedIndex = lstProjections.SelectedIndex;
             btn_reserverPlace.IsEnabled = false;
         }
 
-        private void GenerateProjectionList()
-        {
-            GetFilms();
-            ClearInterface();
-            //Meilleur essai pour afficher les projections
-            foreach (Film film in _films)
-            {
-                for (int i = 0; i < film.Projections.Count; i++)
-                {
-                    ListBoxItem itemProjection = new ListBoxItem();
-                    string affichage = $"{film.Titre} - {film.Projections[i][0]} à {film.Projections[i][1]}";
-                    itemProjection.Content = affichage;
-                    lstFilms.Items.Add(affichage);
-                }
-            }
-        }
-        
-        private void LstFilms_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _selectedIndex = lstFilms.SelectedIndex;
-            if (_selectedIndex != -1)
-            {
-                btn_reserverPlace.IsEnabled = true;
-            }
-        }
-
-        private Film? GetSelectedFilm()
-        {
-            if (_selectedIndex == -1)
-                return null;
-            ListBoxItem selectedItem = (ListBoxItem)lstFilms.SelectedItem;
-            Film selectedFilm = (Film)selectedItem.Content;
-            return selectedFilm;
-        }
-        
         private void btn_retour_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+            if (_isProjectionList)
+            {
+                GenerateFilmList();
+                _isProjectionList = !_isProjectionList;
+            }
+            else
+            {
+                ((MainWindow)Application.Current.MainWindow).AbonneHomeControl(abonneConnecte);
+            }
         }
 
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Projection selectedProjection = GetSelectedProjection();
+            _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
+        }
+
+        private void lstProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _selectedIndex = lstProjections.SelectedIndex;
+            if (_selectedIndex == -1)
+                return;
+            if (_isProjectionList)
+            {
+                Projection selectedProjection = GetSelectedProjection();
+                MessageBoxResult resultat = MessageBox.Show(
+                    $"Voulez vous réserver votre place pour le film {_films[_selectedIndex].Titre} ?",
+                    "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (resultat == MessageBoxResult.Yes)
+                {
+                    _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
+                }
+            }
+            else
+            {
+                GenerateProjectionList(_films[_selectedIndex]);
+                _isProjectionList = !_isProjectionList;
+            }
+        }
+
+        private Projection GetSelectedProjection()
+        {
+            if (_selectedIndex == -1)
+                return null;
+
+            string selectedItem = lstProjections.SelectedItem.ToString();
+            ObjectId id = projectionIds[selectedItem];
+            Projection projection = _dbProjectionService.GetProjectionById(id);
+
+            return projection;
+        }
+
+        private void GenerateProjectionList(Film film)
+        {
+            GetFilms();
+            lstProjections.Items.Clear();
+            List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
+
+            for (int i = 0; i < projections.Count; i++)
+            {
+                string affichage = $"{film.Titre} - {projections[i].ToString()}";
+                ListBoxItem itemProjection = new ListBoxItem();
+                itemProjection.Content = affichage;
+                lstProjections.Items.Add(affichage);
+                projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
+            }
         }
     }
 }

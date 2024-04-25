@@ -14,6 +14,7 @@ namespace CineQuebec.Windows.DAL.Data
         private DateTime _dateJoined;
         private string _password;
         private string _role;
+        private List<ObjectId> _reservations;
         
         public ObjectId Id
         {
@@ -58,6 +59,12 @@ namespace CineQuebec.Windows.DAL.Data
         {
             get { return _dateJoined; }
             set { _dateJoined = value; }
+        }
+        
+        public List<ObjectId> Reservations
+        {
+            get { return _reservations; }
+            set { _reservations = value; }
         }
 
         public override string ToString()
