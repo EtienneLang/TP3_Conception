@@ -12,7 +12,7 @@ namespace CineQuebec.Windows.DAL.Data
         private ObjectId _id;
         private string _titre;
         private List<List<string>> _projections;
-
+        private string _categorie;
 
         public ObjectId Id
         {
@@ -38,6 +38,12 @@ namespace CineQuebec.Windows.DAL.Data
         {
             get { return _projections; }
             set { _projections = value; }
+        }
+        
+        public string Categorie
+        {
+            get { return _categorie; }
+            set { _categorie = value; }
         }
 
         public override string ToString()

@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
+using CineQuebec.Windows.View.AbonneViews;
+using CineQuebec.Windows.View.AdminViews;
 
 namespace CineQuebec.Windows
 {

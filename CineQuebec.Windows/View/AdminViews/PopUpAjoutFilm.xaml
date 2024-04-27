@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfTutorialSamples.Dialogs.PopUpAjoutFilm"
+﻿<Window x:Class="CineQuebec.Windows.View.AdminViews.PopUpAjoutFilm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Input" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"

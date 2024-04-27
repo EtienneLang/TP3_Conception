@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
-namespace WpfTutorialSamples.Dialogs
+namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class PopUpAjoutFilm : Window
     {

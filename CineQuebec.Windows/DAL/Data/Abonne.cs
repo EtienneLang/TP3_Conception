@@ -15,6 +15,7 @@ namespace CineQuebec.Windows.DAL.Data
         private string _password;
         private string _role;
         private List<ObjectId> _reservations;
+        private string[] _categoriesFav;
         
         public ObjectId Id
         {
@@ -65,6 +66,12 @@ namespace CineQuebec.Windows.DAL.Data
         {
             get { return _reservations; }
             set { _reservations = value; }
+        }
+        
+        public string[] CategoriesFav
+        {
+            get { return _categoriesFav; }
+            set { _categoriesFav = value; }
         }
 
         public override string ToString()

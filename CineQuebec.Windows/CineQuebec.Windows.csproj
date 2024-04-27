@@ -50,17 +50,47 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\AbonneHomeControl.xaml">
+    <Page Update="View\AdminViews\AdminHomeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\FilmListForUser.xaml">
+    <Page Update="View\AdminViews\GiftHomeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\GiftHomeControl.xaml">
+    <Page Update="View\AdminViews\FilmListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AdminViews\PopUpAjoutFilm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AdminViews\ProgramProjectionFilm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AdminViews\UserListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AbonneViews\AbonneHomeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AbonneViews\FilmListForUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AdminViews\TicketGratuitProjection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>

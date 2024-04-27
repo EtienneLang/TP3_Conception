@@ -1,7 +1,6 @@
 using System.Windows;
-using DnsClient.Protocol;
 
-namespace CineQuebec.Windows.View;
+namespace CineQuebec.Windows.View.AdminViews;
 
 public partial class ProgramProjectionFilm : Window
 {
