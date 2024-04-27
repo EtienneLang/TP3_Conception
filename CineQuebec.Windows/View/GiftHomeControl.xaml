@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CineQuebec.Windows.View.AdminHomeControl"
+﻿<UserControl x:Class="CineQuebec.Windows.View.GiftHomeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,40 +10,30 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
         <Button x:Name="btn_users" Style="{StaticResource defautButton}"
-                Grid.Column="0" Click="btn_users_Click">
+                Grid.Column="0">
             <StackPanel>
-                <Image Height="100"
-                       Source="/Ressources/Images/users.png" />
+                <!-- <Image Height="100" -->
+                <!--        Source="/Ressources/Images/users.png" /> -->
                 <Label HorizontalAlignment="Center"
-                       Content="{x:Static rs:Resource.admin_users}"
+                       Content="Offir tickets reprojections"
                        Style="{StaticResource defautLabel}" />
             </StackPanel>
         </Button>
 
         <Button Style="{StaticResource defautButton}"
-                Grid.Column="1" Click="btn_films_Click">
+                Grid.Column="1">
             <StackPanel>
-                <Image Height="100"
-                       Source="/Ressources/Images/projections.png" />
+                <!-- <Image Height="100" -->
+                <!--        Source="/Ressources/Images/projections.png" /> -->
                 <Label HorizontalAlignment="Center"
-                       Content="{x:Static rs:Resource.admin_films}"
+                       Content="Invitations avant-premières"
                        Style="{StaticResource defautLabel}" />
             </StackPanel>
         </Button>
-        <Button Style="{StaticResource defautButton}"
-                Grid.Column="2" Click="btn_gift_Click">
-            <StackPanel>
-                <Image Height="100"
-                       Source="/Ressources/Images/cadeau.png" />
-                <Label HorizontalAlignment="Center"
-                       Content="{x:Static rs:Resource.admin_gift}"
-                       Style="{StaticResource defautLabel}" />
-            </StackPanel>
-        </Button>
+
 
 
     </Grid>

@@ -50,5 +50,12 @@ namespace CineQuebec.Windows
         {
             mainContentControl.Content = new FilmListForUser(abonne);
         }
+        
+        public void GiftHomeControl()
+        {
+            mainContentControl.Content = new GiftHomeControl();
+        }
+        
+        
     }
 }
