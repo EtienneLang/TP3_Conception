@@ -12,8 +12,9 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="btn_users" Style="{StaticResource defautButton}"
-                Grid.Column="0">
+        <Button x:Name="btn_gift_ticket" Style="{StaticResource defautButton}"
+                Grid.Column="0"
+                Click="Btn_gift_ticket_OnClick">
             <StackPanel>
                 <!-- <Image Height="100" -->
                 <!--        Source="/Ressources/Images/users.png" /> -->

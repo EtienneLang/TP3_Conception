@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
@@ -7,6 +8,11 @@ namespace CineQuebec.Windows.View.AdminViews
         public GiftHomeControl()
         {
             InitializeComponent();
+        }
+
+        private void Btn_gift_ticket_OnClick(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).TicketGratuitProjection();
         }
     }
 }

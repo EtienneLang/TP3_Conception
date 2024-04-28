@@ -13,8 +13,10 @@
                     Width="75"
                     Height="25"
                     HorizontalAlignment="Left"
+                    Click="Btn_retour_OnClick"
             />
-            <ListBox x:Name="lstReprojection" Height="200" Width="400">
+            <Label x:Name="lblTitre" Content="Sélectionnez un film à offir" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <ListBox x:Name="lstReprojection" Height="200" Width="400" SelectionChanged="LstReprojection_OnSelectionChanged">
             </ListBox>
         </StackPanel>
     </Grid>

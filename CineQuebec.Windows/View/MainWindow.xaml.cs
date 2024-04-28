@@ -58,6 +58,10 @@ namespace CineQuebec.Windows
             mainContentControl.Content = new GiftHomeControl();
         }
         
+        public void TicketGratuitProjection()
+        {
+            mainContentControl.Content = new TicketGratuitProjection();
+        }
         
     }
 }
