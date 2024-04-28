@@ -16,6 +16,7 @@ namespace CineQuebec.Windows.DAL.Data
         private string _role;
         private List<ObjectId> _reservations;
         private string[] _categoriesFav;
+        private List<ObjectId> _idFilmsOfferts;
         
         public ObjectId Id
         {
@@ -74,6 +75,12 @@ namespace CineQuebec.Windows.DAL.Data
             set { _categoriesFav = value; }
         }
 
+        public List<ObjectId> IdFilmsOfferts
+        {
+            get { return _idFilmsOfferts; }
+            set { _idFilmsOfferts = value; }
+        }
+        
         public override string ToString()
         {
             return $"{Username} - Membre depuis {DateJoined.Year}/{DateJoined.Month}/{DateJoined.Day}";

@@ -55,4 +55,21 @@ public class AbonneService : IDatabaseAbonnes
 
         return abonnes;
     }
+
+    public void OffrirBillet(ObjectId id, ObjectId objectId)
+    {
+        try
+        {
+            var collection = _database.GetCollection<Abonne>("Abonnes");
+            var filter = Builders<Abonne>.Filter.Eq("_id", id);
+            var update = Builders<Abonne>.Update.Push("IdFilmsOfferts", objectId);
+            collection.UpdateOne(filter, update);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+    }
 }
