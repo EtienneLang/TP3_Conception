@@ -82,16 +82,26 @@ namespace CineQuebec.Windows.View.AdminViews
                 return;
             }
             indexMovie = _selectedIndex;
-            lstReprojection.Items.Clear();
             if (_isFilmSelection)
             {
+                lstReprojection.Items.Clear();
                 lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " ?";
                 GenerateAbonneList(_films[indexMovie].Categorie);
             }
             else
             {
-                lblTitre.Content = "Sélectionnez un film à offir";
-                GenerateFilmList();
+                MessageBoxResult result = MessageBox.Show("Voulez-vous offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " à " + _abonnes[_selectedIndex].Username + " ?", "Offrir un billet gratuit", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    //_dbAbonnes.OffrirBillet(_abonnes[_selectedIndex].Id, _films[indexMovie].Id);
+                    lstReprojection.Items.Clear();
+                    lblTitre.Content = "Sélectionnez un film à offir";
+                    GenerateFilmList();
+                }
+                else
+                {
+                    return;
+                }
             }
             _isFilmSelection = !_isFilmSelection;
         }
