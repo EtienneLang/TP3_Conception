@@ -81,9 +81,15 @@ namespace CineQuebec.Windows.DAL.Data
             set { _idFilmsOfferts = value; }
         }
         
+        public bool ListFilmOffertContientDejaFilm(ObjectId idFilm)
+        {
+            return IdFilmsOfferts.Contains(idFilm);
+        }
+        
         public override string ToString()
         {
             return $"{Username} - Membre depuis {DateJoined.Year}/{DateJoined.Month}/{DateJoined.Day}";
         }
+        
     }
 }

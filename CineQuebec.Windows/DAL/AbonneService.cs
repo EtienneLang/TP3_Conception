@@ -70,6 +70,5 @@ public class AbonneService : IDatabaseAbonnes
             Console.WriteLine(e);
             throw;
         }
-
     }
 }

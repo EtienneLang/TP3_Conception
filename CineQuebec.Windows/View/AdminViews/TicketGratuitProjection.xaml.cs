@@ -89,23 +89,34 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             _selectedIndex = lstReprojection.SelectedIndex;
             if (_selectedIndex == -1)
-            {
                 return;
-            }
 
             indexMovie = _selectedIndex;
             if (_isFilmSelection)
             {
+                if (_abonnesInteresseParFilm.Count == 0)
+                {
+                    MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
+                    return;
+                }
+
                 lstReprojection.Items.Clear();
                 lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " ?";
                 GenerateAbonneList(_films[indexMovie].Categorie);
             }
             else
             {
+                if (_abonnesInteresseParFilm[_selectedIndex].ListFilmOffertContientDejaFilm(_films[indexMovie].Id))
+                {
+                    MessageBox.Show("L'abonné a déjà reçu un billet gratuit pour ce film.");
+                    return;
+                }
+
                 MessageBoxResult result =
                     MessageBox.Show(
                         "Voulez-vous offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " à " +
-                        _abonnes[_selectedIndex].Username + " ?", "Offrir un billet gratuit", MessageBoxButton.YesNo);
+                        _abonnesInteresseParFilm[_selectedIndex].Username + " ?", "Offrir un billet gratuit",
+                        MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
                     _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[indexMovie].Id);
@@ -114,9 +125,7 @@ namespace CineQuebec.Windows.View.AdminViews
                     GenerateFilmList();
                 }
                 else
-                {
                     return;
-                }
             }
 
             _isFilmSelection = !_isFilmSelection;

@@ -13,6 +13,7 @@ namespace CineQuebec.Windows.DAL.Data
         private string _titre;
         private List<List<string>> _projections;
         private string _categorie;
+        
 
         public ObjectId Id
         {
