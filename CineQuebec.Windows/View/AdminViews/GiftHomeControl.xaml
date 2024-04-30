@@ -24,8 +24,9 @@
             </StackPanel>
         </Button>
 
-        <Button Style="{StaticResource defautButton}"
-                Grid.Column="1">
+        <Button x:Name="btn_gift_avant_premiere" Style="{StaticResource defautButton}"
+                Grid.Column="1"
+                Click="Btn_gift_avant_premiere_OnClick">
             <StackPanel>
                 <!-- <Image Height="100" -->
                 <!--        Source="/Ressources/Images/projections.png" /> -->

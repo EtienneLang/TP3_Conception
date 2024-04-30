@@ -66,5 +66,22 @@ namespace CineQuebec.Windows.DAL
             Projection projection = collection.Find(filter).FirstOrDefault();
             return projection;
         }
+        
+        public List<Projection> ReadAvantPremieres()
+        {
+            var projections = new List<Projection>();
+            try
+            {
+                var collection = _database.GetCollection<Projection>("Projections");
+                var filter = Builders<Projection>.Filter.Eq("AvantPremiere", true);
+                projections = collection.Find(filter).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return projections;
+        }
     }
 }

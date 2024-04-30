@@ -53,6 +53,7 @@ public class AbonneService : IDatabaseAbonnes
             Console.WriteLine("Impossible d'obtenir la collection " + ex.Message, "Erreur");
         }
 
+        var realisateurs = new Realisateur();
         return abonnes;
     }
 

@@ -7,7 +7,7 @@ public class Projection
     private ObjectId _id;
     private ObjectId _idFilmProjection;
     private DateTime _dateProjection;
-    private bool _isReprojection;
+    private bool _avantPremiere;
 
     public ObjectId Id
     {
@@ -27,12 +27,12 @@ public class Projection
         set { _dateProjection = value; }
     }
     
-    public bool IsReprojection
+    public bool AvantPremiere
     {
-        get { return _isReprojection; }
-        set { _isReprojection = value; }
+        get { return _avantPremiere; }
+        set { _avantPremiere = value; }
     }
-
+    
     public override string ToString()
     {
         return $"{_dateProjection.Day}/{_dateProjection.Month}/{_dateProjection.Year} à {_dateProjection.Hour}h{_dateProjection.Minute:d2}";
