@@ -94,19 +94,19 @@ namespace CineQuebec.Windows.View.AdminViews
             indexMovie = _selectedIndex;
             if (_isFilmSelection)
             {
+                lstReprojection.Items.Clear();
+                GenerateAbonneList(_films[indexMovie].Categorie);
                 if (_abonnesInteresseParFilm.Count == 0)
                 {
                     MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
                     return;
                 }
-
-                lstReprojection.Items.Clear();
                 lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " ?";
-                GenerateAbonneList(_films[indexMovie].Categorie);
+
             }
             else
             {
-                if (_abonnesInteresseParFilm[_selectedIndex].ListFilmOffertContientDejaFilm(_films[indexMovie].Id))
+                if (_abonnesInteresseParFilm[_selectedIndex].ListeFilmOffertContientDejaFilm(_films[indexMovie].Id))
                 {
                     MessageBox.Show("L'abonné a déjà reçu un billet gratuit pour ce film.");
                     return;
