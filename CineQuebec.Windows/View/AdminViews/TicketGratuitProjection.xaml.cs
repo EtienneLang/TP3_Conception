@@ -35,9 +35,9 @@ namespace CineQuebec.Windows.View.AdminViews
 
         private void ClearInterface()
         {
-            lstReprojection.Items.Clear();
+            ListeBoxReprojection.Items.Clear();
             //lstReprojection.SelectedIndex = -1;
-            _selectedIndex = lstReprojection.SelectedIndex;
+            _selectedIndex = ListeBoxReprojection.SelectedIndex;
         }
 
         private void GenerateFilmList()
@@ -48,7 +48,7 @@ namespace CineQuebec.Windows.View.AdminViews
             {
                 ListBoxItem itemFilm = new ListBoxItem();
                 itemFilm.Content = film;
-                lstReprojection.Items.Add(itemFilm);
+                ListeBoxReprojection.Items.Add(itemFilm);
             }
         }
 
@@ -63,43 +63,29 @@ namespace CineQuebec.Windows.View.AdminViews
                 _abonnesInteresseParFilm.Add(abonne);
                 ListBoxItem itemAbonne = new ListBoxItem();
                 itemAbonne.Content = abonne;
-                lstReprojection.Items.Add(itemAbonne);
+                ListeBoxReprojection.Items.Add(itemAbonne);
             }
         }
-
-        private void Btn_retour_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (_isFilmSelection)
-            {
-                GenerateFilmList();
-                _isFilmSelection = true;
-            }
-            else
-            {
-                ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
-            }
-        }
-
-
+        
         private int _indexMovie;
 
         private void LstReprojection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedIndex = lstReprojection.SelectedIndex;
+            _selectedIndex = ListeBoxReprojection.SelectedIndex;
             if (_selectedIndex == -1)
                 return;
 
             _indexMovie = _selectedIndex;
             if (_isFilmSelection)
             {
-                lstReprojection.Items.Clear();
+                ListeBoxReprojection.Items.Clear();
                 GenerateAbonneList(_films[_indexMovie].Categorie);
                 if (_abonnesInteresseParFilm.Count == 0)
                 {
                     MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
                     return;
                 }
-                lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " ?";
+                LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " ?";
 
             }
             else
@@ -118,8 +104,8 @@ namespace CineQuebec.Windows.View.AdminViews
                 if (result == MessageBoxResult.Yes)
                 {
                     _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
-                    lstReprojection.Items.Clear();
-                    lblTitre.Content = "Sélectionnez un film à offir";
+                    ListeBoxReprojection.Items.Clear();
+                    LabelTitre.Content = "Sélectionnez un film à offir";
                     GenerateFilmList();
                 }
                 else
@@ -127,6 +113,19 @@ namespace CineQuebec.Windows.View.AdminViews
             }
 
             _isFilmSelection = !_isFilmSelection;
+        }
+
+        private void BtnRetourVersGiftHomeControl_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_isFilmSelection)
+            {
+                GenerateFilmList();
+                _isFilmSelection = true;
+            }
+            else
+            {
+                ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
+            }
         }
     }
 }

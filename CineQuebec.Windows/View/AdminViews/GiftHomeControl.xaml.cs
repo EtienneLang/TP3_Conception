@@ -15,7 +15,7 @@ namespace CineQuebec.Windows.View.AdminViews
             ((MainWindow)Application.Current.MainWindow).TicketGratuitProjection();
         }
 
-        private void Btn_gift_avant_premiere_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonGiftAvantPremiere_OnClick(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).InvitationAvantPremiere();
         }

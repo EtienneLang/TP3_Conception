@@ -16,8 +16,8 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             _db = new FilmService();
             InitializeComponent();
-            btnDelete.IsEnabled = false;
-            btnAddProjection.IsEnabled = false;
+            ButtonDelete.IsEnabled = false;
+            ButtonAddProjection.IsEnabled = false;
             GenerateFilmList();
         }
 
@@ -28,30 +28,30 @@ namespace CineQuebec.Windows.View.AdminViews
 
         private void ClearInterface()
         {
-            lstFilms.Items.Clear();
-            lstFilms.SelectedIndex = -1;
-            _selectedIndex = lstFilms.SelectedIndex;
-            btnDelete.IsEnabled = false;
-            btnAddProjection.IsEnabled = false;
+            ListBoxFilms.Items.Clear();
+            ListBoxFilms.SelectedIndex = -1;
+            _selectedIndex = ListBoxFilms.SelectedIndex;
+            ButtonDelete.IsEnabled = false;
+            ButtonAddProjection.IsEnabled = false;
         }
 
         private void GenerateFilmList()
         {
             ClearInterface();
             GetFilms();
-            btn_changerListe.Content = "Afficher les projections";
+            ButtonChangerListe.Content = "Afficher les projections";
             foreach (Film film in _films)
             {
                 ListBoxItem itemFilm = new ListBoxItem();
                 itemFilm.Content = film;
-                lstFilms.Items.Add(itemFilm);
+                ListBoxFilms.Items.Add(itemFilm);
             }
         }
 
         private void GenerateProjectionList()
         {
-            lstFilms.Items.Clear();
-            btn_changerListe.Content = "Afficher les films";
+            ListBoxFilms.Items.Clear();
+            ButtonChangerListe.Content = "Afficher les films";
 
             //Meilleur essai pour afficher les projections
             foreach (Film film in _films)
@@ -61,12 +61,12 @@ namespace CineQuebec.Windows.View.AdminViews
                     ListBoxItem itemProjection = new ListBoxItem();
                     string affichage = $"{film.Titre} - {projections[i]}";
                     itemProjection.Content = affichage;
-                    lstFilms.Items.Add(affichage);
+                    ListBoxFilms.Items.Add(affichage);
                 }
             }
         }
 
-        private void btn_ajoutFilm_Click(object sender, RoutedEventArgs e)
+        private void ButtonAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -88,13 +88,13 @@ namespace CineQuebec.Windows.View.AdminViews
             }
         }
 
-        private void LstFilms_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxFilms_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedIndex = lstFilms.SelectedIndex;
+            _selectedIndex = ListBoxFilms.SelectedIndex;
             if (_selectedIndex != -1)
             {
-                btnDelete.IsEnabled = true;
-                btnAddProjection.IsEnabled = true;
+                ButtonDelete.IsEnabled = true;
+                ButtonAddProjection.IsEnabled = true;
             }
         }
 
@@ -102,12 +102,12 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             if (_selectedIndex == -1)
                 return null;
-            ListBoxItem selectedItem = (ListBoxItem)lstFilms.SelectedItem;
+            ListBoxItem selectedItem = (ListBoxItem)ListBoxFilms.SelectedItem;
             Film selectedFilm = (Film)selectedItem.Content;
             return selectedFilm;
         }
 
-        private void BtnDelete_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonDeleteFilm_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace CineQuebec.Windows.View.AdminViews
             }
         }
 
-        private void BtnAddProjection_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonAjouterProjection_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace CineQuebec.Windows.View.AdminViews
             }
         }
 
-        private void Btn_changerListe_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonChangerListe_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -164,7 +164,7 @@ namespace CineQuebec.Windows.View.AdminViews
             }
         }
 
-        private void btn_retour_Click(object sender, RoutedEventArgs e)
+        private void ButtonRetourVersAccueil_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
         }

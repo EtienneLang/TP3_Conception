@@ -38,19 +38,19 @@ namespace CineQuebec.Windows.View.AbonneViews
             {
                 ListBoxItem itemFilm = new ListBoxItem();
                 itemFilm.Content = film;
-                lstProjections.Items.Add(itemFilm);
+                ListBoxProjections.Items.Add(itemFilm);
             }
         }
 
         private void ClearInterface()
         {
-            lstProjections.SelectedIndex = -1;
-            lstProjections.Items.Clear();
-            _selectedIndex = lstProjections.SelectedIndex;
-            btn_reserverPlace.IsEnabled = false;
+            ListBoxProjections.SelectedIndex = -1;
+            ListBoxProjections.Items.Clear();
+            _selectedIndex = ListBoxProjections.SelectedIndex;
+            ButtonReserverPlace.IsEnabled = false;
         }
 
-        private void btn_retour_Click(object sender, RoutedEventArgs e)
+        private void ButtonRetourVersAccueil_Click(object sender, RoutedEventArgs e)
         {
             if (_isProjectionList)
             {
@@ -69,9 +69,9 @@ namespace CineQuebec.Windows.View.AbonneViews
             _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
         }
 
-        private void lstProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedIndex = lstProjections.SelectedIndex;
+            _selectedIndex = ListBoxProjections.SelectedIndex;
             if (_selectedIndex == -1)
                 return;
             if (_isProjectionList)
@@ -97,7 +97,7 @@ namespace CineQuebec.Windows.View.AbonneViews
             if (_selectedIndex == -1)
                 return null;
 
-            string selectedItem = lstProjections.SelectedItem.ToString();
+            string selectedItem = ListBoxProjections.SelectedItem.ToString();
             ObjectId id = projectionIds[selectedItem];
             Projection projection = _dbProjectionService.GetProjectionById(id);
 
@@ -107,7 +107,7 @@ namespace CineQuebec.Windows.View.AbonneViews
         private void GenerateProjectionList(Film film)
         {
             GetFilms();
-            lstProjections.Items.Clear();
+            ListBoxProjections.Items.Clear();
             List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
 
             for (int i = 0; i < projections.Count; i++)
@@ -115,7 +115,7 @@ namespace CineQuebec.Windows.View.AbonneViews
                 string affichage = $"{film.Titre} - {projections[i].ToString()}";
                 ListBoxItem itemProjection = new ListBoxItem();
                 itemProjection.Content = affichage;
-                lstProjections.Items.Add(affichage);
+                ListBoxProjections.Items.Add(affichage);
                 projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
             }
         }

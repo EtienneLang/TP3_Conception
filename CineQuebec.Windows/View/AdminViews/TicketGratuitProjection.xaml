@@ -3,20 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CineQuebec.Windows.View"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
         <StackPanel VerticalAlignment="Center">
-            <Button x:Name="btn_retour" 
-                    Content="Retour"
+            <Button Content="Retour"
                     Width="75"
                     Height="25"
                     HorizontalAlignment="Left"
-                    Click="Btn_retour_OnClick"
+                    Click="BtnRetourVersGiftHomeControl_OnClick"
             />
-            <Label x:Name="lblTitre" Content="Sélectionnez un film à offir" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <ListBox x:Name="lstReprojection" Height="200" Width="400" SelectionChanged="LstReprojection_OnSelectionChanged">
+            <Label x:Name="LabelTitre" Content="Sélectionnez un film à offir" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <ListBox x:Name="ListeBoxReprojection" Height="200" Width="400" SelectionChanged="LstReprojection_OnSelectionChanged">
             </ListBox>
         </StackPanel>
     </Grid>

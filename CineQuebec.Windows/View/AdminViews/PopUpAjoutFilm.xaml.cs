@@ -9,20 +9,20 @@ namespace CineQuebec.Windows.View.AdminViews
             InitializeComponent();
         }
 
-        private void btnDialogOk_Click(object sender, RoutedEventArgs e)
+        private void ButtonDialogOk_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            txtTitre.SelectAll();
-            txtTitre.Focus();
+            TextBoxTitre.SelectAll();
+            TextBoxTitre.Focus();
         }
 
         public string Answer
         {
-            get { return txtTitre.Text; }
+            get { return TextBoxTitre.Text; }
         }
     }
 }

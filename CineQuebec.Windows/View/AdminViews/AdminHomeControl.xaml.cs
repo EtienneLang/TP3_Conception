@@ -10,17 +10,17 @@ namespace CineQuebec.Windows.View.AdminViews
             InitializeComponent();
         }
 
-        private void btn_users_Click(object sender, RoutedEventArgs e)
+        private void ButtonUsers_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).UserListControl();
         }
 
-        private void btn_films_Click(object sender, RoutedEventArgs e)
+        private void ButtonFilms_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).FilmListControl();
         }
 
-        private void btn_gift_Click(object sender, RoutedEventArgs e)
+        private void ButtonGift_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
         }

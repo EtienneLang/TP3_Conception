@@ -1,9 +1,6 @@
 ﻿<UserControl x:Class="CineQuebec.Windows.View.AdminViews.AdminHomeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CineQuebec.Windows.View"
              xmlns:rs="clr-namespace:CineQuebec.Windows.Ressources.i18n">
 
     <Grid Background="White" Height="250" Width="450">
@@ -13,8 +10,8 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="btn_users" Style="{StaticResource defautButton}"
-                Grid.Column="0" Click="btn_users_Click">
+        <Button Style="{StaticResource defautButton}"
+                Grid.Column="0" Click="ButtonUsers_Click">
             <StackPanel>
                 <Image Height="100"
                        Source="/Ressources/Images/users.png" />
@@ -25,7 +22,7 @@
         </Button>
 
         <Button Style="{StaticResource defautButton}"
-                Grid.Column="1" Click="btn_films_Click">
+                Grid.Column="1" Click="ButtonFilms_Click">
             <StackPanel>
                 <Image Height="100"
                        Source="/Ressources/Images/projections.png" />
@@ -35,7 +32,7 @@
             </StackPanel>
         </Button>
         <Button Style="{StaticResource defautButton}"
-                Grid.Column="2" Click="btn_gift_Click">
+                Grid.Column="2" Click="ButtonGift_Click">
             <StackPanel>
                 <Image Height="100"
                        Source="/Ressources/Images/cadeau.png" />

@@ -9,13 +9,13 @@ public partial class ProgramProjectionFilm : Window
     public ProgramProjectionFilm(string titreFilm)
     {
         InitializeComponent();
-        lblTitrePage.Content = titreFilm;
+        LabelTitrePage.Content = titreFilm;
     }
 
     private void BtnDialogOk_OnClick(object sender, RoutedEventArgs e)
     {
-        _projections.Add(txtDate.Text);
-        _projections.Add(txtHeure.Text);
+        _projections.Add(TextBoxDate.Text);
+        _projections.Add(TextBoxHeure.Text);
         DialogResult = true;
     }
 

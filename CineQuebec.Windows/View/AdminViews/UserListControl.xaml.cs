@@ -31,11 +31,11 @@ namespace CineQuebec.Windows.View.AdminViews
                 {
                     Content = abonne
                 };
-                lstUsers.Items.Add(itemAbonne);
+                ListBoxUsers.Items.Add(itemAbonne);
             }
         }
 
-        private void btn_retour_Click(object sender, RoutedEventArgs e)
+        private void ButtonRetourVersAccueil_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
         }
