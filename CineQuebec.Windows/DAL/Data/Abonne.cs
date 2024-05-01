@@ -102,14 +102,9 @@ namespace CineQuebec.Windows.DAL.Data
             return IdFilmsOfferts.Contains(idFilm);
         }
         
-        public bool ListeActeursFavoritsContientIdActeurParam(ObjectId idActeur)
+        public bool ListeReservationContientDejaProjection(ObjectId idProjection)
         {
-            return IdActeursFavorits.Contains(idActeur);
-        }
-        
-        public bool ListeRealisateursFavoritsContientIdRealisateurParam(ObjectId idRealisateur)
-        {
-            return IdRealisateursFavorits.Contains(idRealisateur);
+            return Reservations.Contains(idProjection);
         }
 
         public override string ToString()

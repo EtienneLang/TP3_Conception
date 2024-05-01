@@ -8,9 +8,9 @@ namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class InvitationAvantPremiere : UserControl
     {
-        private FilmService _dbFilms;
-        private AbonneService _dbAbonnes;
-        private ProjectionService _dbProjections;
+        private readonly FilmService _dbFilms;
+        private readonly AbonneService _dbAbonnes;
+        private readonly ProjectionService _dbProjections;
         private List<Film> _films;
         private List<Abonne> _abonnes;
         private List<Projection> _projections;
@@ -58,13 +58,11 @@ namespace CineQuebec.Windows.View.AdminViews
             {
                 foreach (Film film in _films)
                 {
-                    if (film.Id == projection.IdFilmProjection)
-                    {
-                        ListBoxItem item = new ListBoxItem();
-                        item.Content = film + " " + projection;
-                        item.Tag = film;
-                        lstItemsAvantPremiere.Items.Add(item);
-                    }
+                    if (film.Id != projection.IdFilmProjection) continue;
+                    ListBoxItem item = new ListBoxItem();
+                    item.Content = film + " " + projection;
+                    item.Tag = film;
+                    lstItemsAvantPremiere.Items.Add(item);
                 }
             }
         }
@@ -81,28 +79,24 @@ namespace CineQuebec.Windows.View.AdminViews
                     return;
                 foreach (ObjectId idActeur in idActeursFavorits)
                 {
-                    if (!abonneEstInteresse && abonne.IdActeursFavorits != null &&
-                        abonne.IdActeursFavorits.Contains(idActeur))
-                    {
-                        _abonnesInteresseParFilm.Add(abonne);
-                        ListBoxItem itemAbonne = new ListBoxItem();
-                        itemAbonne.Content = abonne;
-                        lstItemsAvantPremiere.Items.Add(itemAbonne);
-                        abonneEstInteresse = true;
-                    }
+                    if (abonneEstInteresse || abonne.IdActeursFavorits == null ||
+                        !abonne.IdActeursFavorits.Contains(idActeur)) continue;
+                    _abonnesInteresseParFilm.Add(abonne);
+                    ListBoxItem itemAbonne = new ListBoxItem();
+                    itemAbonne.Content = abonne;
+                    lstItemsAvantPremiere.Items.Add(itemAbonne);
+                    abonneEstInteresse = true;
                 }
 
                 foreach (ObjectId idRealisateur in idRealisateursFavorits)
                 {
-                    if (!abonneEstInteresse && abonne.IdRealisateursFavorits != null &&
-                        abonne.IdRealisateursFavorits.Contains(idRealisateur))
-                    {
-                        _abonnesInteresseParFilm.Add(abonne);
-                        ListBoxItem itemAbonne = new ListBoxItem();
-                        itemAbonne.Content = abonne;
-                        lstItemsAvantPremiere.Items.Add(itemAbonne);
-                        abonneEstInteresse = true;
-                    }
+                    if (abonneEstInteresse || abonne.IdRealisateursFavorits == null ||
+                        !abonne.IdRealisateursFavorits.Contains(idRealisateur)) continue;
+                    _abonnesInteresseParFilm.Add(abonne);
+                    ListBoxItem itemAbonne = new ListBoxItem();
+                    itemAbonne.Content = abonne;
+                    lstItemsAvantPremiere.Items.Add(itemAbonne);
+                    abonneEstInteresse = true;
                 }
             }
         }
@@ -129,11 +123,10 @@ namespace CineQuebec.Windows.View.AdminViews
             _selectedIndex = lstItemsAvantPremiere.SelectedIndex;
             if (_selectedIndex == -1)
                 return;
-
+            Film filmSelectionne = new Film();
             indexMovie = _selectedIndex;
             if (_isProjectionSelection)
             {
-                Film filmSelectionne = new Film();
                 if (lstItemsAvantPremiere.SelectedItem is ListBoxItem selectedItem)
                 {
                     filmSelectionne = selectedItem.Tag as Film;
@@ -147,30 +140,33 @@ namespace CineQuebec.Windows.View.AdminViews
                     return;
                 }
 
-                lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " ?";
+                lblTitre.Content = "Qui voulez-vous inviter à l'avant première du film " + filmSelectionne.Titre + " ?";
             }
             else
             {
-                if (_abonnesInteresseParFilm[_selectedIndex].ListeFilmOffertContientDejaFilm(_films[indexMovie].Id))
+                if (_abonnesInteresseParFilm[_selectedIndex].ListeReservationContientDejaProjection(_projections[indexMovie].Id))
                 {
-                    MessageBox.Show("L'abonné a déjà reçu un billet gratuit pour ce film.");
+                    MessageBox.Show("L'abonné a déjà reçu une invitation pour cette avant-première.");
                     return;
                 }
 
                 MessageBoxResult result =
                     MessageBox.Show(
-                        "Voulez-vous offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " à " +
-                        _abonnesInteresseParFilm[_selectedIndex].Username + " ?", "Offrir un billet gratuit",
+                        "Voulez-vous inviter " + _abonnesInteresseParFilm[_selectedIndex].Username + " à l'avant première du film " +
+                         filmSelectionne.Titre + " ?", "Invitation à l'avant première",
                         MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[indexMovie].Id);
+                    _dbProjections.ReserverPlace(_projections[indexMovie], _abonnesInteresseParFilm[_selectedIndex].Id);
                     lstItemsAvantPremiere.Items.Clear();
-                    lblTitre.Content = "Sélectionnez un film à offir";
+                    lblTitre.Content = "Sélectionnez une avant-première à offrir.";
                     GenerateAvantPremiereList();
                 }
                 else
+                {
+                    lstItemsAvantPremiere.SelectedIndex = -1;
                     return;
+                }
             }
 
             _isProjectionSelection = !_isProjectionSelection;

@@ -58,14 +58,12 @@ namespace CineQuebec.Windows.View.AdminViews
             GetAbonnes();
             foreach (Abonne abonne in _abonnes)
             {
-                if (abonne.CategoriesFav != null && abonne.CategoriesFav.Contains(categorie))
-                {
-                    _abonnesInteresseParFilm.Clear();
-                    _abonnesInteresseParFilm.Add(abonne);
-                    ListBoxItem itemAbonne = new ListBoxItem();
-                    itemAbonne.Content = abonne;
-                    lstReprojection.Items.Add(itemAbonne);
-                }
+                if (abonne.CategoriesFav == null || !abonne.CategoriesFav.Contains(categorie)) continue;
+                _abonnesInteresseParFilm.Clear();
+                _abonnesInteresseParFilm.Add(abonne);
+                ListBoxItem itemAbonne = new ListBoxItem();
+                itemAbonne.Content = abonne;
+                lstReprojection.Items.Add(itemAbonne);
             }
         }
 
@@ -83,7 +81,7 @@ namespace CineQuebec.Windows.View.AdminViews
         }
 
 
-        int indexMovie;
+        private int _indexMovie;
 
         private void LstReprojection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -91,22 +89,22 @@ namespace CineQuebec.Windows.View.AdminViews
             if (_selectedIndex == -1)
                 return;
 
-            indexMovie = _selectedIndex;
+            _indexMovie = _selectedIndex;
             if (_isFilmSelection)
             {
                 lstReprojection.Items.Clear();
-                GenerateAbonneList(_films[indexMovie].Categorie);
+                GenerateAbonneList(_films[_indexMovie].Categorie);
                 if (_abonnesInteresseParFilm.Count == 0)
                 {
                     MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
                     return;
                 }
-                lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " ?";
+                lblTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " ?";
 
             }
             else
             {
-                if (_abonnesInteresseParFilm[_selectedIndex].ListeFilmOffertContientDejaFilm(_films[indexMovie].Id))
+                if (_abonnesInteresseParFilm[_selectedIndex].ListeFilmOffertContientDejaFilm(_films[_indexMovie].Id))
                 {
                     MessageBox.Show("L'abonné a déjà reçu un billet gratuit pour ce film.");
                     return;
@@ -114,12 +112,12 @@ namespace CineQuebec.Windows.View.AdminViews
 
                 MessageBoxResult result =
                     MessageBox.Show(
-                        "Voulez-vous offrir un billet gratuit pour le film " + _films[indexMovie].Titre + " à " +
+                        "Voulez-vous offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " à " +
                         _abonnesInteresseParFilm[_selectedIndex].Username + " ?", "Offrir un billet gratuit",
                         MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[indexMovie].Id);
+                    _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
                     lstReprojection.Items.Clear();
                     lblTitre.Content = "Sélectionnez un film à offir";
                     GenerateFilmList();

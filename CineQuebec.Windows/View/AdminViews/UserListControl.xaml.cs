@@ -7,7 +7,7 @@ namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class UserListControl : UserControl
     {
-        private AbonneService _db;
+        private readonly AbonneService _db;
         private List<Abonne> _abonnes;
 
         public UserListControl()
@@ -27,8 +27,10 @@ namespace CineQuebec.Windows.View.AdminViews
             GetAbonnes();
             foreach (Abonne abonne in _abonnes)
             {
-                ListBoxItem itemAbonne = new ListBoxItem();
-                itemAbonne.Content = abonne;
+                ListBoxItem itemAbonne = new ListBoxItem
+                {
+                    Content = abonne
+                };
                 lstUsers.Items.Add(itemAbonne);
             }
         }
