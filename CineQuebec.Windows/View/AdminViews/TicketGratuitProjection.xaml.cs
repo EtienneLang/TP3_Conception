@@ -78,15 +78,7 @@ namespace CineQuebec.Windows.View.AdminViews
             _indexMovie = _selectedIndex;
             if (_isFilmSelection)
             {
-                ListeBoxReprojection.Items.Clear();
-                GenerateAbonneList(_films[_indexMovie].Categorie);
-                if (_abonnesInteresseParFilm.Count == 0)
-                {
-                    MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
-                    return;
-                }
-                LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " ?";
-
+                ChangeListeFilmVersListeAbonnes(_films[_indexMovie]);
             }
             else
             {
@@ -96,17 +88,12 @@ namespace CineQuebec.Windows.View.AdminViews
                     return;
                 }
 
-                MessageBoxResult result =
-                    MessageBox.Show(
-                        "Voulez-vous offrir un billet gratuit pour le film " + _films[_indexMovie].Titre + " à " +
-                        _abonnesInteresseParFilm[_selectedIndex].Username + " ?", "Offrir un billet gratuit",
-                        MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
+                bool reponseUser = AfficherMessageBoxConfirmation(_abonnesInteresseParFilm[_selectedIndex].Username,
+                    _films[_indexMovie].Titre);
+                if (reponseUser)
                 {
                     _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
-                    ListeBoxReprojection.Items.Clear();
-                    LabelTitre.Content = "Sélectionnez un film à offir";
-                    GenerateFilmList();
+                    ChangeListeAbonnesVersListeFilm();
                 }
                 else
                     return;
@@ -117,7 +104,7 @@ namespace CineQuebec.Windows.View.AdminViews
 
         private void BtnRetourVersGiftHomeControl_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_isFilmSelection)
+            if (!_isFilmSelection)
             {
                 GenerateFilmList();
                 _isFilmSelection = true;
@@ -127,5 +114,35 @@ namespace CineQuebec.Windows.View.AdminViews
                 ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
             }
         }
+        
+        private bool AfficherMessageBoxConfirmation(string nomAbonne, string titreFilm)
+        {
+            MessageBoxResult result =
+                MessageBox.Show(
+                    "Voulez-vous offrir un billet gratuit pour le film " + titreFilm + " à " +
+                    nomAbonne + " ?", "Offrir un billet gratuit",
+                    MessageBoxButton.YesNo);
+            return result == MessageBoxResult.Yes;
+        }
+        
+        private void ChangeListeAbonnesVersListeFilm()
+        {
+            ListeBoxReprojection.Items.Clear();
+            LabelTitre.Content = "Sélectionnez un film à offir";
+            GenerateFilmList();
+        }
+        
+        private void ChangeListeFilmVersListeAbonnes(Film filmSelectionne)
+        {
+            ListeBoxReprojection.Items.Clear();
+            GenerateAbonneList(filmSelectionne.Categorie);
+            if (_abonnesInteresseParFilm.Count == 0)
+            {
+                MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
+                return;
+            }
+            LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + filmSelectionne.Titre + " ?";
+        }
+
     }
 }

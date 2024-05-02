@@ -7,13 +7,24 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <Button Content="Retour"
+                Width="75"
+                Height="25"
+                Grid.Column="0"
+                Grid.Row="0"
+                HorizontalAlignment="Left" Click="ButtonRetourVersAccueil_Click"
+        />
         <Button Style="{StaticResource defautButton}"
                 Grid.Column="0"
-                Click="Btn_gift_ticket_OnClick">
+                Grid.Row="1"
+                Click="ButtonOffirTicket_OnClick">
             <StackPanel>
-                <!-- <Image Height="100" -->
-                <!--        Source="/Ressources/Images/users.png" /> -->
+                <Image Height="100"
+                       Source="/Ressources/Images/ticket.png" />
                 <Label HorizontalAlignment="Center"
                        Content="Offir tickets reprojections"
                        Style="{StaticResource defautLabel}" />
@@ -22,10 +33,11 @@
 
         <Button Style="{StaticResource defautButton}"
                 Grid.Column="1"
+                Grid.Row="1"
                 Click="ButtonGiftAvantPremiere_OnClick">
             <StackPanel>
-                <!-- <Image Height="100" -->
-                <!--        Source="/Ressources/Images/projections.png" /> -->
+                <Image Height="100"
+                       Source="/Ressources/Images/invitation.png" />
                 <Label HorizontalAlignment="Center"
                        Content="Invitations avant-premières"
                        Style="{StaticResource defautLabel}" />

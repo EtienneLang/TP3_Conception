@@ -32,6 +32,12 @@
 		<Resource Include="Ressources\images\users.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
+		<None Remove="Ressources\images\cadeau.png" />
+		<Resource Include="Ressources\images\cadeau.png" />
+		<None Remove="Ressources\images\invitation.png" />
+		<Resource Include="Ressources\images\invitation.png" />
+		<None Remove="Ressources\images\ticket.png" />
+		<Resource Include="Ressources\images\ticket.png" />
 	</ItemGroup>
 
   <ItemGroup>

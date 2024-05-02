@@ -99,7 +99,7 @@ namespace CineQuebec.Windows.View.AdminViews
 
         private void ButtonRetourVersGiftHomeControl_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_isAvantPremiereSelection)
+            if (!_isAvantPremiereSelection)
             {
                 GenerateAvantPremiereList();
                 _isAvantPremiereSelection = true;
@@ -119,9 +119,9 @@ namespace CineQuebec.Windows.View.AdminViews
             _selectedIndex = ListeBoxItemsAvantPremiere.SelectedIndex;
             if (_selectedIndex == -1)
                 return;
-            indexMovie = _selectedIndex;
             if (_isAvantPremiereSelection)
             {
+                indexMovie = _selectedIndex;
                 if (ListeBoxItemsAvantPremiere.SelectedItem is ListBoxItem selectedItem)
                 {
                     filmSelectionne = selectedItem.Tag as Film;

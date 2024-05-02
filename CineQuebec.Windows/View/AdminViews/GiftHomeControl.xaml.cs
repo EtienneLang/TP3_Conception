@@ -10,7 +10,7 @@ namespace CineQuebec.Windows.View.AdminViews
             InitializeComponent();
         }
 
-        private void Btn_gift_ticket_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonOffirTicket_OnClick(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).TicketGratuitProjection();
         }
@@ -18,6 +18,11 @@ namespace CineQuebec.Windows.View.AdminViews
         private void ButtonGiftAvantPremiere_OnClick(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).InvitationAvantPremiere();
+        }
+
+        private void ButtonRetourVersAccueil_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
         }
     }
 }
