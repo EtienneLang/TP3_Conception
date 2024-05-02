@@ -53,6 +53,23 @@ public class AbonneService : IDatabaseAbonnes
             Console.WriteLine("Impossible d'obtenir la collection " + ex.Message, "Erreur");
         }
 
+        var realisateurs = new Realisateur();
         return abonnes;
+    }
+
+    public void OffrirBillet(ObjectId id, ObjectId objectId)
+    {
+        try
+        {
+            var collection = _database.GetCollection<Abonne>("Abonnes");
+            var filter = Builders<Abonne>.Filter.Eq("_id", id);
+            var update = Builders<Abonne>.Update.Push("IdFilmsOfferts", objectId);
+            collection.UpdateOne(filter, update);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

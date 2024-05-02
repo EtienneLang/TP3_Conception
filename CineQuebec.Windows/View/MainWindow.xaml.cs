@@ -12,6 +12,8 @@ using System.Windows.Shapes;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
+using CineQuebec.Windows.View.AbonneViews;
+using CineQuebec.Windows.View.AdminViews;
 
 namespace CineQuebec.Windows
 {
@@ -50,5 +52,21 @@ namespace CineQuebec.Windows
         {
             mainContentControl.Content = new FilmListForUser(abonne);
         }
+        
+        public void GiftHomeControl()
+        {
+            mainContentControl.Content = new GiftHomeControl();
+        }
+        
+        public void TicketGratuitProjection()
+        {
+            mainContentControl.Content = new TicketGratuitProjection();
+        }
+        
+        public void InvitationAvantPremiere()
+        {
+            mainContentControl.Content = new InvitationAvantPremiere();
+        }
+        
     }
 }

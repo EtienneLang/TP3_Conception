@@ -15,7 +15,11 @@ namespace CineQuebec.Windows.DAL.Data
         private string _password;
         private string _role;
         private List<ObjectId> _reservations;
-        
+        private string[] _categoriesFav;
+        private ObjectId[] _idActeursFavorits;
+        private ObjectId[] _idRealisateursFavorits;
+        private List<ObjectId> _idFilmsOfferts;
+
         public ObjectId Id
         {
             get { return _id; }
@@ -35,7 +39,7 @@ namespace CineQuebec.Windows.DAL.Data
                 _username = value;
             }
         }
-        
+
         public string Password
         {
             get { return _password; }
@@ -45,6 +49,7 @@ namespace CineQuebec.Windows.DAL.Data
                 {
                     throw new ArgumentNullException("Le mot de passe ne peut pas être vide.");
                 }
+
                 _password = value;
             }
         }
@@ -54,17 +59,52 @@ namespace CineQuebec.Windows.DAL.Data
             get { return _role; }
             set { _role = value; }
         }
-        
+
         public DateTime DateJoined
         {
             get { return _dateJoined; }
             set { _dateJoined = value; }
         }
-        
+
         public List<ObjectId> Reservations
         {
             get { return _reservations; }
             set { _reservations = value; }
+        }
+
+        public string[] CategoriesFav
+        {
+            get { return _categoriesFav; }
+            set { _categoriesFav = value; }
+        }
+
+        public ObjectId[] IdActeursFavorits
+        {
+            get { return _idActeursFavorits; }
+            set { _idActeursFavorits = value; }
+        }
+
+        public ObjectId[] IdRealisateursFavorits
+        {
+            get { return _idRealisateursFavorits; }
+            set { _idRealisateursFavorits = value; }
+        }
+
+        public List<ObjectId> IdFilmsOfferts
+        {
+            get { return _idFilmsOfferts; }
+            set { _idFilmsOfferts = value; }
+        }
+
+
+        public bool ListeFilmOffertContientDejaFilm(ObjectId idFilm)
+        {
+            return IdFilmsOfferts.Contains(idFilm);
+        }
+        
+        public bool ListeReservationContientDejaProjection(ObjectId idProjection)
+        {
+            return Reservations.Contains(idProjection);
         }
 
         public override string ToString()
