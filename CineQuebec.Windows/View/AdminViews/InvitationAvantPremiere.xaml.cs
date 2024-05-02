@@ -59,7 +59,7 @@ namespace CineQuebec.Windows.View.AdminViews
             {
                 foreach (Film film in _films)
                 {
-                    if (film.Id != projection.IdFilmProjection) continue;
+                    if (film.Id != projection.IdFilm) continue;
                     ListBoxItem item = new ListBoxItem();
                     item.Content = film + " " + projection;
                     item.Tag = film;

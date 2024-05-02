@@ -10,7 +10,12 @@ public abstract class Person
     public ObjectId Id
     {
         get { return _id; }
-        set { _id = value; }
+        set
+        {
+            if (value == null)
+                throw new ArgumentNullException("L'ID ne peut pas être vide.");
+            _id = value;
+        }
     }
     
     public string Nom

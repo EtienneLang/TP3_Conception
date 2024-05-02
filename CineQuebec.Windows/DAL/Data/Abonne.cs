@@ -63,7 +63,14 @@ namespace CineQuebec.Windows.DAL.Data
         public DateTime DateJoined
         {
             get { return _dateJoined; }
-            set { _dateJoined = value; }
+            set
+            {
+                if (value > DateTime.Now)
+                {
+                    throw new Exception("La date d'inscription ne peut pas être postérieure à la date actuelle.");
+                }
+                _dateJoined = value;
+            }
         }
 
         public List<ObjectId> Reservations

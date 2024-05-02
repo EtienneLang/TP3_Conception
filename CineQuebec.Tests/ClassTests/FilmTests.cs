@@ -22,7 +22,7 @@ public class FilmTests
     }
 
     [Fact]
-    public void Film_ThrowsArgumentNullException_WhenTitreIsNull()
+    public void Film_ThrowsArgumentNullException_WhenTitreIsEmpty()
     {
         // Arrange
         var film = new Film();
@@ -30,4 +30,73 @@ public class FilmTests
         // Act & Assert
         Assert.Throws<ArgumentNullException>(() => film.Titre = "");
     }
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenTitreIsNull()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.Titre = null);
+    }
+    
+    
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenTitreIsWhiteSpace()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.Titre = " ");
+    }
+    
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenIdIsNull()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.Id = ObjectId.Empty);
+    }
+    
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenCategorieIsNull()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.Categorie = null);
+    }
+    
+    
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenIdRealisateursIsNull()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.IdRealisateurs = null);
+    }
+    
+    [Fact]
+    public void Film_ThrowsArgumentNullException_WhenIdActeursIsNull()
+    {
+        // Arrange
+        var film = new Film();
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => film.IdActeurs = null);
+    }
+    
+    
+    
+
+    
+    
+    
+    
 }

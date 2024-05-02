@@ -5,36 +5,56 @@ namespace CineQuebec.Windows.DAL.Data;
 public class Projection
 {
     private ObjectId _id;
-    private ObjectId _idFilmProjection;
-    private DateTime _dateProjection;
+    private ObjectId _idFilm;
+    private DateTime _date;
     private bool _avantPremiere;
 
     public ObjectId Id
     {
         get { return _id; }
-        set { _id = value; }
+        set
+        {
+            if (value == ObjectId.Empty)
+                throw new Exception("L'Id de la projection ne peut pas être vide.");
+            _id = value;
+        }
     }
     
-    public ObjectId IdFilmProjection
+    public ObjectId IdFilm
     {
-        get { return _idFilmProjection; }
-        set { _idFilmProjection = value; }
+        get { return _idFilm; }
+        set
+        {
+            if (value == ObjectId.Empty)
+                throw new Exception("L'Id du film ne peut pas être vide.");
+            _idFilm = value;
+        }
     }
     
-    public DateTime DateProjection
+    public DateTime Date
     {
-        get { return _dateProjection; }
-        set { _dateProjection = value; }
+        get { return _date; }
+        set
+        {
+            if (value < DateTime.Now)
+                throw new Exception("La date de projection ne peut pas être antérieure à la date actuelle.");
+            if (value == null)
+                throw new Exception("La date de projection ne peut pas être vide.");
+            _date = value;
+        }
     }
     
     public bool AvantPremiere
     {
         get { return _avantPremiere; }
-        set { _avantPremiere = value; }
+        set
+        {
+            _avantPremiere = value;
+        }
     }
     
     public override string ToString()
     {
-        return $"{_dateProjection.Day}/{_dateProjection.Month}/{_dateProjection.Year} à {_dateProjection.Hour}h{_dateProjection.Minute:d2}";
+        return $"{_date.Day}/{_date.Month}/{_date.Year} à {_date.Hour}h{_date.Minute:d2}";
     }
 }

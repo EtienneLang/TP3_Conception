@@ -20,7 +20,12 @@ namespace CineQuebec.Windows.DAL.Data
         public ObjectId Id
         {
             get { return _id; }
-            set { _id = value; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("L'ID ne peut pas être vide.");
+                _id = value;
+            }
         }
 
         public string Titre
@@ -46,19 +51,34 @@ namespace CineQuebec.Windows.DAL.Data
         public string Categorie
         {
             get { return _categorie; }
-            set { _categorie = value; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException("La catégorie ne peut pas être vide.");
+                _categorie = value;
+            }
         }
 
         public List<ObjectId> IdRealisateurs
         {
             get { return _idRealisateurs; }
-            set { _idRealisateurs = value; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Le réalisateur ne peut pas être vide.");
+                _idRealisateurs = value;
+            }
         }
         
         public List<ObjectId> IdActeurs
         {
             get { return _idActeurs; }
-            set { _idActeurs = value; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("L'acteur ne peut pas être vide.");
+                _idActeurs = value;
+            }
         }
         
         public override string ToString()

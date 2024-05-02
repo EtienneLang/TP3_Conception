@@ -110,7 +110,7 @@ namespace CineQuebec.Windows.DAL
                 var collectionProjections = _database.GetCollection<Projection>("Projections");
                 foreach (var projection in collectionProjections.Aggregate().ToList())
                 {
-                    if (projection.IdFilmProjection == film.Id)
+                    if (projection.IdFilm == film.Id)
                     {
                         projections.Add(projection);
                     }
