@@ -22,10 +22,14 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IAbonneService _abonneService;
+        private IFilmService _filmService;
+        private IProjectionService _projectionService;
+        private AdminHomeControl _adminHomeControl;
+        public MainWindow(IAbonneService abonneService)
         {
             InitializeComponent();
-            mainContentControl.Content = new ConnexionControl();
+            mainContentControl.Content = new ConnexionControl(_abonneService);
         }
 
         public void AdminHomeControl()
@@ -37,7 +41,7 @@ namespace CineQuebec.Windows
         {
             mainContentControl.Content = new UserListControl();
         }
-
+        
         public void FilmListControl()
         {
             mainContentControl.Content = new FilmListControl();

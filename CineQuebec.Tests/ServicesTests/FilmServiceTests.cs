@@ -15,7 +15,7 @@ public class ProjectionServiceTests
     {
         // Arrange
         List<Film> films = new List<Film>() { new Film(), new Film() };
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.ReadFilms()).Returns(films);
 
         // Act
@@ -35,7 +35,7 @@ public class ProjectionServiceTests
             Titre = "La Matrix",
         };
 
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.CreateFilm(It.IsAny<Film>())).Verifiable();
 
         // Act
@@ -49,7 +49,7 @@ public class ProjectionServiceTests
     public void CreateFilm_ThrowsArgumentNullException_WhenFilmIsNull()
     {
         // Arrange
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.CreateFilm(It.IsAny<Film>())).Throws(new ArgumentNullException());
 
         // Act and Assert
@@ -67,7 +67,7 @@ public class ProjectionServiceTests
             Titre = "Ze Matrix",
         };
 
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.UpdateFilm(It.IsAny<Film>())).Verifiable();
 
         // Act
@@ -81,7 +81,7 @@ public class ProjectionServiceTests
     public void UpdateFilm_ThrowsArgumentNullException_WhenFilmIsNull()
     {
         // Arrange
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.UpdateFilm(It.IsAny<Film>())).Throws(new ArgumentNullException());
 
         // Act and Assert
@@ -97,7 +97,7 @@ public class ProjectionServiceTests
             Id = ObjectId.GenerateNewId(),
             Titre = "Le Matrix",
         };
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.DeleteFilmById(It.IsAny<ObjectId>())).Verifiable();
 
         // Act
@@ -112,7 +112,7 @@ public class ProjectionServiceTests
     {
         // Arrange
         var filmId = ObjectId.GenerateNewId();
-        Mock<IDatabaseFilms> dbMock = new Mock<IDatabaseFilms>();
+        Mock<IFilmService> dbMock = new Mock<IFilmService>();
         dbMock.Setup(x => x.DeleteFilmById(It.IsAny<ObjectId>())).Throws(new ArgumentNullException());
 
         // Act and Assert

@@ -15,7 +15,7 @@ public class AbonneServiceTests
     {
         // Arrange
         List<Abonne> abonnes = new List<Abonne>() { new Abonne(), new Abonne() };
-        Mock<IDatabaseAbonnes> dbMock = new Mock<IDatabaseAbonnes>();
+        Mock<IAbonneService> dbMock = new Mock<IAbonneService>();
         dbMock.Setup(x => x.ReadAbonnes()).Returns(abonnes);
 
         // Act

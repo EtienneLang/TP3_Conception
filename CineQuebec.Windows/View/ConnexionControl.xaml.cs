@@ -15,17 +15,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 
 namespace CineQuebec.Windows.View
 {
     public partial class ConnexionControl : UserControl
     {
-        AbonneService _abonneService = new AbonneService(); 
+        private IAbonneService _abonneService;
         
         
-        public ConnexionControl()
+        public ConnexionControl(IAbonneService abonneService)
         {
             InitializeComponent();
+            _abonneService = abonneService;
         }
 
         private void ButtonConnection_Click(object sender, RoutedEventArgs e)

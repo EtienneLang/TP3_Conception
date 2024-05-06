@@ -2,14 +2,15 @@
 using System.Windows.Controls;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AbonneViews
 {
     public partial class FilmListForUser : UserControl
     {
-        private FilmService _dbFilmService;
-        private ProjectionService _dbProjectionService;
+        private IFilmService _filmService;
+        private IProjectionService _projectionService;
         private List<Film> _films;
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
@@ -18,8 +19,6 @@ namespace CineQuebec.Windows.View.AbonneViews
 
         public FilmListForUser(Abonne abonne)
         {
-            _dbFilmService = new FilmService();
-            _dbProjectionService = new ProjectionService();
             abonneConnecte = abonne;
             InitializeComponent();
             GenerateFilmList();
@@ -27,7 +26,7 @@ namespace CineQuebec.Windows.View.AbonneViews
 
         private void GetFilms()
         {
-            _films = _dbFilmService.ReadFilms();
+            _films = _filmService.ReadFilms();
         }
 
         private void GenerateFilmList()
@@ -66,7 +65,7 @@ namespace CineQuebec.Windows.View.AbonneViews
         private void Btn_reserverPlace_OnClick(object sender, RoutedEventArgs e)
         {
             Projection selectedProjection = GetSelectedProjection();
-            _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
+            _projectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
         }
 
         private void ListBoxProjections_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,7 +81,7 @@ namespace CineQuebec.Windows.View.AbonneViews
                     "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (resultat == MessageBoxResult.Yes)
                 {
-                    _dbProjectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
+                    _projectionService.ReserverPlace(selectedProjection, abonneConnecte.Id);
                 }
             }
             else
@@ -99,7 +98,7 @@ namespace CineQuebec.Windows.View.AbonneViews
 
             string selectedItem = ListBoxProjections.SelectedItem.ToString();
             ObjectId id = projectionIds[selectedItem];
-            Projection projection = _dbProjectionService.GetProjectionById(id);
+            Projection projection = _projectionService.GetProjectionById(id);
 
             return projection;
         }
@@ -108,7 +107,7 @@ namespace CineQuebec.Windows.View.AbonneViews
         {
             GetFilms();
             ListBoxProjections.Items.Clear();
-            List<Projection> projections = _dbFilmService.GetProjectionsOfFilm(film);
+            List<Projection> projections = _filmService.GetProjectionsOfFilm(film);
 
             for (int i = 0; i < projections.Count; i++)
             {
