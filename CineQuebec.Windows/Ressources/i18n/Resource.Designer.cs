@@ -69,15 +69,6 @@ namespace CineQuebec.Windows.Ressources.i18n {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Récompenses.
-        /// </summary>
-        public static string admin_gift {
-            get {
-                return ResourceManager.GetString("admin.gift", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Utilisateurs.
         /// </summary>
         public static string admin_users {
@@ -119,6 +110,15 @@ namespace CineQuebec.Windows.Ressources.i18n {
         public static string connexion_username {
             get {
                 return ResourceManager.GetString("connexion.username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Noter un film.
+        /// </summary>
+        public static string user_note {
+            get {
+                return ResourceManager.GetString("user_note", resourceCulture);
             }
         }
     }

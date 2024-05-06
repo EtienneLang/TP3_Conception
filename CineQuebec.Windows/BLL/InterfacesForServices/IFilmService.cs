@@ -9,5 +9,6 @@ public interface IFilmService
     void CreateFilm(Film film);
     void UpdateFilm(Film film);
     void DeleteFilmById(ObjectId film);
+    Film ReadFilmById(ObjectId idFilm);
     List<Projection> GetProjectionsOfFilm(Film film);
 }

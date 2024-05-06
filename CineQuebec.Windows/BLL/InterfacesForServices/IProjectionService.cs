@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace CineQuebec.Windows.DAL.Interfaces;
 
-public interface IProjectionService
+public interface IDatabaseProjection
 {
     void ReserverPlace(Projection projection, ObjectId idAbonne);
     Projection GetProjectionById(ObjectId id);

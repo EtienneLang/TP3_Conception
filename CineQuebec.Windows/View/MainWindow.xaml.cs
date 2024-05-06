@@ -22,6 +22,9 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IDatabaseProjection _databaseProjection;
+        private IDatabaseFilms _databaseFilms;
+        private IDatabaseNote _databaseNote;
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
@@ -29,6 +32,11 @@ namespace CineQuebec.Windows
         public MainWindow(IAbonneService abonneService)
         {
             InitializeComponent();
+            _databaseProjection = new ProjectionService();
+            _databaseFilms = new FilmService();
+            _databaseNote = new NoteService();
+            
+            mainContentControl.Content = new ConnexionControl();
             mainContentControl.Content = new ConnexionControl(_abonneService);
         }
 
@@ -41,7 +49,7 @@ namespace CineQuebec.Windows
         {
             mainContentControl.Content = new UserListControl();
         }
-        
+
         public void FilmListControl()
         {
             mainContentControl.Content = new FilmListControl();
@@ -72,5 +80,11 @@ namespace CineQuebec.Windows
             mainContentControl.Content = new InvitationAvantPremiere();
         }
         
+
+        public void AbonneListeFilmNoteControl(Abonne abonne)
+        {
+            mainContentControl.Content = new AbonneListeFilmNoteControl(abonne, _databaseProjection, _databaseFilms, _databaseNote);
+        }
+
     }
 }

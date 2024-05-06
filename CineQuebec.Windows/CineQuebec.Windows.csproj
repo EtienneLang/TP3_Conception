@@ -17,8 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
   </ItemGroup>
@@ -34,12 +32,10 @@
 		<Resource Include="Ressources\images\users.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<None Remove="Ressources\images\cadeau.png" />
-		<Resource Include="Ressources\images\cadeau.png" />
-		<None Remove="Ressources\images\invitation.png" />
-		<Resource Include="Ressources\images\invitation.png" />
-		<None Remove="Ressources\images\ticket.png" />
-		<Resource Include="Ressources\images\ticket.png" />
+		<None Remove="Ressources\images\etoile.png" />
+		<Content Include="Ressources\images\etoile.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
   <ItemGroup>
@@ -58,52 +54,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\AdminViews\AdminHomeControl.xaml">
+    <Page Update="View\AbonneHomeControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\AdminViews\GiftHomeControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\FilmListControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\PopUpAjoutFilm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\ProgramProjectionFilm.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\UserListControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AbonneViews\AbonneHomeControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AbonneViews\FilmListForUser.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\TicketGratuitProjection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <XamlRuntime>Wpf</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\AdminViews\InvitationAvantPremiere.xaml">
+    <Page Update="View\FilmListForUser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
