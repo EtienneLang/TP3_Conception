@@ -11,7 +11,16 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-
+        <Button Style="{StaticResource defautButton}" 
+                Grid.Column="0" Click="Btn_NoteClick">
+            <StackPanel>
+                <Image Height="100"
+                       Source="/Ressources/Images/etoile.png" />
+                <Label HorizontalAlignment="Center"
+                       Content="Noter un film" 
+                       Style="{StaticResource defautLabel}" />
+            </StackPanel>
+        </Button>
         <Button Style="{StaticResource defautButton}" 
         Grid.Column="1" Click="btn_films_Click">
             <StackPanel>

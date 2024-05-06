@@ -9,4 +9,5 @@ public interface IDatabaseFilms
     void CreateFilm(Film film);
     void UpdateFilm(Film film);
     void DeleteFilmById(ObjectId film);
+    Film ReadFilmById(ObjectId idFilm);
 }

@@ -32,6 +32,10 @@
 		<Resource Include="Ressources\images\users.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
+		<None Remove="Ressources\images\etoile.png" />
+		<Content Include="Ressources\images\etoile.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
   <ItemGroup>

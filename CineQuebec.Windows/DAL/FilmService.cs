@@ -102,6 +102,22 @@ namespace CineQuebec.Windows.DAL
             }
         }
 
+        public Film ReadFilmById(ObjectId idFilm)
+        {
+            try
+            {
+                var collection = _database.GetCollection<Film>("Films");
+                var filter = Builders<Film>.Filter.Eq("_id", idFilm);
+                var film = collection.Find(filter).FirstOrDefault();
+                return film;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         virtual public List<Projection> GetProjectionsOfFilm(Film film)
         {
             var projections = new List<Projection>();

@@ -20,9 +20,16 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IDatabaseProjection _databaseProjection;
+        private IDatabaseFilms _databaseFilms;
+        private IDatabaseNote _databaseNote;
         public MainWindow()
         {
             InitializeComponent();
+            _databaseProjection = new ProjectionService();
+            _databaseFilms = new FilmService();
+            _databaseNote = new NoteService();
+            
             mainContentControl.Content = new ConnexionControl();
         }
 
@@ -50,5 +57,11 @@ namespace CineQuebec.Windows
         {
             mainContentControl.Content = new FilmListForUser(abonne);
         }
+
+        public void AbonneListeFilmNoteControl(Abonne abonne)
+        {
+            mainContentControl.Content = new AbonneListeFilmNoteControl(abonne, _databaseProjection, _databaseFilms, _databaseNote);
+        }
+
     }
 }

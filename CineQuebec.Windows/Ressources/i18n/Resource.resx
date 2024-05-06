@@ -135,4 +135,7 @@
   <data name="connexion.username" xml:space="preserve">
     <value>Utilisateur :</value>
   </data>
+  <data name="user_note" xml:space="preserve">
+    <value>Noter un film</value>
+  </data>
 </root>
