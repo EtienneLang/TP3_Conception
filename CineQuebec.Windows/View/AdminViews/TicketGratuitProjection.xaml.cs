@@ -2,13 +2,14 @@
 using System.Windows.Controls;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class TicketGratuitProjection : UserControl
     {
-        private FilmService _dbFilms;
-        private AbonneService _dbAbonnes;
+        private IFilmService _dbFilms;
+        private IAbonneService _dbAbonnes;
         private List<Film> _films;
         private List<Abonne> _abonnes;
         private int _selectedIndex = -1;
@@ -18,8 +19,6 @@ namespace CineQuebec.Windows.View.AdminViews
         public TicketGratuitProjection()
         {
             InitializeComponent();
-            _dbFilms = new FilmService();
-            _dbAbonnes = new AbonneService();
             GenerateFilmList();
         }
 

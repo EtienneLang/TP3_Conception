@@ -2,15 +2,16 @@
 using System.Windows.Controls;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class InvitationAvantPremiere : UserControl
     {
-        private readonly FilmService _dbFilms;
-        private readonly AbonneService _dbAbonnes;
-        private readonly ProjectionService _dbProjections;
+        private readonly IFilmService _filmService;
+        private readonly IAbonneService _abonneService;
+        private readonly IProjectionService _projectionService;
         private List<Film> _films;
         private List<Abonne> _abonnes;
         private List<Projection> _projections;
@@ -21,25 +22,22 @@ namespace CineQuebec.Windows.View.AdminViews
         public InvitationAvantPremiere()
         {
             InitializeComponent();
-            _dbFilms = new FilmService();
-            _dbAbonnes = new AbonneService();
-            _dbProjections = new ProjectionService();
             GenerateAvantPremiereList();
         }
 
         private void GetAvantPremieres()
         {
-            _projections = _dbProjections.ReadAvantPremieres();
+            _projections = _projectionService.ReadAvantPremieres();
         }
 
         private void GetAbonnes()
         {
-            _abonnes = _dbAbonnes.ReadAbonnes();
+            _abonnes = _abonneService.ReadAbonnes();
         }
 
         private void GetFilms()
         {
-            _films = _dbFilms.ReadFilms();
+            _films = _filmService.ReadFilms();
         }
 
         private void ClearInterface()
@@ -143,7 +141,7 @@ namespace CineQuebec.Windows.View.AdminViews
 
                 if (reponseUser)
                 {
-                    _dbProjections.ReserverPlace(_projections[indexMovie], _abonnesInteresseParFilm[_selectedIndex].Id);
+                    _projectionService.ReserverPlace(_projections[indexMovie], _abonnesInteresseParFilm[_selectedIndex].Id);
                     ChangementListeAbonnesVersListeAvantPremiere();
                 }
                 else

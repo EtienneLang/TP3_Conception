@@ -2,24 +2,24 @@
 using System.Windows.Controls;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class UserListControl : UserControl
     {
-        private readonly AbonneService _db;
+        private readonly IAbonneService _abonneService;
         private List<Abonne> _abonnes;
 
         public UserListControl()
         {
-            _db = new AbonneService();
             InitializeComponent();
             GenerateUserList();
         }
 
         private void GetAbonnes()
         {
-            _abonnes = _db.ReadAbonnes();
+            _abonnes = _abonneService.ReadAbonnes();
         }
 
         private void GenerateUserList()
