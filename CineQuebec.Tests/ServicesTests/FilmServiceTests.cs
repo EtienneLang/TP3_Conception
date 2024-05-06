@@ -3,9 +3,9 @@ using Moq;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 public class ProjectionServiceTests

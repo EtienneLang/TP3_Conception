@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CineQuebec.Windows.DAL.Interfaces;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using MongoDB.Bson;
 
-namespace CineQuebec.Windows.DAL
+namespace CineQuebec.Windows.BLL.Services
 {
     public class FilmService : IFilmService
     {
+        
         private readonly IFilmRepository _filmRepo;
         private readonly IProjectionRepository _projectionRepo;
 
@@ -69,6 +70,11 @@ namespace CineQuebec.Windows.DAL
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public Film ReadFilmById(ObjectId idFilm)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Projection> GetProjectionsOfFilm(Film film)

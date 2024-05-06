@@ -9,7 +9,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Button Style="{StaticResource defautButton}" 
-                Grid.Column="0" Click="Btn_NoteClick">
+                Grid.Column="0" Click="ButtonNoteClick">
             <StackPanel>
                 <Image Height="100"
                        Source="/Ressources/Images/etoile.png" />

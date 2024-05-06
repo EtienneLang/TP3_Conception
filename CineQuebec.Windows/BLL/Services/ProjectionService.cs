@@ -1,16 +1,9 @@
 ﻿using CineQuebec.Windows.DAL.Data;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using CineQuebec.Windows.DAL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
+using CineQuebec.Windows.BLL.Interfaces;
 using MongoDB.Bson;
 
-namespace CineQuebec.Windows.DAL
+namespace CineQuebec.Windows.BLL.Services
 {
     public class ProjectionService : IProjectionService
     {

@@ -1,25 +1,25 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
-namespace CineQuebec.Windows.View;
+namespace CineQuebec.Windows.View.AbonneViews;
 
 public partial class AbonneListeFilmNoteControl : UserControl
 {
     private Abonne _abonne;
-    private IDatabaseProjection _databaseProjection;
-    private IDatabaseFilms _databaseFilms;
-    private IDatabaseNote _databaseNote;
+    private IProjectionService _projectionService;
+    private IFilmService _filmService;
+    private INoteService _noteServiceService;
     private List<Film> _lstFilms;
-    public AbonneListeFilmNoteControl(Abonne abonne, IDatabaseProjection databaseProjection, IDatabaseFilms databaseFilms, IDatabaseNote databaseNote)
+    public AbonneListeFilmNoteControl(Abonne abonne, IProjectionService projectionService, IFilmService filmService, INoteService noteService)
     {
         InitializeComponent();
         _abonne = abonne;
-        _databaseProjection = databaseProjection;
-        _databaseFilms = databaseFilms;
-        _databaseNote = databaseNote;
+        _projectionService = projectionService;
+        _filmService = filmService;
+        _noteServiceService = noteService;
         BtnNoter.IsEnabled = false;
         GetFilms();
         DataContext = _lstFilms;
@@ -30,7 +30,7 @@ public partial class AbonneListeFilmNoteControl : UserControl
         List<Projection> lstProjections = new List<Projection>();
         foreach (ObjectId id in _abonne.Reservations)
         {
-            Projection projection = _databaseProjection.GetProjectionById(id);
+            Projection projection = _projectionService.GetProjectionById(id);
             lstProjections.Add(projection);
         }
 
@@ -39,7 +39,7 @@ public partial class AbonneListeFilmNoteControl : UserControl
         {
             if (projection.DateProjection < DateTime.Today)
             {
-                Film film = _databaseFilms.ReadFilmById(projection.IdFilmProjection);
+                Film film = _filmService.ReadFilmById(projection.IdFilmProjection);
                 lstFilms.Add(film);   
             }
         }
@@ -63,7 +63,7 @@ public partial class AbonneListeFilmNoteControl : UserControl
     {
         if ((Film)LstFilms.SelectedItem == null)
             return;
-        var popUpAjoutNote = new PopUpAjoutNote((Film)LstFilms.SelectedItem, _databaseNote, _abonne);
+        var popUpAjoutNote = new PopUpAjoutNote((Film)LstFilms.SelectedItem, _noteServiceService, _abonne);
         popUpAjoutNote.ShowDialog();
         if (popUpAjoutNote.DialogResult == true)
         {

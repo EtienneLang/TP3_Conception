@@ -17,5 +17,10 @@ namespace CineQuebec.Windows.View.AbonneViews
         {
             ((MainWindow)Application.Current.MainWindow).FilmListForUser(abonneConnecte);
         }
+
+        private void ButtonNoteClick(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).AbonneListeFilmNoteControl(abonneConnecte);
+        }
     }
 }

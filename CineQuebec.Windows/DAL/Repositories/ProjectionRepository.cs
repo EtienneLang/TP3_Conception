@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;

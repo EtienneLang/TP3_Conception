@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CineQuebec.Windows.DAL.Interfaces;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using CineQuebec.Windows.DAL.Repositories;
 using MongoDB.Bson;

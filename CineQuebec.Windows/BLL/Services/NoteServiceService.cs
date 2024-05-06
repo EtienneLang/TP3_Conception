@@ -1,15 +1,15 @@
-﻿using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
+﻿using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.DAL.Data;
 using MongoDB.Driver;
 
 namespace CineQuebec.Windows.DAL;
 
-public class NoteService : IDatabaseNote
+public class NoteServiceService : INoteService
 {
     private readonly IMongoClient _mongoDBClient;
     private readonly IMongoDatabase _database;
 
-    public NoteService()
+    public NoteServiceService()
     {
         _mongoDBClient = GetClient();
         _database = GetDatabase(_mongoDBClient);

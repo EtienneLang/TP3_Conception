@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AbonneViews
@@ -115,7 +115,7 @@ namespace CineQuebec.Windows.View.AbonneViews
                 ListBoxItem itemProjection = new ListBoxItem();
                 itemProjection.Content = affichage;
                 ListBoxProjections.Items.Add(affichage);
-                projectionIds[affichage] = projections[i].Id; // Assuming projections[i] has an Id property
+                projectionIds[affichage] = projections[i].Id;
             }
         }
     }

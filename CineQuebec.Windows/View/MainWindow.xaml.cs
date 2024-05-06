@@ -9,9 +9,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.BLL.Services;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
+using CineQuebec.Windows.DAL.Repositories;
 using CineQuebec.Windows.View.AbonneViews;
 using CineQuebec.Windows.View.AdminViews;
 
@@ -22,21 +24,22 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IDatabaseProjection _databaseProjection;
-        private IDatabaseFilms _databaseFilms;
-        private IDatabaseNote _databaseNote;
+        private INoteService _noteService;
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
         private AdminHomeControl _adminHomeControl;
-        public MainWindow(IAbonneService abonneService)
+        public MainWindow()
         {
             InitializeComponent();
-            _databaseProjection = new ProjectionService();
-            _databaseFilms = new FilmService();
-            _databaseNote = new NoteService();
+            var projectionRepo = new ProjectionRepository();
+            var filmRepo = new FilmRepository();
+            var abonneRepo = new AbonneRepository();
+            _projectionService = new ProjectionService(projectionRepo);
+            _filmService = new FilmService(filmRepo, projectionRepo);
+            _abonneService = new AbonneService(abonneRepo);
+            _noteService = new NoteServiceService();
             
-            mainContentControl.Content = new ConnexionControl();
             mainContentControl.Content = new ConnexionControl(_abonneService);
         }
 
@@ -83,7 +86,7 @@ namespace CineQuebec.Windows
 
         public void AbonneListeFilmNoteControl(Abonne abonne)
         {
-            mainContentControl.Content = new AbonneListeFilmNoteControl(abonne, _databaseProjection, _databaseFilms, _databaseNote);
+            mainContentControl.Content = new AbonneListeFilmNoteControl(abonne, _projectionService, _filmService, _noteService);
         }
 
     }

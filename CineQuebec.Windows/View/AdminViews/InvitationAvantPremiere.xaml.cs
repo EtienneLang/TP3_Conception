@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AdminViews

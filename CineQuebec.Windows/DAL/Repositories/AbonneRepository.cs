@@ -9,9 +9,9 @@ public class AbonneRepository : ModelRepository, IAbonneRepository
 {
     private readonly IMongoCollection<Abonne> _abonnes;
 
-    public AbonneRepository(IMongoDatabase database)
+    public AbonneRepository()
     {
-        _abonnes = database.GetCollection<Abonne>("Abonnes");
+        _abonnes = _database.GetCollection<Abonne>("Abonnes");
     }
 
     public List<Abonne> ReadAbonnes()

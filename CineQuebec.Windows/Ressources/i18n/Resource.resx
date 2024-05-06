@@ -123,7 +123,7 @@
   <data name="admin.users" xml:space="preserve">
     <value>Utilisateurs</value>
   </data>
-    <data name="admin.gift" xml:space="preserve">
+    <data name="admin_gift" xml:space="preserve">
         <value>Récompenses</value>
     </data>
   <data name="app_name" xml:space="preserve">

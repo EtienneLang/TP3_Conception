@@ -1,7 +1,4 @@
 ﻿using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace CineQuebec.Windows
 {
     
@@ -10,9 +7,10 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider _serviceProvider;
+        //private ServiceProvider _serviceProvider;
         protected override void OnStartup(StartupEventArgs e)
         {
+            /*
             base.OnStartup(e);
 
             // Configure services
@@ -24,6 +22,7 @@ namespace CineQuebec.Windows
 
             // Resolve your main window or other components
             var mainWindow = _serviceProvider.GetService<MainWindow>();
+            */
         }
 
     }

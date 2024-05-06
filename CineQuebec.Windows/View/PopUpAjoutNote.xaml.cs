@@ -1,18 +1,18 @@
 ﻿using System.Windows;
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View;
 
 public partial class PopUpAjoutNote : Window
 {
-    private IDatabaseNote _databaseNote;
+    private INoteService _noteService;
     private Abonne _abonne;
-    public PopUpAjoutNote(Film film, IDatabaseNote databaseNote, Abonne abonne)
+    public PopUpAjoutNote(Film film, INoteService noteService, Abonne abonne)
     {
         InitializeComponent();
-        _databaseNote = databaseNote;
+        _noteService = noteService;
         _abonne = abonne;
         DataContext = film;
     }
@@ -24,7 +24,7 @@ public partial class PopUpAjoutNote : Window
         note.Commentaire = textBoxCommentaire.Text.Trim();
         note.IdUser = _abonne.Id;
         note.Id = new ObjectId();
-        _databaseNote.CreateNote(note);
+        _noteService.CreateNote(note);
         DialogResult = true;
     }
 

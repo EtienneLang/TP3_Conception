@@ -1,7 +1,7 @@
 ﻿using CineQuebec.Windows.DAL.Data;
 using MongoDB.Bson;
 
-namespace CineQuebec.Windows.DAL.Interfaces;
+namespace CineQuebec.Windows.BLL.Interfaces;
 
 public interface IFilmService
 {

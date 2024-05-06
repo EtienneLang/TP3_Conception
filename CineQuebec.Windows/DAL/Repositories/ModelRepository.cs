@@ -1,26 +1,31 @@
 ﻿using MongoDB.Driver;
 
-namespace CineQuebec.Windows.DAL;
+namespace CineQuebec.Windows.DAL.Repositories;
 
 public class ModelRepository
 {
     private IMongoClient _mongoDBClient;
     protected IMongoDatabase _database;
 
-    public ModelRepository()
+    public ModelRepository(IMongoClient client = null)
     {
-        _mongoDBClient = GetClient();
+        if (client == null)
+        {
+            _mongoDBClient = GetClient();
+        }
+        else
+        {
+            _mongoDBClient = client;
+        }
         _database = GetDatabase();
     }
     
     public IMongoDatabase GetDatabase()
     {
-        
         try
         {
-            IMongoDatabase _databaseIni;
-            _databaseIni = _mongoDBClient.GetDatabase("TP2DB");
-            return _databaseIni;
+            IMongoDatabase database = _mongoDBClient.GetDatabase("TP2DB");
+            return database;
         }
         catch (Exception e)
         {
@@ -32,7 +37,7 @@ public class ModelRepository
 
     public IMongoClient GetClient()
     {
-        MongoClient client;
+        MongoClient client = null;
         try
         {
             client = new MongoClient("mongodb://localhost:27017/");
