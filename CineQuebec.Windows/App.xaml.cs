@@ -1,4 +1,11 @@
 ﻿using System.Windows;
+using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.BLL.Services;
+using CineQuebec.Windows.DAL.InterfacesForRepositories;
+using CineQuebec.Windows.DAL.Repositories;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace CineQuebec.Windows
 {
     
@@ -7,23 +14,6 @@ namespace CineQuebec.Windows
     /// </summary>
     public partial class App : Application
     {
-        //private ServiceProvider _serviceProvider;
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            /*
-            base.OnStartup(e);
-
-            // Configure services
-            var services = new ServiceCollection();
-            services.AjoutDesServices(); // Ensure this method exists and adds services correctly
-
-            // Build the service provider
-            _serviceProvider = services.BuildServiceProvider();
-
-            // Resolve your main window or other components
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
-            */
-        }
-
+        
     }
 }

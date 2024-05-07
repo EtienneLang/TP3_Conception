@@ -89,4 +89,9 @@ public class FilmRepository : ModelRepository, IFilmRepository
             throw;
         }
     }
+
+    public List<Film> ReadFilmFromIdList(List<ObjectId> idFilms)
+    {
+        throw new NotImplementedException();
+    }
 }

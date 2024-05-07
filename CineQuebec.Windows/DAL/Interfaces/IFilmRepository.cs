@@ -10,5 +10,6 @@ public interface IFilmRepository
      void UpdateFilm(Film film);
      void DeleteFilmById(ObjectId film);
      Film ReadFilmById(ObjectId idFilm);
+     List<Film> ReadFilmFromIdList(List<ObjectId> idFilms);
 
 }
