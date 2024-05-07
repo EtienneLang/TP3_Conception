@@ -14,8 +14,11 @@
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListBox x:Name="LstFilms" ItemsSource="{Binding}" Height="200" Width="400" Margin="0 0 0 10"
-                 SelectionChanged="LstFilms_OnSelectionChanged"></ListBox>
+        <StackPanel Orientation="Vertical">
+            <Label HorizontalAlignment="Center" FontSize="20" x:Name="lblNoFilms"></Label>
+            <ListBox x:Name="LstFilms" ItemsSource="{Binding}" Height="200" Width="400" Margin="0 0 0 10"
+                     SelectionChanged="LstFilms_OnSelectionChanged"></ListBox>
+        </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Noter" Width="100" Height="25" x:Name="BtnNoter" Click="BtnNoterClick"></Button>
             <Button Content="Retour" Width="100" Height="25" Margin="10 0 0 0" x:Name="BtnRetour"

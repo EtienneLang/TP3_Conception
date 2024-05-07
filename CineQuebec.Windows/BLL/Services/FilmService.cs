@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.DAL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using MongoDB.Bson;
 
@@ -15,12 +16,16 @@ namespace CineQuebec.Windows.BLL.Services
     {
         
         private readonly IFilmRepository _filmRepo;
-        private readonly IProjectionRepository _projectionRepo;
+        private readonly IProjectionRepository _projectionRepository;
+        private readonly IAbonneRepository _abonneRepository;
+        private readonly INoteRepository _noteRepository;
 
-        public FilmService(IFilmRepository filmRepo, IProjectionRepository projectionRepo)
+        public FilmService(IFilmRepository filmRepo, IProjectionRepository projectionRepository, IAbonneRepository abonneRepository, INoteRepository noteRepository)
         {
             _filmRepo = filmRepo;
-            _projectionRepo = projectionRepo;
+            _projectionRepository = projectionRepository;
+            _abonneRepository = abonneRepository;
+            _noteRepository = noteRepository;
         }
         
 
@@ -91,7 +96,7 @@ namespace CineQuebec.Windows.BLL.Services
             var projections = new List<Projection>();
             try
             {
-                var collectionProjections = _projectionRepo.ReadProjections();
+                var collectionProjections = _projectionRepository.ReadProjections();
                 foreach (var projection in collectionProjections)
                 {
                     if (projection.IdFilmProjection == film.Id)
@@ -106,6 +111,30 @@ namespace CineQuebec.Windows.BLL.Services
             }
 
             return projections;
+        }
+
+        public List<Film> GetFilmsToRate(ObjectId userId)
+        {
+            Abonne abonne = _abonneRepository.ReadAbonneById(userId);
+            List<Projection> lstProjections = new List<Projection>();
+            foreach (ObjectId idReservation in abonne.Reservations)
+            {
+                Projection projection = _projectionRepository.GetProjectionById(idReservation);
+                if (projection.DateProjection < DateTime.Today)
+                {
+                    lstProjections.Add(projection);   
+                }
+            }
+            List<Film> films = new List<Film>();
+            foreach (Projection projection in lstProjections)
+            {
+                Note? note = _noteRepository.ReadNoteByUserOnFilm(abonne.Id, projection.IdFilmProjection);
+                if (note == null)
+                {
+                    films.Add(_filmRepo.ReadFilmById(projection.IdFilmProjection)); 
+                }
+            }
+            return films;
         }
     }
 }

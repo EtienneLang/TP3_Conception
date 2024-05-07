@@ -7,13 +7,17 @@ namespace CineQuebec.Windows.DAL.Repositories;
 
 public class FilmRepository : ModelRepository, IFilmRepository
 {
+    private IMongoCollection<Film> _collection;
+    public FilmRepository()
+    {
+        _collection = _database.GetCollection<Film>("Films");
+    }
     public List<Film> ReadFilms()
     {
         var films = new List<Film>();
         try
         {
-            var collection = _database.GetCollection<Film>("Films");
-            films = collection.Aggregate().ToList();
+            films = _collection.Aggregate().ToList();
         }
         catch (Exception ex)
         {
@@ -27,8 +31,7 @@ public class FilmRepository : ModelRepository, IFilmRepository
     {
         try
         {
-            var collection = _database.GetCollection<Film>("Films");
-            collection.InsertOne(film);
+            _collection.InsertOne(film);
         }
         catch (ArgumentNullException ex)
         {
@@ -43,10 +46,9 @@ public class FilmRepository : ModelRepository, IFilmRepository
     {
         try
         {
-            var collection = _database.GetCollection<Film>("Films");
             var filter = Builders<Film>.Filter.Eq("Id", film.Id);
             var update = Builders<Film>.Update.Set("Projections", film.Projections);
-            collection.UpdateOne(filter, update);
+            _collection.UpdateOne(filter, update);
         }
         catch (ArgumentNullException ex)
         {
@@ -61,9 +63,8 @@ public class FilmRepository : ModelRepository, IFilmRepository
     {
         try
         {
-            var collection = _database.GetCollection<Film>("Films");
             var filter = Builders<Film>.Filter.Eq("Id", id);
-            collection.FindOneAndDelete(filter);
+            _collection.FindOneAndDelete(filter);
         }
         catch (ArgumentNullException ex)
         {
@@ -79,9 +80,8 @@ public class FilmRepository : ModelRepository, IFilmRepository
     {
         try
         {
-            var collection = _database.GetCollection<Film>("Films");
             var filter = Builders<Film>.Filter.Eq(film => film.Id, idFilm);
-            return collection.Find(filter).FirstOrDefault();
+            return _collection.Find(filter).FirstOrDefault();
         }
         catch (Exception e)
         {
@@ -92,6 +92,15 @@ public class FilmRepository : ModelRepository, IFilmRepository
 
     public List<Film> ReadFilmFromIdList(List<ObjectId> idFilms)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var filter = Builders<Film>.Filter.In(film => film.Id, idFilms);
+            return _collection.Find(filter).ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

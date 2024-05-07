@@ -44,7 +44,7 @@ public class ServiceProvider
         IProjectionRepository projectionRepository = new ProjectionRepository();
         INoteRepository noteRepository = new NoteRepository();
 
-        _filmService = new FilmService(filmRepository, projectionRepository);
+        _filmService = new FilmService(filmRepository, projectionRepository, abonneRepository, noteRepository);
         _abonneService = new AbonneService(abonneRepository);
         _projectionService = new ProjectionService(projectionRepository);
         _noteService = new NoteService(noteRepository);
