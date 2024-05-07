@@ -13,9 +13,10 @@ namespace CineQuebec.Windows.View.AdminViews
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
 
-        public FilmListControl()
+        public FilmListControl(IFilmService filmService)
         {
             InitializeComponent();
+            _filmService = filmService;
             ButtonDelete.IsEnabled = false;
             ButtonAddProjection.IsEnabled = false;
             GenerateFilmList();

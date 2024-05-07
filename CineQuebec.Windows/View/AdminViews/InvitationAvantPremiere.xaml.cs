@@ -19,9 +19,12 @@ namespace CineQuebec.Windows.View.AdminViews
         private bool _isAvantPremiereSelection = true;
         private List<Abonne> _abonnesInteresseParFilm = new List<Abonne>();
 
-        public InvitationAvantPremiere()
+        public InvitationAvantPremiere(IFilmService filmService, IAbonneService abonneService, IProjectionService projectionService)
         {
             InitializeComponent();
+            _filmService = filmService;
+            _abonneService = abonneService;
+            _projectionService = projectionService;
             GenerateAvantPremiereList();
         }
 

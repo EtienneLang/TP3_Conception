@@ -28,17 +28,18 @@ namespace CineQuebec.Windows
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
-        private AdminHomeControl _adminHomeControl;
+
         public MainWindow()
         {
             InitializeComponent();
             var projectionRepo = new ProjectionRepository();
             var filmRepo = new FilmRepository();
             var abonneRepo = new AbonneRepository();
+            var noteRepo = new NoteRepository();
             _projectionService = new ProjectionService(projectionRepo);
             _filmService = new FilmService(filmRepo, projectionRepo);
             _abonneService = new AbonneService(abonneRepo);
-            _noteService = new NoteServiceService();
+            _noteService = new NoteService(noteRepo);
             
             mainContentControl.Content = new ConnexionControl(_abonneService);
         }
@@ -50,12 +51,12 @@ namespace CineQuebec.Windows
 
         public void UserListControl()
         {
-            mainContentControl.Content = new UserListControl();
+            mainContentControl.Content = new UserListControl(_abonneService);
         }
 
         public void FilmListControl()
         {
-            mainContentControl.Content = new FilmListControl();
+            mainContentControl.Content = new FilmListControl(_filmService);
         }
         
         public void AbonneHomeControl(Abonne abonne)
@@ -75,12 +76,12 @@ namespace CineQuebec.Windows
         
         public void TicketGratuitProjection()
         {
-            mainContentControl.Content = new TicketGratuitProjection();
+            mainContentControl.Content = new TicketGratuitProjection(_abonneService, _filmService);
         }
         
         public void InvitationAvantPremiere()
         {
-            mainContentControl.Content = new InvitationAvantPremiere();
+            mainContentControl.Content = new InvitationAvantPremiere(_filmService, _abonneService, _projectionService);
         }
         
 

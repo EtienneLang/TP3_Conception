@@ -74,4 +74,19 @@ public class FilmRepository : ModelRepository, IFilmRepository
             throw new Exception(ex.Message);
         }
     }
+
+    public Film ReadFilmById(ObjectId idFilm)
+    {
+        try
+        {
+            var collection = _database.GetCollection<Film>("Films");
+            var filter = Builders<Film>.Filter.Eq(film => film.Id, idFilm);
+            return collection.Find(filter).FirstOrDefault();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

@@ -74,7 +74,16 @@ namespace CineQuebec.Windows.BLL.Services
 
         public Film ReadFilmById(ObjectId idFilm)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Film film = _filmRepo.ReadFilmById(idFilm);
+                return film;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public List<Projection> GetProjectionsOfFilm(Film film)

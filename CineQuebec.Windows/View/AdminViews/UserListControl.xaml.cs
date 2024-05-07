@@ -11,9 +11,10 @@ namespace CineQuebec.Windows.View.AdminViews
         private readonly IAbonneService _abonneService;
         private List<Abonne> _abonnes;
 
-        public UserListControl()
+        public UserListControl(IAbonneService abonneService)
         {
             InitializeComponent();
+            _abonneService = abonneService;
             GenerateUserList();
         }
 

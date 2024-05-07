@@ -36,6 +36,18 @@
 		<Content Include="Ressources\images\etoile.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+		<None Remove="Ressources\images\cadeau.png" />
+		<Content Include="Ressources\images\cadeau.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Ressources\images\ticket.png" />
+		<Content Include="Ressources\images\ticket.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<None Remove="Ressources\images\invitation.png" />
+		<Content Include="Ressources\images\invitation.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
   <ItemGroup>
