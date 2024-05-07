@@ -8,4 +8,5 @@ public interface IAbonneRepository
     List<Abonne>  ReadAbonnes();
     Abonne GetAbonneByUsername(string username);
     void OffrirBillet(ObjectId idAbonne, ObjectId idFilm);
+    Abonne ReadAbonneById(ObjectId idAbonne);
 }

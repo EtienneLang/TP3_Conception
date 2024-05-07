@@ -8,13 +8,18 @@ namespace CineQuebec.Windows.DAL.Repositories;
 
 public class ProjectionRepository : ModelRepository, IProjectionRepository
 {
+    private IMongoCollection<Projection> _collection;
+    public ProjectionRepository()
+    {
+        _collection = _database.GetCollection<Projection>("Projections");
+    }
+    
     public List<Projection> ReadProjections()
     {
         var projections = new List<Projection>();
         try
         {
-            var collection = _database.GetCollection<Projection>("Projections");
-            projections = collection.Find(new BsonDocument()).ToList();
+            projections = _collection.Find(new BsonDocument()).ToList();
         }
         catch (Exception ex)
         {
@@ -23,6 +28,7 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
 
         return projections;
     }
+    
     public void ReserverPlace(Projection projection, ObjectId idAbonne)
     {
         try
@@ -52,9 +58,8 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
     {
         try
         {
-            var collection = _database.GetCollection<Projection>("Projections");
             var filter = Builders<Projection>.Filter.Eq("Id", id);
-            Projection projection = collection.Find(filter).FirstOrDefault();
+            Projection projection = _collection.Find(filter).FirstOrDefault();
             return projection;
         }
         catch (Exception e)
@@ -69,9 +74,9 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
         var projections = new List<Projection>();
         try
         {
-            var collection = _database.GetCollection<Projection>("Projections");
+
             var filter = Builders<Projection>.Filter.Eq("AvantPremiere", true);
-            projections = collection.Find(filter).ToList();
+            projections = _collection.Find(filter).ToList();
         }
         catch (Exception ex)
         {

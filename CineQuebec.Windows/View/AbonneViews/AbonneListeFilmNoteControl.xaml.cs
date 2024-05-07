@@ -20,28 +20,23 @@ public partial class AbonneListeFilmNoteControl : UserControl
         _projectionService = projectionService;
         _filmService = filmService;
         _noteServiceService = noteService;
+        ResetInterface();
+    }
+
+    private void ResetInterface()
+    {
         BtnNoter.IsEnabled = false;
+        lblNoFilms.Content = "";
         GetFilms();
         DataContext = _lstFilms;
     }
 
     private void GetFilms()
     {
-        List<Projection> lstProjections = new List<Projection>();
-        foreach (ObjectId id in _abonne.Reservations)
+        List<Film> lstFilms = _filmService.GetFilmsToRate(_abonne.Id);
+        if (lstFilms.Count == 0)
         {
-            Projection projection = _projectionService.GetProjectionById(id);
-            lstProjections.Add(projection);
-        }
-
-        List<Film> lstFilms = new List<Film>();
-        foreach (Projection projection in lstProjections)
-        {
-            if (projection.DateProjection < DateTime.Today)
-            {
-                Film film = _filmService.ReadFilmById(projection.IdFilmProjection);
-                lstFilms.Add(film);   
-            }
+            lblNoFilms.Content = "Vous n'avez pas de film à noter";
         }
         _lstFilms = lstFilms;
     }
@@ -67,6 +62,7 @@ public partial class AbonneListeFilmNoteControl : UserControl
         popUpAjoutNote.ShowDialog();
         if (popUpAjoutNote.DialogResult == true)
         {
+            ResetInterface();
             MessageBox.Show("Note ajouté avec succès");
         }
     }

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CineQuebec.Windows.BLL;
 using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.BLL.Services;
 using CineQuebec.Windows.DAL;
@@ -28,17 +29,16 @@ namespace CineQuebec.Windows
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
-        private AdminHomeControl _adminHomeControl;
+
         public MainWindow()
         {
             InitializeComponent();
-            var projectionRepo = new ProjectionRepository();
-            var filmRepo = new FilmRepository();
-            var abonneRepo = new AbonneRepository();
-            _projectionService = new ProjectionService(projectionRepo);
-            _filmService = new FilmService(filmRepo, projectionRepo);
-            _abonneService = new AbonneService(abonneRepo);
-            _noteService = new NoteServiceService();
+            ServiceProvider serviceProvider = new ServiceProvider();
+            
+            _noteService = serviceProvider.NoteService;
+            _abonneService = serviceProvider.AbonneService;
+            _filmService = serviceProvider.FilmService;
+            _projectionService = serviceProvider.ProjectionService;
             
             mainContentControl.Content = new ConnexionControl(_abonneService);
         }
@@ -50,12 +50,12 @@ namespace CineQuebec.Windows
 
         public void UserListControl()
         {
-            mainContentControl.Content = new UserListControl();
+            mainContentControl.Content = new UserListControl(_abonneService);
         }
 
         public void FilmListControl()
         {
-            mainContentControl.Content = new FilmListControl();
+            mainContentControl.Content = new FilmListControl(_filmService);
         }
         
         public void AbonneHomeControl(Abonne abonne)
@@ -65,7 +65,7 @@ namespace CineQuebec.Windows
         
         public void FilmListForUser(Abonne abonne)
         {
-            mainContentControl.Content = new FilmListForUser(abonne);
+            mainContentControl.Content = new FilmListForUser(abonne, _filmService, _projectionService);
         }
         
         public void GiftHomeControl()
@@ -75,12 +75,12 @@ namespace CineQuebec.Windows
         
         public void TicketGratuitProjection()
         {
-            mainContentControl.Content = new TicketGratuitProjection();
+            mainContentControl.Content = new TicketGratuitProjection(_abonneService, _filmService);
         }
         
         public void InvitationAvantPremiere()
         {
-            mainContentControl.Content = new InvitationAvantPremiere();
+            mainContentControl.Content = new InvitationAvantPremiere(_filmService, _abonneService, _projectionService);
         }
         
 

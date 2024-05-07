@@ -17,9 +17,11 @@ namespace CineQuebec.Windows.View.AbonneViews
         private Abonne abonneConnecte;
         Dictionary<string, ObjectId> projectionIds = new Dictionary<string, ObjectId>();
 
-        public FilmListForUser(Abonne abonne)
+        public FilmListForUser(Abonne abonne, IFilmService filmService, IProjectionService projectionService)
         {
             abonneConnecte = abonne;
+            _filmService = filmService;
+            _projectionService = projectionService;
             InitializeComponent();
             GenerateFilmList();
         }

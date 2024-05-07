@@ -37,10 +37,9 @@ public class ModelRepository
 
     public IMongoClient GetClient()
     {
-        MongoClient client = null;
         try
         {
-            client = new MongoClient("mongodb://localhost:27017/");
+            MongoClient client = new MongoClient("mongodb://localhost:27017/");
             return client;
         }
         catch (Exception e)

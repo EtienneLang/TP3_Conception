@@ -9,12 +9,14 @@ public partial class PopUpAjoutNote : Window
 {
     private INoteService _noteService;
     private Abonne _abonne;
+    private Film _film;
     public PopUpAjoutNote(Film film, INoteService noteService, Abonne abonne)
     {
         InitializeComponent();
         _noteService = noteService;
         _abonne = abonne;
-        DataContext = film;
+        _film = film;
+        DataContext = _film;
     }
 
     private void BtnNoterClick(object sender, RoutedEventArgs e)
@@ -23,8 +25,9 @@ public partial class PopUpAjoutNote : Window
         note.NoteSurCinq = int.Parse(ComboBoxNote.Text);
         note.Commentaire = textBoxCommentaire.Text.Trim();
         note.IdUser = _abonne.Id;
+        note.IdFilm = _film.Id;
         note.Id = new ObjectId();
-        _noteService.CreateNote(note);
+        _noteService.CreateNote(note, _abonne);
         DialogResult = true;
     }
 

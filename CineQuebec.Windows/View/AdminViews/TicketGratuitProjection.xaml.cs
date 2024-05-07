@@ -8,28 +8,30 @@ namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class TicketGratuitProjection : UserControl
     {
-        private IFilmService _dbFilms;
-        private IAbonneService _dbAbonnes;
+        private IFilmService _filmService;
+        private IAbonneService _abonneService;
         private List<Film> _films;
         private List<Abonne> _abonnes;
         private int _selectedIndex = -1;
         private bool _isFilmSelection = true;
         private List<Abonne> _abonnesInteresseParFilm = new List<Abonne>();
 
-        public TicketGratuitProjection()
+        public TicketGratuitProjection(IAbonneService abonneService, IFilmService filmService)
         {
             InitializeComponent();
+            _abonneService = abonneService;
+            _filmService = filmService;
             GenerateFilmList();
         }
 
         private void GetFilms()
         {
-            _films = _dbFilms.ReadFilms();
+            _films = _filmService.ReadFilms();
         }
 
         private void GetAbonnes()
         {
-            _abonnes = _dbAbonnes.ReadAbonnes();
+            _abonnes = _abonneService.ReadAbonnes();
         }
 
         private void ClearInterface()
@@ -91,7 +93,7 @@ namespace CineQuebec.Windows.View.AdminViews
                     _films[_indexMovie].Titre);
                 if (reponseUser)
                 {
-                    _dbAbonnes.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
+                    _abonneService.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
                     ChangeListeAbonnesVersListeFilm();
                 }
                 else

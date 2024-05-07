@@ -7,21 +7,21 @@ namespace CineQuebec.Windows.DAL.Repositories;
 
 public class AbonneRepository : ModelRepository, IAbonneRepository
 {
-    private readonly IMongoCollection<Abonne> _abonnes;
+    private readonly IMongoCollection<Abonne> _collection;
 
     public AbonneRepository()
     {
-        _abonnes = _database.GetCollection<Abonne>("Abonnes");
+        _collection = _database.GetCollection<Abonne>("Abonnes");
     }
 
     public List<Abonne> ReadAbonnes()
     {
-        return _abonnes.Find(abonne => true).ToList();
+        return _collection.Find(abonne => true).ToList();
     }
 
     public Abonne GetAbonneByUsername(string username)
     {
-        return _abonnes.Find(abonne => abonne.Username == username).FirstOrDefault();
+        return _collection.Find(abonne => abonne.Username == username).FirstOrDefault();
     }
     
     public void OffrirBillet(ObjectId idAbonne, ObjectId idFilm)
@@ -32,6 +32,20 @@ public class AbonneRepository : ModelRepository, IAbonneRepository
             var filter = Builders<Abonne>.Filter.Eq("_id", idAbonne);
             var update = Builders<Abonne>.Update.Push("IdFilmsOfferts", idFilm);
             collection.UpdateOne(filter, update);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public Abonne ReadAbonneById(ObjectId idAbonne)
+    {
+        try
+        {
+            var filter = Builders<Abonne>.Filter.Eq(abonne => abonne.Id, idAbonne);
+            return _collection.Find(filter).FirstOrDefault();
         }
         catch (Exception e)
         {
