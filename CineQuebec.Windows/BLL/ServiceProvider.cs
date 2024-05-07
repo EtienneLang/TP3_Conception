@@ -13,7 +13,7 @@ public class ServiceProvider
     private IAbonneService _abonneService;
     private IProjectionService _projectionService;
     private INoteService _noteService;
-    
+    private IAuthService _authService;
     public IFilmService FilmService
     {
         get { return _filmService; }
@@ -37,16 +37,25 @@ public class ServiceProvider
         get { return _noteService; }
         private set { _noteService = value; }
     }
+
+    public IAuthService AuthService
+    {
+        get { return _authService; }
+        private set { _authService = value; }
+    }
+    
     public ServiceProvider()
     {
         IFilmRepository filmRepository = new FilmRepository();
         IAbonneRepository abonneRepository = new AbonneRepository();
         IProjectionRepository projectionRepository = new ProjectionRepository();
         INoteRepository noteRepository = new NoteRepository();
-
+        IAuthRepository authRepository = new AuthRepository();
+        
         _filmService = new FilmService(filmRepository, projectionRepository, abonneRepository, noteRepository);
         _abonneService = new AbonneService(abonneRepository);
         _projectionService = new ProjectionService(projectionRepository);
         _noteService = new NoteService(noteRepository);
+        _authService = new AuthService(authRepository);
     }
 }

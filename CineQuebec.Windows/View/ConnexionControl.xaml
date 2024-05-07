@@ -14,10 +14,9 @@
 
             <Label Content="{x:Static rs:Resource.connexion_password}"
                    Style="{StaticResource defautLabel}" />
-            <TextBox Width="200"
-                     Style="{StaticResource defautInput}"
-                     Margin="0 0 0 20" Name="txt_password" />
-
+            <PasswordBox Width="200"
+                     Margin="0 0 0 15" Name="txt_password" />
+            <Label Foreground="Red" x:Name="LabelError" Height="25" HorizontalAlignment="Center"></Label>
             <Button Content="{x:Static rs:Resource.connexion_connect}"
                     Style="{StaticResource defautButton}" Width="100" Click="ButtonConnection_Click" />
         </StackPanel>

@@ -21,49 +21,65 @@ namespace CineQuebec.Windows.View
 {
     public partial class ConnexionControl : UserControl
     {
-        private IAbonneService _abonneService;
+        private IAuthService _authService;
         
         
-        public ConnexionControl(IAbonneService abonneService)
+        public ConnexionControl(IAuthService authService)
         {
             InitializeComponent();
-            _abonneService = abonneService;
+            _authService = authService;
+        }
+
+        private bool ValidateForm()
+        {
+            string formUsername = txt_username.Text;
+            string formPassword = txt_password.Password;
+            if (String.IsNullOrWhiteSpace(formUsername))
+            {
+                LabelError.Content = "Veuillez entrer votre nom d'utilisateur";
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(formPassword))
+            {
+                LabelError.Content = "Veuillez entrer votre mot de passe";
+                return false;
+            }
+
+            return true;
         }
 
         private void ButtonConnection_Click(object sender, RoutedEventArgs e)
         {
-            string formUsername = txt_username.Text;
-            string formPassword = txt_password.Text;
-
-            Abonne abonneResponse = _abonneService.GetAbonneByUsername(formUsername);
-
-            if (!String.IsNullOrWhiteSpace(formUsername))
+            if (!ValidateForm())
+                return;
+            try
             {
-                if (abonneResponse == null)
+                if (!_authService.AbonneExiste(txt_username.Text))
                 {
-                    MessageBox.Show("Nom d'utilisateur introuvable.");
+                    LabelError.Content = "Nom d'utilisateur ou mot de passe invalide";
+                    return;
                 }
 
-                else if (abonneResponse.Password == formPassword)
+                Abonne abonne = _authService.Login(txt_username.Text, txt_password.Password);
+                if (abonne == null)
                 {
-                    if (abonneResponse.Role == "Admin")
-                    {
-                        ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
-                    }
-                    else
-                    {
-                        ((MainWindow)Application.Current.MainWindow).AbonneHomeControl(abonneResponse);
-                    }
+                    LabelError.Content = "Nom d'utilisateur ou mot de passe invalide";
+                    return;
                 }
-
+                if (abonne?.Role == "Admin")
+                {
+                    ((MainWindow)Application.Current.MainWindow).AdminHomeControl();
+                }
                 else
                 {
-                    MessageBox.Show("Mot de passe incorrect");
+                    ((MainWindow)Application.Current.MainWindow).AbonneHomeControl(abonne);
                 }
+
             }
-            else
+            catch (Exception exception)
             {
-                MessageBox.Show("Veuillez entrer un nom d'utilisateur.");
+                Console.WriteLine(exception);
+                throw;
             }
         }
     }
