@@ -15,8 +15,6 @@ namespace CineQuebec.Windows.DAL;
 
 public class AbonneService : IAbonneService
 {
-    private readonly IMongoClient _mongoDBClient;
-    private readonly IMongoDatabase _database;
     private readonly IAbonneRepository _abonneRepo;
     
     public AbonneService(IAbonneRepository abonneRepo)

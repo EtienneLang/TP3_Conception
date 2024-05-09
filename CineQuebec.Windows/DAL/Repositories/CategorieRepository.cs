@@ -40,6 +40,20 @@ public class CategorieRepository : ModelRepository, ICategorieRepository
         }
     }
 
+    public Categorie ReadCategorieFromName(string nomCategorie)
+    {
+        try
+        {
+            var filter = Builders<Categorie>.Filter.Eq(c => c.NomCategorie, nomCategorie);
+            return _collection.Find(filter).FirstOrDefault();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public void CreateCategorie(Categorie categorie)
     {
         try

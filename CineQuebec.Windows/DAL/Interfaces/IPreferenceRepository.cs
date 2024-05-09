@@ -4,9 +4,10 @@ using MongoDB.Bson;
 
 namespace CineQuebec.Windows.DAL.Interfaces;
 
-public interface IPreferencesRepository
+public interface IPreferenceRepository
 {
     List<Preference> ReadPreferences();
+    Preference ReadPreferenceFromId(ObjectId preferenceId);
     Preference ReadPreferenceFromUserId(ObjectId userId);
     void CreatePreference(Preference preference);
     void DeletePreference(ObjectId preferenceId);

@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace CineQuebec.Windows.DAL.Repositories;
 
-public class PreferenceRepository : ModelRepository, IPreferencesRepository
+public class PreferenceRepository : ModelRepository, IPreferenceRepository
 {
     private IMongoCollection<Preference> _collection;
 
@@ -18,6 +18,19 @@ public class PreferenceRepository : ModelRepository, IPreferencesRepository
         try
         {
             return _collection.Find(_ => true).ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public Preference ReadPreferenceFromId(ObjectId preferenceId)
+    {
+        try
+        {
+            return _collection.Find(p => p.Id == preferenceId).FirstOrDefault();
         }
         catch (Exception e)
         {
