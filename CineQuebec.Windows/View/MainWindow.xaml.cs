@@ -29,6 +29,7 @@ namespace CineQuebec.Windows
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
+        private IAuthService _authService;
 
         public MainWindow()
         {
@@ -39,8 +40,8 @@ namespace CineQuebec.Windows
             _abonneService = serviceProvider.AbonneService;
             _filmService = serviceProvider.FilmService;
             _projectionService = serviceProvider.ProjectionService;
-            
-            mainContentControl.Content = new ConnexionControl(_abonneService);
+            _authService = serviceProvider.AuthService;
+            mainContentControl.Content = new ConnexionControl(_authService);
         }
 
         public void AdminHomeControl()
