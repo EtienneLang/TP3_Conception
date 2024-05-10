@@ -71,24 +71,7 @@ namespace CineQuebec.Windows.DAL.Data
             get { return _reservations; }
             set { _reservations = value; }
         }
-
-        public string[] CategoriesFav
-        {
-            get { return _categoriesFav; }
-            set { _categoriesFav = value; }
-        }
-
-        public ObjectId[] IdActeursFavorits
-        {
-            get { return _idActeursFavorits; }
-            set { _idActeursFavorits = value; }
-        }
-
-        public ObjectId[] IdRealisateursFavorits
-        {
-            get { return _idRealisateursFavorits; }
-            set { _idRealisateursFavorits = value; }
-        }
+        
 
         public List<ObjectId> IdFilmsOfferts
         {

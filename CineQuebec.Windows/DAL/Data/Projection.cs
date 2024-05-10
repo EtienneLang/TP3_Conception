@@ -8,6 +8,7 @@ public class Projection
     private ObjectId _idFilmProjection;
     private DateTime _dateProjection;
     private bool _avantPremiere;
+    private int _nbPlace;
 
     public ObjectId Id
     {
@@ -32,7 +33,12 @@ public class Projection
         get { return _avantPremiere; }
         set { _avantPremiere = value; }
     }
-    
+
+    public int NbPlace
+    {
+        get { return _nbPlace;}
+        set { _nbPlace = value; }
+    }
     public override string ToString()
     {
         return $"{_dateProjection.Day}/{_dateProjection.Month}/{_dateProjection.Year} à {_dateProjection.Hour}h{_dateProjection.Minute:d2}";

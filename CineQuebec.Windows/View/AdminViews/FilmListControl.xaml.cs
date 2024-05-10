@@ -3,20 +3,27 @@ using System.Windows.Controls;
 using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class FilmListControl : UserControl
     {
         private IFilmService _filmService;
+        private ICategorieService _categorieService;
+        private IActeurService _acteurService;
+        private IRealisateurService _realisateurService;
         private List<Film> _films;
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
 
-        public FilmListControl(IFilmService filmService)
+        public FilmListControl(IFilmService filmService, ICategorieService categorieService, IActeurService acteurService, IRealisateurService realisateurService)
         {
             InitializeComponent();
             _filmService = filmService;
+            _categorieService = categorieService;
+            _acteurService = acteurService;
+            _realisateurService = realisateurService;
             ButtonDelete.IsEnabled = false;
             ButtonAddProjection.IsEnabled = false;
             GenerateFilmList();
@@ -69,23 +76,12 @@ namespace CineQuebec.Windows.View.AdminViews
 
         private void ButtonAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
-            try
+            PopUpAjoutFilm inputDialog = new PopUpAjoutFilm(_categorieService,_acteurService, _realisateurService, _filmService);
+            inputDialog.ShowDialog();
+            if (inputDialog.DialogResult == true)
             {
-                PopUpAjoutFilm inputDialog = new PopUpAjoutFilm();
-                if (inputDialog.ShowDialog() == true)
-                {
-                    string result = inputDialog.Answer;
-                    Film film = new Film();
-                    film.Titre = result;
-                    film.Projections = new List<List<string>>();
-                    _filmService.CreateFilm(film);
-                    GenerateFilmList();
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                throw;
+                MessageBox.Show("Film ajouté avec succès");
+                GenerateFilmList();
             }
         }
 
@@ -133,6 +129,7 @@ namespace CineQuebec.Windows.View.AdminViews
                 if (film == null)
                     return;
                 ProgramProjectionFilm programProjectionFilm = new ProgramProjectionFilm(film.Titre);
+                /*
                 if (programProjectionFilm.ShowDialog() == true)
                 {
                     List<string> result = programProjectionFilm.Answer;
@@ -140,6 +137,7 @@ namespace CineQuebec.Windows.View.AdminViews
                     _filmService.UpdateFilm(film);
                     GenerateFilmList();
                 }
+                */
             }
             catch (Exception ex)
             {

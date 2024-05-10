@@ -79,6 +79,7 @@ namespace CineQuebec.Windows.View.AdminViews
                 bool abonneEstInteresse = false;
                 if (idActeursFavorits == null || idRealisateursFavorits == null)
                     return;
+                /*
                 foreach (ObjectId idActeur in idActeursFavorits)
                 {
                     if (abonneEstInteresse || abonne.IdActeursFavorits == null ||
@@ -94,6 +95,7 @@ namespace CineQuebec.Windows.View.AdminViews
                     AjouterAbonneInteresseALaListeBox(abonne);
                     abonneEstInteresse = true;
                 }
+                */
             }
         }
 

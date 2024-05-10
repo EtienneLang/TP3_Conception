@@ -1,24 +1,12 @@
-﻿using CineQuebec.Windows.View;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using CineQuebec.Windows.BLL;
 using CineQuebec.Windows.BLL.Interfaces;
-using CineQuebec.Windows.BLL.Services;
-using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
-using CineQuebec.Windows.DAL.Repositories;
 using CineQuebec.Windows.View.AbonneViews;
 using CineQuebec.Windows.View.AdminViews;
+using MongoDB.Bson;
 
-namespace CineQuebec.Windows
+namespace CineQuebec.Windows.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -29,11 +17,16 @@ namespace CineQuebec.Windows
         private readonly IAbonneService _abonneService;
         private IFilmService _filmService;
         private IProjectionService _projectionService;
+        private ICategorieService _categorieService;
         private IAuthService _authService;
+        private IActeurService _acteurService;
+        private IRealisateurService _realisateurService;
 
         public MainWindow()
         {
             InitializeComponent();
+            
+            //injection de dépendance fait à la mitaine
             ServiceProvider serviceProvider = new ServiceProvider();
             
             _noteService = serviceProvider.NoteService;
@@ -41,7 +34,11 @@ namespace CineQuebec.Windows
             _filmService = serviceProvider.FilmService;
             _projectionService = serviceProvider.ProjectionService;
             _authService = serviceProvider.AuthService;
+            _categorieService = serviceProvider.CategorieService;
+            _acteurService = serviceProvider.ActeurService;
+            _realisateurService = serviceProvider.RealisateurService;
             mainContentControl.Content = new ConnexionControl(_authService);
+            
         }
 
         public void AdminHomeControl()
@@ -56,7 +53,7 @@ namespace CineQuebec.Windows
 
         public void FilmListControl()
         {
-            mainContentControl.Content = new FilmListControl(_filmService);
+            mainContentControl.Content = new FilmListControl(_filmService, _categorieService,_acteurService,_realisateurService);
         }
         
         public void AbonneHomeControl(Abonne abonne)

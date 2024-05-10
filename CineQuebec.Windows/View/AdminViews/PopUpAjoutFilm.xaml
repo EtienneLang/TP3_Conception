@@ -1,18 +1,42 @@
 ﻿<Window x:Class="CineQuebec.Windows.View.AdminViews.PopUpAjoutFilm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Input" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        Title="Input" 
+        WindowStartupLocation="CenterScreen"
+        Width="500"
+        Height="425"
         ContentRendered="Window_ContentRendered">
-    <Grid Margin="15">
-        <StackPanel VerticalAlignment="Center">
-            <Label HorizontalAlignment="Center" FontSize="20">Ajout d'un film</Label>
-            <Label>Titre du film à ajouter:</Label>
-            <TextBox Name="TextBoxTitre" MinWidth="250"></TextBox>
-
-            <WrapPanel HorizontalAlignment="Right" Margin="0,15,0,0">
-                <Button IsDefault="True" Click="ButtonDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-                <Button IsCancel="True" MinWidth="60">_Cancel</Button>
-            </WrapPanel>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+            <Label Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="20" Content="Ajout d'un film" />
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="10">
+                <Label Content="Titre du film :" />
+                <TextBox Name="TextBoxTitre" MaxWidth="225" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
+                <Label Content="Catégorie du film :" />
+                <ListBox x:Name="LstCategories" Height="100"></ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="0" Margin="10">
+                <Label Content="Acteur(s) du film :" />
+                <ListBox x:Name="LstActeurs" Height="100" SelectionMode="Multiple"></ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10">
+                <Label Content="Réalisateur(s) du film :" />
+                <ListBox x:Name="LstRealisateurs" Height="100" SelectionMode="Multiple"></ListBox>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button IsDefault="True" Click="ButtonDialogOk_Click" Width="75" Height="30" Margin="0,0,10,0">Ajouter</Button>
+                <Button IsCancel="True" Width="75" Height="30">Annuler</Button>
+            </StackPanel>
     </Grid>
 </Window>
