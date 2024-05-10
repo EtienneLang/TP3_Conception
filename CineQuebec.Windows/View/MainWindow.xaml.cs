@@ -37,6 +37,20 @@ namespace CineQuebec.Windows.View
             _categorieService = serviceProvider.CategorieService;
             _acteurService = serviceProvider.ActeurService;
             _realisateurService = serviceProvider.RealisateurService;
+
+
+            for (int i = 1; i < 10; i++)
+            {
+                Abonne abonne = new Abonne();
+                abonne.Username = $"User {i}";
+                abonne.Password = "U2VjcmV0U2FsdA==:9z9EkBnWaHbxnjdrJouevsufnnL3cjVtsWKCGfPjqdA=";
+                abonne.DateJoined = DateTime.Now;
+                abonne.Reservations = new List<ObjectId>();
+                abonne.Role = "User";
+                abonne.IdFilmsOfferts = new List<ObjectId>();
+                _abonneService.CreateAbonne(abonne);
+            }
+            
             mainContentControl.Content = new ConnexionControl(_authService);
             
         }
@@ -53,7 +67,7 @@ namespace CineQuebec.Windows.View
 
         public void FilmListControl()
         {
-            mainContentControl.Content = new FilmListControl(_filmService, _categorieService,_acteurService,_realisateurService);
+            mainContentControl.Content = new FilmListControl(_filmService, _categorieService,_acteurService,_realisateurService, _projectionService);
         }
         
         public void AbonneHomeControl(Abonne abonne)

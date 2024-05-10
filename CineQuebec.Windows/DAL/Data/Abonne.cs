@@ -15,9 +15,6 @@ namespace CineQuebec.Windows.DAL.Data
         private string _password;
         private string _role;
         private List<ObjectId> _reservations;
-        private string[] _categoriesFav;
-        private ObjectId[] _idActeursFavorits;
-        private ObjectId[] _idRealisateursFavorits;
         private List<ObjectId> _idFilmsOfferts;
 
         public ObjectId Id
@@ -78,7 +75,7 @@ namespace CineQuebec.Windows.DAL.Data
             get { return _idFilmsOfferts; }
             set { _idFilmsOfferts = value; }
         }
-
+        
 
         public bool ListeFilmOffertContientDejaFilm(ObjectId idFilm)
         {

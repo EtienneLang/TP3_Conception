@@ -1,17 +1,10 @@
-﻿using CineQuebec.Windows.DAL.Data;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CineQuebec.Windows.BLL.Interfaces;
+﻿using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
-using CineQuebec.Windows.DAL.Repositories;
 using MongoDB.Bson;
 
-
-namespace CineQuebec.Windows.DAL;
+namespace CineQuebec.Windows.BLL.Services;
 
 public class AbonneService : IAbonneService
 {
@@ -24,6 +17,19 @@ public class AbonneService : IAbonneService
     public Abonne GetAbonneByUsername(string username)
     {
         return _abonneRepo.GetAbonneByUsername(username);
+    }
+
+    public void CreateAbonne(Abonne abonne)
+    {
+        try
+        {
+            _abonneRepo.CreateAbonne(abonne);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public List<Abonne> ReadAbonnes()

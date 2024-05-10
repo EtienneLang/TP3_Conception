@@ -1,6 +1,7 @@
 ﻿using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using CineQuebec.Windows.BLL.Interfaces;
+using CineQuebec.Windows.DAL.Interfaces;
 using MongoDB.Bson;
 
 namespace CineQuebec.Windows.BLL.Services
@@ -25,6 +26,32 @@ namespace CineQuebec.Windows.BLL.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public void CreateProjection(Projection projection)
+        {
+            try
+            {
+                _projectionRepo.CreateProjection(projection);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public List<Projection> ReadProjectionByFilmId(ObjectId idFilm)
+        {
+            try
+            {
+                return _projectionRepo.ReadProjectionByFilmId(idFilm);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
