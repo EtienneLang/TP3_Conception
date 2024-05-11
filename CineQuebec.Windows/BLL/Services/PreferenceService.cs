@@ -9,9 +9,9 @@ namespace CineQuebec.Windows.BLL.Services;
 
 public class PreferenceService : IPreferenceService
 {
-    private int NB_MAX_CATEGORIES = 3;
-    private int NB_MAX_REALISATEUR = 5;
-    private int NB_MAX_ACTEURS = 5;
+    public int NB_MAX_CATEGORIES = 3;
+    public int NB_MAX_REALISATEUR = 5;
+    public int NB_MAX_ACTEURS = 5;
     private IPreferenceRepository _preferenceRepository;
     private IAbonneRepository _abonneRepository;
 
