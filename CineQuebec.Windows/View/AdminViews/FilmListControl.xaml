@@ -14,9 +14,9 @@
                     />
             <Button x:Name="ButtonChangerListe"
                     Margin="0, 0px, 0 , 10"
-                    Width="150"
+                    Width="195"
                     Height="25"
-                    Content="Afficher les projections"
+                    Content="Afficher les projections de ce film"
                     Click="ButtonChangerListe_OnClick" />
             <ListBox x:Name="ListBoxFilms" Height="200" Width="400" SelectionChanged="ListBoxFilms_OnSelectionChanged">
             </ListBox>

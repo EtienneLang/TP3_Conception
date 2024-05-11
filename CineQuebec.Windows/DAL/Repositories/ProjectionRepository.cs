@@ -54,6 +54,33 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
         }
     }
 
+    public void CreateProjection(Projection projection)
+    {
+        try
+        {
+            _collection.InsertOne(projection);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public List<Projection> ReadProjectionByFilmId(ObjectId idFilm)
+    {
+        try
+        {
+            var filter = Builders<Projection>.Filter.Eq("IdFilmProjection", idFilm);
+            return _collection.Find(filter).ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public Projection GetProjectionById(ObjectId id)
     {
         try
@@ -68,6 +95,7 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
             throw;
         }
     }
+    
 
     public List<Projection> ReadAvantPremieres()
     {

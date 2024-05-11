@@ -1,22 +1,32 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.DAL;
 using CineQuebec.Windows.DAL.Data;
+using MongoDB.Bson;
 
 namespace CineQuebec.Windows.View.AdminViews
 {
     public partial class FilmListControl : UserControl
     {
         private IFilmService _filmService;
+        private ICategorieService _categorieService;
+        private IActeurService _acteurService;
+        private IRealisateurService _realisateurService;
+        private IProjectionService _projectionService;
         private List<Film> _films;
         private int _selectedIndex = -1;
         private bool _isProjectionList = false;
-
-        public FilmListControl(IFilmService filmService)
+        private Film? _selectedFilm;
+        public FilmListControl(IFilmService filmService, ICategorieService categorieService, IActeurService acteurService, IRealisateurService realisateurService, IProjectionService projectionService)
         {
             InitializeComponent();
             _filmService = filmService;
+            _categorieService = categorieService;
+            _acteurService = acteurService;
+            _realisateurService = realisateurService;
+            _projectionService = projectionService;
             ButtonDelete.IsEnabled = false;
             ButtonAddProjection.IsEnabled = false;
             GenerateFilmList();
@@ -34,6 +44,7 @@ namespace CineQuebec.Windows.View.AdminViews
             _selectedIndex = ListBoxFilms.SelectedIndex;
             ButtonDelete.IsEnabled = false;
             ButtonAddProjection.IsEnabled = false;
+            ButtonChangerListe.IsEnabled = false;
         }
 
         private void GenerateFilmList()
@@ -43,49 +54,40 @@ namespace CineQuebec.Windows.View.AdminViews
             ButtonChangerListe.Content = "Afficher les projections";
             foreach (Film film in _films)
             {
-                ListBoxItem itemFilm = new ListBoxItem();
-                itemFilm.Content = film;
-                ListBoxFilms.Items.Add(itemFilm);
+                ListBoxFilms.Items.Add(film);
             }
         }
 
         private void GenerateProjectionList()
         {
+            if (_selectedFilm == null)
+                return;
             ListBoxFilms.Items.Clear();
             ButtonChangerListe.Content = "Afficher les films";
-
-            //Meilleur essai pour afficher les projections
-            foreach (Film film in _films)
+            try
             {
-                List<Projection> projections = _filmService.GetProjectionsOfFilm(film);
-                for (int i = 0; i < projections.Count; i++) {
-                    ListBoxItem itemProjection = new ListBoxItem();
-                    string affichage = $"{film.Titre} - {projections[i]}";
-                    itemProjection.Content = affichage;
-                    ListBoxFilms.Items.Add(affichage);
+                List<Projection> projections = _projectionService.ReadProjectionByFilmId(_selectedFilm.Id);
+                foreach (Projection projection in projections)
+                {
+                    ListBoxFilms.Items.Add(projection);
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         private void ButtonAjouterFilm_Click(object sender, RoutedEventArgs e)
         {
-            try
+            PopUpAjoutFilm inputDialog = new PopUpAjoutFilm(_categorieService,_acteurService, _realisateurService, _filmService);
+            inputDialog.ShowDialog();
+            if (inputDialog.DialogResult == true)
             {
-                PopUpAjoutFilm inputDialog = new PopUpAjoutFilm();
-                if (inputDialog.ShowDialog() == true)
-                {
-                    string result = inputDialog.Answer;
-                    Film film = new Film();
-                    film.Titre = result;
-                    film.Projections = new List<List<string>>();
-                    _filmService.CreateFilm(film);
-                    GenerateFilmList();
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                throw;
+                MessageBox.Show("Film ajouté avec succès");
+                GenerateFilmList();
             }
         }
 
@@ -94,8 +96,13 @@ namespace CineQuebec.Windows.View.AdminViews
             _selectedIndex = ListBoxFilms.SelectedIndex;
             if (_selectedIndex != -1)
             {
+                if (!_isProjectionList)
+                {
+                    _selectedFilm = (Film)ListBoxFilms.SelectedItem;
+                }
                 ButtonDelete.IsEnabled = true;
                 ButtonAddProjection.IsEnabled = true;
+                ButtonChangerListe.IsEnabled = true;
             }
         }
 
@@ -129,17 +136,18 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             try
             {
-                Film? film = GetSelectedFilm();
-                if (film == null)
+                if (_selectedFilm == null)
                     return;
-                ProgramProjectionFilm programProjectionFilm = new ProgramProjectionFilm(film.Titre);
-                if (programProjectionFilm.ShowDialog() == true)
+                ProgramProjectionFilm programProjectionFilm = new ProgramProjectionFilm(_selectedFilm, _projectionService);
+                programProjectionFilm.ShowDialog();
+                if (programProjectionFilm.DialogResult == true)
                 {
-                    List<string> result = programProjectionFilm.Answer;
-                    film.Projections.Add(result);
-                    _filmService.UpdateFilm(film);
+                    MessageBox.Show("Projection ajouté avec succès");
+                    if (_isProjectionList)
+                        GenerateProjectionList();
                     GenerateFilmList();
                 }
+                
             }
             catch (Exception ex)
             {
@@ -154,9 +162,18 @@ namespace CineQuebec.Windows.View.AdminViews
             {
                 _isProjectionList = !_isProjectionList;
                 if (!_isProjectionList)
+                {
+                    _selectedFilm = null;
+                    ListBoxFilms.SelectedIndex = -1;
+                    ButtonChangerListe.Content = "Afficher les projections de ce film";
                     GenerateFilmList();
+                }
                 else
-                    GenerateProjectionList();
+                {
+                    _selectedFilm = (Film)ListBoxFilms.SelectedItem;
+                    ButtonChangerListe.Content = "Afficher les films";
+                    GenerateProjectionList();   
+                }
             }
             catch (Exception exception)
             {

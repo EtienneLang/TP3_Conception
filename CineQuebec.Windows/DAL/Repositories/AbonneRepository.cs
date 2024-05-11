@@ -1,4 +1,5 @@
 ﻿using CineQuebec.Windows.DAL.Data;
+using CineQuebec.Windows.DAL.Interfaces;
 using CineQuebec.Windows.DAL.InterfacesForRepositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,6 +13,21 @@ public class AbonneRepository : ModelRepository, IAbonneRepository
     public AbonneRepository()
     {
         _collection = _database.GetCollection<Abonne>("Abonnes");
+    }
+
+
+    public void CreateAbonne(Abonne abonne)
+    {
+        try
+        {
+            _collection.InsertOne(abonne); 
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
     }
 
     public List<Abonne> ReadAbonnes()

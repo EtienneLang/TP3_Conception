@@ -11,8 +11,8 @@ namespace CineQuebec.Windows.DAL.Data
     {
         private ObjectId _id;
         private string _titre;
-        private List<List<string>> _projections;
-        private string _categorie;
+        private List<ObjectId> _projections;
+        private ObjectId _idCategorie;
         private List<ObjectId> _idRealisateurs;
         private List<ObjectId> _idActeurs;
         
@@ -37,16 +37,16 @@ namespace CineQuebec.Windows.DAL.Data
             }
         }
 
-        public List<List<string>> Projections
+        public List<ObjectId> Projections
         {
             get { return _projections; }
             set { _projections = value; }
         }
         
-        public string Categorie
+        public ObjectId IdCategorie
         {
-            get { return _categorie; }
-            set { _categorie = value; }
+            get { return _idCategorie; }
+            set { _idCategorie = value; }
         }
 
         public List<ObjectId> IdRealisateurs

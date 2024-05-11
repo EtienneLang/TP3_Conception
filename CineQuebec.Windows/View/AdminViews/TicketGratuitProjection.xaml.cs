@@ -57,8 +57,10 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             ClearInterface();
             GetAbonnes();
+            /*
             foreach (Abonne abonne in _abonnes)
             {
+                
                 if (abonne.CategoriesFav == null || !abonne.CategoriesFav.Contains(categorie)) continue;
                 _abonnesInteresseParFilm.Clear();
                 _abonnesInteresseParFilm.Add(abonne);
@@ -66,6 +68,7 @@ namespace CineQuebec.Windows.View.AdminViews
                 itemAbonne.Content = abonne;
                 ListeBoxReprojection.Items.Add(itemAbonne);
             }
+            */
         }
         
         private int _indexMovie;
@@ -136,6 +139,7 @@ namespace CineQuebec.Windows.View.AdminViews
         private void ChangeListeFilmVersListeAbonnes(Film filmSelectionne)
         {
             ListeBoxReprojection.Items.Clear();
+            /*
             GenerateAbonneList(filmSelectionne.Categorie);
             if (_abonnesInteresseParFilm.Count == 0)
             {
@@ -143,6 +147,7 @@ namespace CineQuebec.Windows.View.AdminViews
                 return;
             }
             LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + filmSelectionne.Titre + " ?";
+            */
         }
 
     }

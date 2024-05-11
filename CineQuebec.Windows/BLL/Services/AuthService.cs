@@ -44,7 +44,7 @@ public class AuthService : IAuthService
     }
     
     //Code emprunter
-    public static string HashPassword(string password)
+    private static string HashPassword(string password)
     {
         byte[] hash = PBKDF2(password, Salt, 10000, 32);
         return Convert.ToBase64String(Salt) + ":" + Convert.ToBase64String(hash);
