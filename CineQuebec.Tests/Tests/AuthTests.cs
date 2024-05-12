@@ -5,10 +5,10 @@ namespace CineQuebec.Tests.Tests;
 using CineQuebec.Windows.BLL.Services;
 using MongoDB.Bson;
 using Moq;
-public class TestsAuth
+public class AuthTests
 {
     [Fact]
-    public void AbonneExiste_RetourneVrai_SiAbonnerExiste()
+    public void AbonneExiste_ReturnsTrue_SiAbonnerExiste()
     {
         Mock<IAuthRepository> authRepoMock = new Mock<IAuthRepository>();
         authRepoMock.Setup(x => x.AbonneExiste(It.IsAny<string>())).Returns(true);
@@ -20,7 +20,7 @@ public class TestsAuth
     }
     
     [Fact]
-    public void AbonneExiste_RetourneFalse_SiAbonnerExistePas()
+    public void AbonneExiste_ReturnsFalse_SiAbonnerExistePas()
     {
         Mock<IAuthRepository> authRepoMock = new Mock<IAuthRepository>();
         authRepoMock.Setup(x => x.AbonneExiste(It.IsAny<string>())).Returns(false);
@@ -32,7 +32,7 @@ public class TestsAuth
     }
     
     [Fact]
-    public void Login_RetourneUnAbonne()
+    public void Login_ReturnsAbonne_WhenSuccessful()
     {
         Mock<IAuthRepository> authRepoMock = new Mock<IAuthRepository>();
         Abonne abonne = new Abonne();

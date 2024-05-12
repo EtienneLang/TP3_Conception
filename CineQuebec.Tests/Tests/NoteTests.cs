@@ -7,10 +7,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsNote
+public class NoteTests
 {
     [Fact]
-    public void ReadNotes_RetourneUneListeNotes()
+    public void ReadNotes_RetourneUneListeNotes_WhenSuccessful()
     {
         // Arrange
         Mock<INoteRepository> noteRepoMock = new Mock<INoteRepository>();
@@ -25,7 +25,7 @@ public class TestsNote
     }
     
     [Fact]
-    public void CreateNote_CreerUneNote()
+    public void CreateNote_CreerUneNote_WhenSuccessful()
     {
         // Arrange
         Mock<INoteRepository> noteRepoMock = new Mock<INoteRepository>();
@@ -42,7 +42,7 @@ public class TestsNote
     }
     
     [Fact]
-    public void CreateNote_ThrowInvalidNoteValueException()
+    public void CreateNote_ThrowInvalidNoteValueException_WhenValueIsToBig()
     {
         // Arrange
         Mock<INoteRepository> noteRepoMock = new Mock<INoteRepository>();
@@ -55,7 +55,20 @@ public class TestsNote
     }
     
     [Fact]
-    public void CreateNote_ThrowNoteAlreadyExistsException()
+    public void CreateNote_ThrowInvalidNoteValueException_WhenValueIsToSmall()
+    {
+        // Arrange
+        Mock<INoteRepository> noteRepoMock = new Mock<INoteRepository>();
+        Note note = new Note() { NoteSurCinq = -1};
+        Abonne abonne = new Abonne();
+        NoteService noteService = new NoteService(noteRepoMock.Object);
+        
+        // Act & Assert
+        Assert.Throws<InvalidNoteValueException>(() => noteService.CreateNote(note, abonne));
+    }
+    
+    [Fact]
+    public void CreateNote_ThrowNoteAlreadyExistsException_WhenNoteAlreadyExists()
     {
         // Arrange
         var mockNoteRepository = new Mock<INoteRepository>();

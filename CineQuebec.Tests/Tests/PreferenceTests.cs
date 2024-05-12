@@ -7,10 +7,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsPreference
+public class PreferenceTests
 {
     [Fact]
-    public void ReadPreferences_RetourneUneListePreferences()
+    public void ReadPreferences_RetourneUneListePreferences_WhenSuccessfulReading()
     {
         // Arrange
         Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
@@ -29,7 +29,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void ReadPreferenceFromId_RetourneUnePreference()
+    public void ReadPreferenceFromId_RetourneUnePreference_WhenSuccessfulReading()
     {
         // Arrange
         Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
@@ -48,7 +48,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void ReadPreferenceFromId_ThrowInexistingEntityException()
+    public void ReadPreferenceFromId_ThrowInexistingEntityException_WhenIdDoesNotExist()
     {
         // Arrange
         Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
@@ -64,7 +64,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void ReadPreferenceFromUserId_RetourneUnePreference()
+    public void ReadPreferenceFromUserId_RetourneUnePreference_WhenSuccessfulReading()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -86,7 +86,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void ReadPreferenceFromUserId_UserDoesNotExist_ThrowsInexistingUserException()
+    public void ReadPreferenceFromUserId_ThrowsInexistingUserException_WhenUserDoesNotExist()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -104,7 +104,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void ReadPreferenceFromUserId_PreferencesDoNotExist_ThrowsInexistingEntityException()
+    public void ReadPreferenceFromUserId_ThrowsInexistingEntityException_WhenPreferencesDoNotExist()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -124,7 +124,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void CreatePreference_CreerUnePreference()
+    public void CreatePreference_CreerUnePreference_WhenSuccessful()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -149,7 +149,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void CreatePreference_UserAlreadyHasPreference_ThrowsUserAlreadyHasPreferenceException()
+    public void CreatePreference_ThrowsUserAlreadyHasPreferenceException_WhenUserAlreadyHasPreference()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -170,7 +170,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void CreatePreference_ExceedingCategoryLimit_ThrowsTooManyCategorieException()
+    public void CreatePreference_ThrowsTooManyCategorieException_WhenExceedingCategoryLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -191,7 +191,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void CreatePreference_ExceedingRealisateurLimit_ThrowsTooManyRealisateurException()
+    public void CreatePreference_ThrowsTooManyRealisateurException_WhenExceedingRealisateurLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -214,7 +214,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void CreatePreference_ExceedingActeurLimit_ThrowsTooManyActeurException()
+    public void CreatePreference_ThrowsTooManyActeurException_WhenExceedingActeurLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -237,7 +237,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void UpdatePreference_MetAJourUnePreference()
+    public void UpdatePreference_MetAJourUnePreference_WhenSuccessfulUpdate()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -262,7 +262,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void UpdatePreference_ExceedingCategoryLimit_ThrowsTooManyCategorieException()
+    public void UpdatePreference_ThrowsTooManyCategorieException_WhenExceedingCategoryLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -284,7 +284,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void UpdatePreference_ExceedingRealisateurLimit_ThrowsTooManyRealisateurException()
+    public void UpdatePreference_ThrowsTooManyRealisateurException_WhenExceedingRealisateurLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -307,7 +307,7 @@ public class TestsPreference
     }
 
     [Fact]
-    public void UpdatePreference_ExceedingActeurLimit_ThrowsTooManyActeurException()
+    public void UpdatePreference_ThrowsTooManyActeurException_WhenExceedingActeurLimit()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
@@ -331,15 +331,15 @@ public class TestsPreference
     }
 
     [Fact]
-    public void DeletePreference_ExistingPreference_DeletesPreference()
+    public void DeletePreference_DeletesPreference_WhenExistingPreference()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
         var mockPreferenceRepository = new Mock<IPreferenceRepository>();
         var preferenceId = ObjectId.GenerateNewId();
-        var preference = new Preference { Id = preferenceId }; // Simulate an existing preference
+        var preference = new Preference { Id = preferenceId }; 
 
-        // Setup repositories
+
         mockPreferenceRepository.Setup(repo => repo.ReadPreferenceFromId(preferenceId)).Returns(preference);
         mockPreferenceRepository.Setup(repo => repo.DeletePreference(preferenceId));
 
@@ -353,14 +353,13 @@ public class TestsPreference
     }
 
     [Fact]
-    public void DeletePreference_NonExistingPreference_ThrowsInexistingEntityException()
+    public void DeletePreference_ThrowsInexistingEntityException_WhenNonExistingPreference()
     {
         // Arrange
         var mockAbonneRepository = new Mock<IAbonneRepository>();
         var mockPreferenceRepository = new Mock<IPreferenceRepository>();
         var preferenceId = ObjectId.GenerateNewId();
-
-        // Setup repositories to return null for the preference
+        
         mockPreferenceRepository.Setup(repo => repo.ReadPreferenceFromId(preferenceId)).Returns((Preference)null);
 
         var preferenceService = new PreferenceService(mockPreferenceRepository.Object, mockAbonneRepository.Object);

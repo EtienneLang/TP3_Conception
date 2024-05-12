@@ -7,10 +7,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsFilm
+public class FilmTests
 {
     [Fact]
-    public void ReadFilms_RetourneUneListeFilms()
+    public void ReadFilms_RetourneUneListeFilms_WhenSuccessful()
     {
         // Arrange
         Mock<IFilmRepository> filmRepoMock = new Mock<IFilmRepository>();
@@ -28,7 +28,7 @@ public class TestsFilm
     }
     
     [Fact]
-    public void CreateFilm_CreerUnFilm()
+    public void CreateFilm_CreerUnFilm_WhenSuccessful()
     {
         // Arrange
         Mock<IFilmRepository> filmRepoMock = new Mock<IFilmRepository>();
@@ -47,7 +47,7 @@ public class TestsFilm
     }
     
     [Fact]
-    public void UpdateFilm_ModifierUnFilm()
+    public void UpdateFilm_ModifierUnFilm_WhenSuccessful()
     {
         // Arrange
         Mock<IFilmRepository> filmRepoMock = new Mock<IFilmRepository>();
@@ -66,7 +66,7 @@ public class TestsFilm
     }
     
     [Fact]
-    public void DeleteFilmById_SupprimerUnFilm()
+    public void DeleteFilmById_SupprimerUnFilm_WhenSuccessful()
     {
         // Arrange
         Mock<IFilmRepository> filmRepoMock = new Mock<IFilmRepository>();
@@ -84,7 +84,7 @@ public class TestsFilm
     }
 
     [Fact]
-    public void ReadFilmById_RetourneUnFilm()
+    public void ReadFilmById_RetourneUnFilm_WhenSuccessful()
     {
         // Arrange
         Mock<IFilmRepository> filmRepoMock = new Mock<IFilmRepository>();

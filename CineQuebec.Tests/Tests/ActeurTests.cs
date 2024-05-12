@@ -7,10 +7,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsActeur
+public class ActeurTests
 {
     [Fact]
-    public void ReadActeurs_RetourneUneListeActeurs()
+    public void ReadActeurs_RetourneUneListeActeurs_WhenSuccessful()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -25,7 +25,7 @@ public class TestsActeur
     }
 
     [Fact]
-    public void ReadActeurFromId_RetourneUnActeur()
+    public void ReadActeurFromId_RetourneUnActeur_WhenSuccessful()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -41,7 +41,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void ReadActeurFromId_ThrowInexistingEntityException()
+    public void ReadActeurFromId_ThrowInexistingEntityException_WhenIdDoesNotExist()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -54,7 +54,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void CreateActeur_CreerUnActeur()
+    public void CreateActeur_CreerUnActeur_WhenSuccessful()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -70,7 +70,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void CreateActeur_ThrowEmptyNameException()
+    public void CreateActeur_ThrowEmptyNameException_WhenNameIsEmpty()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -82,7 +82,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void CreateActeur_ThrowInvalidNameLengthException()
+    public void CreateActeur_ThrowInvalidNameLengthException_WhenNameIsTooShort()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -94,7 +94,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void UpdateActeur_ModifierUnActeur()
+    public void UpdateActeur_ModifieUnActeur_WhenSuccessful()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -110,7 +110,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void UpdateActeur_ThrowEmptyNameException()
+    public void UpdateActeur_ThrowEmptyNameException_WhenNameIsEmpty()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -122,7 +122,7 @@ public class TestsActeur
     }
 
     [Fact]
-    public void UpdateActeur_ThrowInvalidNameLengthException()
+    public void UpdateActeur_ThrowInvalidNameLengthException_WhenNameIsToShort()
     {
         // Arrange
         Mock<IActeurRepository> acteurRepoMock = new Mock<IActeurRepository>();
@@ -135,7 +135,7 @@ public class TestsActeur
     
     
     [Fact]
-    public void DeleteActeur_SupprimerUnActeur()
+    public void DeleteActeur_SupprimerUnActeur_WhenSuccessful()
     {
         // Arrange
         var mockActeurRepository = new Mock<IActeurRepository>();
@@ -150,7 +150,7 @@ public class TestsActeur
     }
     
     [Fact]
-    public void DeleteActeur_ActeurDoesNotExist_ThrowsInexistingEntityException()
+    public void DeleteActeur_ActeurDoesNotExist_ThrowsInexistingEntityException_WhenIdDoesNotExists()
     {
         // Arrange
         var mockActeurRepository = new Mock<IActeurRepository>();

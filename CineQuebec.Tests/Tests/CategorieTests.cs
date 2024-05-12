@@ -7,10 +7,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsCategorie
+public class CategorieTests
 {
     [Fact]
-    public void ReadCategories_RetourneUneListeCategories()
+    public void ReadCategories_RetourneUneListeCategories_WhenSuccessful()
     {
         // Arrange
         Mock<ICategorieRepository> categorieRepoMock = new Mock<ICategorieRepository>();
@@ -26,7 +26,7 @@ public class TestsCategorie
     }
 
     [Fact]
-    public void ReadCategorieFromId_RetourneUneCategorie()
+    public void ReadCategorieFromId_RetourneUneCategorie_WhenSuccessful()
     {
         // Arrange
         Mock<ICategorieRepository> categorieRepoMock = new Mock<ICategorieRepository>();
@@ -42,7 +42,7 @@ public class TestsCategorie
     }
     
     [Fact]
-    public void ReadCategorieFromId_CategorieInexistante()
+    public void ReadCategorieFromId_ThrowsInexistingEntityException_WhenCategorieInexistante()
     {
         Mock<ICategorieRepository> mockCategorieRepository = new Mock<ICategorieRepository>();
         ObjectId inexistingCategorieId = ObjectId.GenerateNewId();
@@ -58,7 +58,7 @@ public class TestsCategorie
     }
 
     [Fact]
-    public void CreateCategorie_CreerUneCategorie()
+    public void CreateCategorie_CreerUneCategorie_WhenSuccessful()
     {
         // Arrange
         Mock<ICategorieRepository> categorieRepoMock = new Mock<ICategorieRepository>();
@@ -74,7 +74,7 @@ public class TestsCategorie
     }
     
     [Fact]
-    public void CreateCategorie_NomCategorieVide()
+    public void CreateCategorie_ThrowsEmptyCategorieNameException_WhenNomCategorieVide()
     {
         Mock<ICategorieRepository> mockCategorieRepository = new Mock<ICategorieRepository>();
         CategorieService categorieService = new CategorieService(mockCategorieRepository.Object);
@@ -85,7 +85,7 @@ public class TestsCategorie
     }
 
     [Fact]
-    public void UpdateCategorie_ModifierUneCategorie()
+    public void UpdateCategorie_ModifierUneCategorie_WhenSuccessful()
     {
         // Arrange
         Mock<ICategorieRepository> categorieRepoMock = new Mock<ICategorieRepository>();
@@ -102,7 +102,7 @@ public class TestsCategorie
     }
 
     [Fact]
-    public void UpdateCategorie_NomCategorieVide()
+    public void UpdateCategorie_ThrowsEmptyCategorieNameException_WhenNomCategorieVide()
     {
         Mock<ICategorieRepository> mockCategorieRepository = new Mock<ICategorieRepository>();
         ObjectId inexistingCategorieId = ObjectId.GenerateNewId();
@@ -118,7 +118,7 @@ public class TestsCategorie
     }
     
     [Fact]
-    public void UpdateCategorie_CategorieAlreadyExists()
+    public void UpdateCategorie_ThrowsCategorieAlreadyExistsException_WhenCategorieAlreadyExists()
     {
         Mock<ICategorieRepository> mockCategorieRepository = new Mock<ICategorieRepository>();
         ObjectId existingCategorieId = ObjectId.GenerateNewId();

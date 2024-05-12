@@ -5,10 +5,10 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsAbonne
+public class AbonneTests
 {
     [Fact]
-    public void ReadAbonnes_RetourneUneListeAbonnes()
+    public void ReadAbonnes_RetourneUneListeAbonnes_WhenSuccessful()
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
@@ -23,7 +23,7 @@ public class TestsAbonne
     }
     
     [Fact]
-    public void GetAbonneByUsername_RetourneUnAbonne()
+    public void GetAbonneByUsername_RetourneUnAbonne_WhenSuccessful()
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
@@ -39,7 +39,7 @@ public class TestsAbonne
     }
     
     [Fact]
-    public void CreateAbonne_CreerUnAbonne()
+    public void CreateAbonne_CreerUnAbonne_WhenSuccessful()
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
@@ -55,7 +55,7 @@ public class TestsAbonne
     }
     
     [Fact]
-    public void OffrirBillet_OffrirUnBillet()
+    public void OffrirBillet_OffrirUnBillet_WhenSuccessful()
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();

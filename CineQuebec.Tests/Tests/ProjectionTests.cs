@@ -7,7 +7,7 @@ using Moq;
 
 namespace CineQuebec.Tests.Tests;
 
-public class TestsProjection
+public class ProjectionTests
 {
     [Fact]
     public void ReserverPlace_SuccessfulReservation_ReservesPlace()
