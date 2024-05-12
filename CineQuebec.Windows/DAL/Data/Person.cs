@@ -18,11 +18,6 @@ public abstract class Person
         get { return _nom; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentNullException("Le nom ne peut pas être vide.");
-            }
-
             _nom = value;
         }
     }
