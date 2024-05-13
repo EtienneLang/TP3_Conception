@@ -12,12 +12,11 @@ namespace CineQuebec.Windows.View.AdminViews
         private readonly IFilmService _filmService;
         private readonly IAbonneService _abonneService;
         private readonly IProjectionService _projectionService;
-        private List<Film> _films;
-        private List<Abonne> _abonnes;
+        private bool _isFilmList;
+        private bool _isUserList;
+        private Film _selectedFilm;
         private List<Projection> _projections;
-        private int _selectedIndex = -1;
-        private bool _isAvantPremiereSelection = true;
-        private List<Abonne> _abonnesInteresseParFilm = new List<Abonne>();
+        private int _filmSelectedIndex;
 
         public InvitationAvantPremiere(IFilmService filmService, IAbonneService abonneService, IProjectionService projectionService)
         {
@@ -28,173 +27,61 @@ namespace CineQuebec.Windows.View.AdminViews
             GenerateAvantPremiereList();
         }
 
-        private void GetAvantPremieres()
-        {
-            _projections = _projectionService.ReadAvantPremieres();
-        }
-
-        private void GetAbonnes()
-        {
-            _abonnes = _abonneService.ReadAbonnes();
-        }
-
-        private void GetFilms()
-        {
-            _films = _filmService.ReadFilms();
-        }
-
-        private void ClearInterface()
-        {
-            ListeBoxItemsAvantPremiere.Items.Clear();
-            ListeBoxItemsAvantPremiere.SelectedIndex = -1;
-            _selectedIndex = ListeBoxItemsAvantPremiere.SelectedIndex;
-        }
-
         private void GenerateAvantPremiereList()
         {
-            ClearInterface();
-            GetAvantPremieres();
-            GetFilms();
-
+            ButtonOffrir.IsEnabled = false;
+            _isFilmList = true;
+            _isUserList = false;
+            
+            _projections = _projectionService.ReadAvantPremieres();
             foreach (Projection projection in _projections)
             {
-                foreach (Film film in _films)
-                {
-                    if (film.Id != projection.IdFilmProjection) continue;
-                    ListBoxItem item = new ListBoxItem();
-                    item.Content = film + " " + projection;
-                    item.Tag = film;
-                    ListeBoxItemsAvantPremiere.Items.Add(item);
-                }
+                ListeBoxItemsAvantPremiere.Items.Add(_filmService.ReadFilmById(projection.IdFilmProjection));
             }
+            
         }
-
-        private void GenerateAbonneInteresseList(List<ObjectId> idActeursFavorits, List<ObjectId> idRealisateursFavorits)
-        {
-            ClearInterface();
-            GetAbonnes();
-
-            foreach (Abonne abonne in _abonnes)
-            {
-                bool abonneEstInteresse = false;
-                if (idActeursFavorits == null || idRealisateursFavorits == null)
-                    return;
-                /*
-                foreach (ObjectId idActeur in idActeursFavorits)
-                {
-                    if (abonneEstInteresse || abonne.IdActeursFavorits == null ||
-                        !abonne.IdActeursFavorits.Contains(idActeur)) continue;
-                    AjouterAbonneInteresseALaListeBox(abonne);
-                    abonneEstInteresse = true;
-                }
-
-                foreach (ObjectId idRealisateur in idRealisateursFavorits)
-                {
-                    if (abonneEstInteresse || abonne.IdRealisateursFavorits == null ||
-                        !abonne.IdRealisateursFavorits.Contains(idRealisateur)) continue;
-                    AjouterAbonneInteresseALaListeBox(abonne);
-                    abonneEstInteresse = true;
-                }
-                */
-            }
-        }
-
 
         private void ButtonRetourVersGiftHomeControl_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!_isAvantPremiereSelection)
-            {
-                GenerateAvantPremiereList();
-                _isAvantPremiereSelection = true;
-            }
-            else
-            {
-                ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
-            }
+            ((MainWindow)Application.Current.MainWindow).GiftHomeControl();
         }
-
-
-        int indexMovie;
 
         private void ListeBoxItemsAvantPremiere_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Film filmSelectionne = new Film();
-            _selectedIndex = ListeBoxItemsAvantPremiere.SelectedIndex;
-            if (_selectedIndex == -1)
+            if (ListeBoxItemsAvantPremiere.SelectedIndex == -1)
                 return;
-            if (_isAvantPremiereSelection)
+            if (_isFilmList)
             {
-                indexMovie = _selectedIndex;
-                if (ListeBoxItemsAvantPremiere.SelectedItem is ListBoxItem selectedItem)
-                {
-                    filmSelectionne = selectedItem.Tag as Film;
-                }
-
-                ChangementListeAvantPremiereVersListeAbonnes(filmSelectionne);
+                _selectedFilm = (Film)ListeBoxItemsAvantPremiere.SelectedItem;
+                _filmSelectedIndex = ListeBoxItemsAvantPremiere.SelectedIndex;
+                GenerateUserList();
             }
-            else
+            if (_isUserList)
             {
-                if (_abonnesInteresseParFilm[_selectedIndex]
-                    .ListeReservationContientDejaProjection(_projections[indexMovie].Id))
-                {
-                    MessageBox.Show("L'abonné a déjà reçu une invitation pour cette avant-première.");
-                    return;
-                }
-
-                bool reponseUser = AfficherMessageBox(_abonnesInteresseParFilm[_selectedIndex].Username,
-                    filmSelectionne.Titre);
-
-                if (reponseUser)
-                {
-                    _projectionService.ReserverPlace(_projections[indexMovie], _abonnesInteresseParFilm[_selectedIndex].Id);
-                    ChangementListeAbonnesVersListeAvantPremiere();
-                }
-                else
-                {
-                    ListeBoxItemsAvantPremiere.SelectedIndex = -1;
-                    return;
-                }
+                ButtonOffrir.IsEnabled = true;
             }
-
-            _isAvantPremiereSelection = !_isAvantPremiereSelection;
         }
 
-        private bool AfficherMessageBox(string nomAbonne, string titreFilm)
-        {
-            MessageBoxResult result =
-                MessageBox.Show(
-                    "Voulez-vous inviter " + nomAbonne + " à l'avant première du film " +
-                    titreFilm + " ?", "Invitation à l'avant première",
-                    MessageBoxButton.YesNo);
-            return result == MessageBoxResult.Yes;
-        }
-
-        private void ChangementListeAvantPremiereVersListeAbonnes(Film filmAAfficher)
+        private void GenerateUserList()
         {
             ListeBoxItemsAvantPremiere.Items.Clear();
-            GenerateAbonneInteresseList(filmAAfficher.IdActeurs, filmAAfficher.IdRealisateurs);
-            if (_abonnesInteresseParFilm.Count == 0)
+            _isFilmList = false;
+            _isUserList = true;
+            
+            List<Abonne> abonnes = _abonneService.ReadAbonnesInterestedInActeurAndCategorie(_selectedFilm.IdActeurs,
+                _selectedFilm.IdRealisateurs);
+            foreach (Abonne abonne in abonnes)
             {
-                MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
-                return;
+                ListeBoxItemsAvantPremiere.Items.Add(abonne);
             }
-
-            LabelTitre.Content = "Qui voulez-vous inviter à l'avant première du film " + filmAAfficher.Titre + " ?";
         }
 
-        private void ChangementListeAbonnesVersListeAvantPremiere()
+        private void ButtonOffrir_OnClick(object sender, RoutedEventArgs e)
         {
-            ListeBoxItemsAvantPremiere.Items.Clear();
-            LabelTitre.Content = "Sélectionnez une avant-première à offrir.";
-            GenerateAvantPremiereList();
-        }
-
-        private void AjouterAbonneInteresseALaListeBox(Abonne abonne)
-        {
-            _abonnesInteresseParFilm.Add(abonne);
-            ListBoxItem itemAbonne = new ListBoxItem();
-            itemAbonne.Content = abonne;
-            ListeBoxItemsAvantPremiere.Items.Add(itemAbonne);
+            Projection projection = _projections[_filmSelectedIndex];
+            Abonne abonne = (Abonne)ListeBoxItemsAvantPremiere.SelectedItem;
+            _projectionService.ReserverPlace(projection, abonne.Id);
+            MessageBox.Show("Invitation à l'avant première éffectué avec succès");
         }
     }
 }

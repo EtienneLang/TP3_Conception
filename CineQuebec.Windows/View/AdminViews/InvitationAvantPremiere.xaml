@@ -16,6 +16,15 @@
             <Label x:Name="LabelTitre" Content="Sélectionnez une avant-première à offrir." FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
             <ListBox x:Name="ListeBoxItemsAvantPremiere" Height="200" Width="400" SelectionChanged="ListeBoxItemsAvantPremiere_OnSelectionChanged">
             </ListBox>
+            <StackPanel HorizontalAlignment="Center" Margin="0 15 0 0">
+                <Button Content="Offrir"
+                        Width="75"
+                        Height="25"
+                        HorizontalAlignment="Left"
+                        x:Name="ButtonOffrir"
+                        Click="ButtonOffrir_OnClick"
+                />
+            </StackPanel>
         </StackPanel>
     </Grid>
 

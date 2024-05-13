@@ -1,3 +1,4 @@
+using CineQuebec.Windows.BLL.Interfaces;
 using CineQuebec.Windows.BLL.Services;
 using CineQuebec.Windows.DAL.Data;
 using CineQuebec.Windows.DAL.Interfaces;
@@ -12,8 +13,9 @@ public class AbonneTests
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
+        Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
         abonneRepoMock.Setup(x => x.ReadAbonnes()).Returns(new List<Abonne>() { new Abonne(), new Abonne() });
-        AbonneService abonneService = new AbonneService(abonneRepoMock.Object);
+        AbonneService abonneService = new AbonneService(abonneRepoMock.Object, preferenceRepoMock.Object);
         
         // Act
         List<Abonne> abonnes = abonneService.ReadAbonnes();
@@ -27,9 +29,10 @@ public class AbonneTests
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
+        Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
         Abonne abonne = new Abonne();
         abonneRepoMock.Setup(x => x.GetAbonneByUsername("test")).Returns(abonne);
-        AbonneService abonneService = new AbonneService(abonneRepoMock.Object);
+        AbonneService abonneService = new AbonneService(abonneRepoMock.Object, preferenceRepoMock.Object);
         
         // Act
         Abonne abonneResult = abonneService.GetAbonneByUsername("test");
@@ -43,9 +46,10 @@ public class AbonneTests
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
+        Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
         abonneRepoMock.Setup(x => x.CreateAbonne(It.IsAny<Abonne>()));
         Abonne abonne = new Abonne();
-        AbonneService abonneService = new AbonneService(abonneRepoMock.Object);
+        AbonneService abonneService = new AbonneService(abonneRepoMock.Object, preferenceRepoMock.Object);
         
         // Act
         abonneService.CreateAbonne(abonne);
@@ -59,8 +63,9 @@ public class AbonneTests
     {
         // Arrange
         Mock<IAbonneRepository> abonneRepoMock = new Mock<IAbonneRepository>();
+        Mock<IPreferenceRepository> preferenceRepoMock = new Mock<IPreferenceRepository>();
         abonneRepoMock.Setup(x => x.OffrirBillet(It.IsAny<MongoDB.Bson.ObjectId>(), It.IsAny<MongoDB.Bson.ObjectId>()));
-        AbonneService abonneService = new AbonneService(abonneRepoMock.Object);
+        AbonneService abonneService = new AbonneService(abonneRepoMock.Object, preferenceRepoMock.Object);
         
         // Act
         abonneService.OffrirBillet(new MongoDB.Bson.ObjectId(), new MongoDB.Bson.ObjectId());

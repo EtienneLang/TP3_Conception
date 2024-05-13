@@ -10,17 +10,23 @@ namespace CineQuebec.Windows.View.AdminViews
     {
         private IFilmService _filmService;
         private IAbonneService _abonneService;
+        private IProjectionService _projectionService;
         private List<Film> _films;
         private List<Abonne> _abonnes;
         private int _selectedIndex = -1;
-        private bool _isFilmSelection = true;
+        private bool _isFilmList;
+        private bool _isUserList;
+        private bool _isProjectionList;
+        private Film _selectedFilm;
+        private Abonne _selectedAbonne;
         private List<Abonne> _abonnesInteresseParFilm = new List<Abonne>();
 
-        public TicketGratuitProjection(IAbonneService abonneService, IFilmService filmService)
+        public TicketGratuitProjection(IAbonneService abonneService, IFilmService filmService, IProjectionService projectionService)
         {
             InitializeComponent();
             _abonneService = abonneService;
             _filmService = filmService;
+            _projectionService = projectionService;
             GenerateFilmList();
         }
 
@@ -38,80 +44,107 @@ namespace CineQuebec.Windows.View.AdminViews
         {
             ListeBoxReprojection.Items.Clear();
             //lstReprojection.SelectedIndex = -1;
-            _selectedIndex = ListeBoxReprojection.SelectedIndex;
         }
 
         private void GenerateFilmList()
         {
             ClearInterface();
             GetFilms();
+            LabelTitre.Content = "Sélectionnez un film";
+            _isFilmList = true;
+            _isProjectionList = false;
+            _isUserList = false;
+            _selectedFilm = null;
+            _selectedAbonne = null;
             foreach (Film film in _films)
             {
-                ListBoxItem itemFilm = new ListBoxItem();
-                itemFilm.Content = film;
-                ListeBoxReprojection.Items.Add(itemFilm);
+                ListeBoxReprojection.Items.Add(film);
             }
         }
 
-        private void GenerateAbonneList(string categorie)
+        private void GenerateAbonneList()
         {
             ClearInterface();
-            GetAbonnes();
-            /*
-            foreach (Abonne abonne in _abonnes)
+            List<Abonne> abonnes = _abonneService.ReadAbonnesInterestedInCategorie(_selectedFilm.IdCategorie);
+            LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + _selectedFilm.Titre + " ?";
+            _isFilmList = false;
+            _isUserList = true;
+            _isProjectionList = false;
+            foreach (Abonne abonne in abonnes)
             {
-                
-                if (abonne.CategoriesFav == null || !abonne.CategoriesFav.Contains(categorie)) continue;
-                _abonnesInteresseParFilm.Clear();
-                _abonnesInteresseParFilm.Add(abonne);
-                ListBoxItem itemAbonne = new ListBoxItem();
-                itemAbonne.Content = abonne;
-                ListeBoxReprojection.Items.Add(itemAbonne);
+                ListeBoxReprojection.Items.Add(abonne);
             }
-            */
         }
         
-        private int _indexMovie;
-
         private void LstReprojection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedIndex = ListeBoxReprojection.SelectedIndex;
-            if (_selectedIndex == -1)
+            if (ListeBoxReprojection.SelectedIndex == -1)
                 return;
-
-            _indexMovie = _selectedIndex;
-            if (_isFilmSelection)
+            if (_isFilmList)
             {
-                ChangeListeFilmVersListeAbonnes(_films[_indexMovie]);
+                Film? selectedFilm = (Film)ListeBoxReprojection.SelectedItem;
+                if (selectedFilm != null)
+                {
+                    _selectedFilm = selectedFilm;
+                    GenerateAbonneList();
+                    return;
+                }    
+            }
+            else if (_isUserList)
+            {
+                Abonne? selectedAbonne = (Abonne)ListeBoxReprojection.SelectedItem;
+                if (selectedAbonne != null)
+                {
+                    _selectedAbonne = selectedAbonne;
+                    GenerateProjectionList();
+                }    
             }
             else
             {
-                if (_abonnesInteresseParFilm[_selectedIndex].ListeFilmOffertContientDejaFilm(_films[_indexMovie].Id))
+                Projection? selectedProjection = (Projection)ListeBoxReprojection.SelectedItem;
+                if (selectedProjection != null)
                 {
-                    MessageBox.Show("L'abonné a déjà reçu un billet gratuit pour ce film.");
-                    return;
+                    if (AfficherMessageBoxConfirmation(_selectedAbonne.Username, _selectedFilm.Titre))
+                    {
+                        _projectionService.ReserverPlace(selectedProjection, _selectedAbonne.Id);
+                        MessageBox.Show("Billet offert avec succès");
+                        GenerateFilmList();
+                    }
                 }
-
-                bool reponseUser = AfficherMessageBoxConfirmation(_abonnesInteresseParFilm[_selectedIndex].Username,
-                    _films[_indexMovie].Titre);
-                if (reponseUser)
-                {
-                    _abonneService.OffrirBillet(_abonnesInteresseParFilm[_selectedIndex].Id, _films[_indexMovie].Id);
-                    ChangeListeAbonnesVersListeFilm();
-                }
-                else
-                    return;
             }
+        }
 
-            _isFilmSelection = !_isFilmSelection;
+        private void GenerateProjectionList()
+        {
+            ListeBoxReprojection.Items.Clear();
+            LabelTitre.Content = "Sélectionnez la projection que vous voulez offrir";
+            _isFilmList = false;
+            _isUserList = false;
+            _isProjectionList = true;
+            List<Projection> projections = _projectionService.ReadProjectionByFilmId(_selectedFilm.Id);
+            foreach (Projection projection in projections)
+            {
+                ListeBoxReprojection.Items.Add(projection);
+            }
         }
 
         private void BtnRetourVersGiftHomeControl_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!_isFilmSelection)
+            if (_isUserList)
             {
                 GenerateFilmList();
-                _isFilmSelection = true;
+                _selectedFilm = null;
+                _isFilmList = true;
+                _isProjectionList = false;
+                _isUserList = false;
+            }
+            else if (_isProjectionList)
+            {
+                GenerateAbonneList();
+                _isFilmList = false;
+                _isProjectionList = false;
+                _isUserList = true; 
+                _selectedAbonne = null;
             }
             else
             {
@@ -129,26 +162,5 @@ namespace CineQuebec.Windows.View.AdminViews
             return result == MessageBoxResult.Yes;
         }
         
-        private void ChangeListeAbonnesVersListeFilm()
-        {
-            ListeBoxReprojection.Items.Clear();
-            LabelTitre.Content = "Sélectionnez un film à offir";
-            GenerateFilmList();
-        }
-        
-        private void ChangeListeFilmVersListeAbonnes(Film filmSelectionne)
-        {
-            ListeBoxReprojection.Items.Clear();
-            /*
-            GenerateAbonneList(filmSelectionne.Categorie);
-            if (_abonnesInteresseParFilm.Count == 0)
-            {
-                MessageBox.Show("Aucun abonné n'est intéressé par ce film.");
-                return;
-            }
-            LabelTitre.Content = "À qui offrir un billet gratuit pour le film " + filmSelectionne.Titre + " ?";
-            */
-        }
-
     }
 }

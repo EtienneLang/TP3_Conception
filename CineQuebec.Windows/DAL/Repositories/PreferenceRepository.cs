@@ -96,4 +96,35 @@ public class PreferenceRepository : ModelRepository, IPreferenceRepository
             throw;
         }
     }
+
+    public List<Preference> ReadPreferenceFromCategorieId(ObjectId categorieId)
+    {
+        try
+        {
+            var filter = Builders<Preference>.Filter.AnyEq("Categories", categorieId);
+            return _collection.Find(filter).ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public List<Preference> ReadPreferencesFromActeursAndRealisateurs(List<ObjectId> acteursIds, List<ObjectId> realisateursIds)
+    {
+        try
+        {
+            var filter = Builders<Preference>.Filter.Or(
+                Builders<Preference>.Filter.AnyIn("Acteurs", acteursIds),
+                Builders<Preference>.Filter.AnyIn("Realisateurs", realisateursIds)
+            );
+            return _collection.Find(filter).ToList();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

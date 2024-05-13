@@ -21,6 +21,7 @@ namespace CineQuebec.Windows.View
         private IAuthService _authService;
         private IActeurService _acteurService;
         private IRealisateurService _realisateurService;
+        private IPreferenceService _preferenceService;
 
         public MainWindow()
         {
@@ -37,20 +38,26 @@ namespace CineQuebec.Windows.View
             _categorieService = serviceProvider.CategorieService;
             _acteurService = serviceProvider.ActeurService;
             _realisateurService = serviceProvider.RealisateurService;
+            _preferenceService = serviceProvider.PreferenceService;
 
-
-            for (int i = 1; i < 10; i++)
-            {
-                Abonne abonne = new Abonne();
-                abonne.Username = $"User {i}";
-                abonne.Password = "U2VjcmV0U2FsdA==:9z9EkBnWaHbxnjdrJouevsufnnL3cjVtsWKCGfPjqdA=";
-                abonne.DateJoined = DateTime.Now;
-                abonne.Reservations = new List<ObjectId>();
-                abonne.Role = "User";
-                abonne.IdFilmsOfferts = new List<ObjectId>();
-                _abonneService.CreateAbonne(abonne);
-            }
-            
+            /*
+            Preference preference = new Preference();
+            preference.UserId = new ObjectId("66425c1e2d33d2c7d6379ee1");
+            List<ObjectId> categories = new List<ObjectId>();
+            categories.Add(new ObjectId("663d53660f663456305392c0"));
+            categories.Add(new ObjectId("663d53660f663456305392bd"));
+            List<ObjectId> acteurs = new List<ObjectId>();
+            acteurs.Add(new ObjectId("663e6d4738732b69bc2e9d81"));
+            acteurs.Add(new ObjectId("663e6d4738732b69bc2e9d83"));
+            List<ObjectId> realisateurs = new List<ObjectId>();
+            realisateurs.Add(new ObjectId("663e6d9605586b9bceb4baa6"));
+            realisateurs.Add(new ObjectId("663e6d9605586b9bceb4baa7"));
+            preference.Acteurs = acteurs;
+            preference.Categories = categories;
+            preference.Realisateurs = realisateurs;
+            preference.Id = new ObjectId();
+            serviceProvider.PreferenceService.CreatePreference(preference);
+            */
             mainContentControl.Content = new ConnexionControl(_authService);
             
         }
@@ -87,7 +94,7 @@ namespace CineQuebec.Windows.View
         
         public void TicketGratuitProjection()
         {
-            mainContentControl.Content = new TicketGratuitProjection(_abonneService, _filmService);
+            mainContentControl.Content = new TicketGratuitProjection(_abonneService, _filmService, _projectionService);
         }
         
         public void InvitationAvantPremiere()

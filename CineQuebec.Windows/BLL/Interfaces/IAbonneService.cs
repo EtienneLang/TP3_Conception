@@ -9,4 +9,6 @@ public interface IAbonneService
     Abonne GetAbonneByUsername(string username);
     void CreateAbonne(Abonne abonne);
     void OffrirBillet(ObjectId idAbonne, ObjectId idFilm);
+    List<Abonne> ReadAbonnesInterestedInCategorie(ObjectId categorieId);
+    List<Abonne> ReadAbonnesInterestedInActeurAndCategorie(List<ObjectId> acteursIds, List<ObjectId> realisateursIds);
 }
