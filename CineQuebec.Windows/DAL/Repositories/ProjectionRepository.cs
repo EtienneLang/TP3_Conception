@@ -33,20 +33,12 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
     {
         try
         {
-            //A CHANGER, ON DOIT METTRE LA LOGIQUE DANS LE SERVICE
             var collection = _database.GetCollection<Abonne>("Abonnes");
             var filter = Builders<Abonne>.Filter.Eq("Id", idAbonne);
             var abonne = collection.Find(filter).FirstOrDefault();
-            // if (abonne.Reservations != null && abonne.Reservations.Contains(projection.Id))
-            // {
-            //     MessageBox.Show("Vous avez déjà réservé votre place pour cette projection", "Erreur",
-            //         MessageBoxButton.OK, MessageBoxImage.Error);
-            // }
-            // else
-            // {
-                var update = Builders<Abonne>.Update.Push("Reservations", projection.Id);
-                collection.UpdateOne(filter, update);
-            // }
+            var update = Builders<Abonne>.Update.Push("Reservations", projection.Id);
+            collection.UpdateOne(filter, update);
+
         }
         catch (Exception ex)
         {
@@ -99,18 +91,15 @@ public class ProjectionRepository : ModelRepository, IProjectionRepository
 
     public List<Projection> ReadAvantPremieres()
     {
-        var projections = new List<Projection>();
         try
         {
 
             var filter = Builders<Projection>.Filter.Eq("AvantPremiere", true);
-            projections = _collection.Find(filter).ToList();
+            return _collection.Find(filter).ToList();
         }
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
-
-        return projections;
     }
 }

@@ -85,7 +85,7 @@ public class ServiceProvider
         IPreferenceRepository preferenceRepository = new PreferenceRepository();
         
         _filmService = new FilmService(filmRepository, projectionRepository, abonneRepository, noteRepository);
-        _abonneService = new AbonneService(abonneRepository);
+        _abonneService = new AbonneService(abonneRepository, preferenceRepository);
         _projectionService = new ProjectionService(projectionRepository);
         _noteService = new NoteService(noteRepository);
         _authService = new AuthService(authRepository);

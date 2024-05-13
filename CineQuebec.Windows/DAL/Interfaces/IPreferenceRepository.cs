@@ -12,4 +12,6 @@ public interface IPreferenceRepository
     void CreatePreference(Preference preference);
     void DeletePreference(ObjectId preferenceId);
     void UpdatePreference(Preference newPreference);
+    List<Preference> ReadPreferenceFromCategorieId(ObjectId categorieId);
+    List<Preference> ReadPreferencesFromActeursAndRealisateurs(List<ObjectId> acteursIds, List<ObjectId> realisateursIds);
 }
