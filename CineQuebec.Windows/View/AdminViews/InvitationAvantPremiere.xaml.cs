@@ -32,7 +32,7 @@ namespace CineQuebec.Windows.View.AdminViews
             ButtonOffrir.IsEnabled = false;
             _isFilmList = true;
             _isUserList = false;
-            
+            _selectedFilm = null;
             _projections = _projectionService.ReadAvantPremieres();
             foreach (Projection projection in _projections)
             {
@@ -82,6 +82,7 @@ namespace CineQuebec.Windows.View.AdminViews
             Abonne abonne = (Abonne)ListeBoxItemsAvantPremiere.SelectedItem;
             _projectionService.ReserverPlace(projection, abonne.Id);
             MessageBox.Show("Invitation à l'avant première éffectué avec succès");
+            GenerateAvantPremiereList();
         }
     }
 }
