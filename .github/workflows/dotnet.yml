@@ -26,3 +26,17 @@ jobs:
       run: dotnet build --no-restore
     - name: Exécution des tests unitaires
       run: dotnet test --no-build --verbosity normal
+    - name: Génération du GitHub Issue
+      if: failure()
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const title = `Tests failed on PR #${context.issue.number}`;
+          const body = `The tests have failed for this PR. Please review the changes.`;
+          github.issues.create({
+            owner,
+            repo,
+            title,
+            body,
+          });
